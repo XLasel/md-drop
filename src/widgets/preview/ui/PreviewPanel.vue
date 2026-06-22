@@ -1,24 +1,27 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
 import { ref, watch } from 'vue'
-import type { NoteTheme } from '@/entities/note/model/types'
+import { useThemeStore } from '@/entities/theme/model/themeStore'
 import { renderMarkdown } from '@/shared/lib/markdown/renderMarkdown'
 import SkeletonLoader from '@/shared/ui/Skeleton/SkeletonLoader.vue'
 
 const props = defineProps<{
   content: string
-  theme?: NoteTheme
 }>()
+
+const themeStore = useThemeStore()
+const { resolved } = storeToRefs(themeStore)
 
 const html = ref('')
 const loading = ref(false)
 
 watch(
-  () => [props.content, props.theme] as const,
+  () => [props.content, resolved.value] as const,
   async ([content, theme]) => {
     loading.value = true
 
     try {
-      html.value = content ? await renderMarkdown(content, theme ?? 'github') : ''
+      html.value = content ? await renderMarkdown(content, theme) : ''
     } finally {
       loading.value = false
     }

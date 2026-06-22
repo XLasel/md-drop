@@ -1,7 +1,7 @@
 import { getSupabase } from '@/shared/api/supabase'
+import { deriveTitle, validateNoteContent, validateTitle } from '@/shared/lib/validation'
 import { generateEditToken, generateSlug } from '@/shared/lib/slug'
-import { validateNoteContent, validateTheme } from '@/shared/lib/validation'
-import type { CreateNoteInput, Note, NoteTheme, UpdateNoteInput } from '../model/types'
+import type { CreateNoteInput, Note, UpdateNoteInput } from '../model/types'
 import { EDIT_TOKEN_STORAGE_PREFIX } from '../model/types'
 
 export class NoteRepositoryError extends Error {
@@ -10,6 +10,8 @@ export class NoteRepositoryError extends Error {
     this.name = 'NoteRepositoryError'
   }
 }
+
+const NOTE_COLUMNS = 'id, slug, title, content, author_id, indexable, created_at, updated_at'
 
 export function saveEditToken(slug: string, token: string): void {
   localStorage.setItem(`${EDIT_TOKEN_STORAGE_PREFIX}${slug}`, token)
@@ -34,8 +36,10 @@ export async function createNote(input: CreateNoteInput): Promise<{ note: Note; 
     throw new NoteRepositoryError(contentError)
   }
 
-  if (!validateTheme(input.theme)) {
-    throw new NoteRepositoryError('Invalid theme')
+  const title = deriveTitle(input.title, input.content)
+  const titleError = validateTitle(title)
+  if (titleError) {
+    throw new NoteRepositoryError(titleError)
   }
 
   const slug = generateSlug()
@@ -45,12 +49,13 @@ export async function createNote(input: CreateNoteInput): Promise<{ note: Note; 
     .from('notes')
     .insert({
       slug,
+      title,
       content: input.content,
-      theme: input.theme,
       author_id: input.authorId ?? null,
       edit_token: editToken,
+      indexable: input.indexable ?? false,
     })
-    .select('id, slug, content, theme, author_id, created_at, updated_at')
+    .select(NOTE_COLUMNS)
     .single()
 
   if (error || !data) {
@@ -70,7 +75,7 @@ export async function fetchNoteBySlug(slug: string): Promise<Note | null> {
 
   const { data, error } = await supabase
     .from('notes')
-    .select('id, slug, content, theme, author_id, created_at, updated_at')
+    .select(NOTE_COLUMNS)
     .eq('slug', slug)
     .maybeSingle()
 
@@ -83,9 +88,10 @@ export async function fetchNoteBySlug(slug: string): Promise<Note | null> {
 
 export async function updateNoteAsAuthor(
   slug: string,
+  title: string,
   content: string,
-  theme: NoteTheme,
   authorId: string,
+  indexable?: boolean,
 ): Promise<void> {
   const supabase = getSupabase()
   if (!supabase) {
@@ -97,17 +103,25 @@ export async function updateNoteAsAuthor(
     throw new NoteRepositoryError(contentError)
   }
 
-  if (!validateTheme(theme)) {
-    throw new NoteRepositoryError('Invalid theme')
+  const resolvedTitle = deriveTitle(title, content)
+  const titleError = validateTitle(resolvedTitle)
+  if (titleError) {
+    throw new NoteRepositoryError(titleError)
+  }
+
+  const payload: Record<string, unknown> = {
+    title: resolvedTitle,
+    content,
+    updated_at: new Date().toISOString(),
+  }
+
+  if (indexable !== undefined) {
+    payload.indexable = indexable
   }
 
   const { error } = await supabase
     .from('notes')
-    .update({
-      content,
-      theme,
-      updated_at: new Date().toISOString(),
-    })
+    .update(payload)
     .eq('slug', slug)
     .eq('author_id', authorId)
 
@@ -127,15 +141,18 @@ export async function updateNoteByToken(input: UpdateNoteInput): Promise<boolean
     throw new NoteRepositoryError(contentError)
   }
 
-  if (!validateTheme(input.theme)) {
-    throw new NoteRepositoryError('Invalid theme')
+  const resolvedTitle = deriveTitle(input.title, input.content)
+  const titleError = validateTitle(resolvedTitle)
+  if (titleError) {
+    throw new NoteRepositoryError(titleError)
   }
 
   const { data, error } = await supabase.rpc('update_note_by_token', {
     p_slug: input.slug,
     p_edit_token: input.editToken,
     p_content: input.content,
-    p_theme: input.theme,
+    p_title: resolvedTitle,
+    p_indexable: input.indexable ?? false,
   })
 
   if (error) {
@@ -153,7 +170,7 @@ export async function fetchUserNotes(authorId: string): Promise<Note[]> {
 
   const { data, error } = await supabase
     .from('notes')
-    .select('id, slug, content, theme, author_id, created_at, updated_at')
+    .select(NOTE_COLUMNS)
     .eq('author_id', authorId)
     .order('created_at', { ascending: false })
 
@@ -188,4 +205,8 @@ export function formatNoteDate(date: string): string {
   }).format(new Date(date))
 }
 
-export type { NoteTheme }
+export function getNoteExcerpt(content: string, maxLength = 120): string {
+  const plain = content.replace(/^#+\s+/gm, '').trim()
+  if (plain.length <= maxLength) return plain
+  return `${plain.slice(0, maxLength)}...`
+}

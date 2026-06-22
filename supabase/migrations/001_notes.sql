@@ -57,4 +57,4 @@ begin
 end;
 $$;
 
-grant execute on function update_note_by_token to anon, authenticated;
+grant execute on function update_note_by_token(text, text, text, text) to anon, authenticated;

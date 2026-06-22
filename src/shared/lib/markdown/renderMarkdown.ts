@@ -1,6 +1,6 @@
 import MarkdownIt from 'markdown-it'
 import DOMPurify from 'dompurify'
-import type { ShikiThemeKey } from './highlightCode'
+import type { ResolvedTheme } from '@/entities/theme/model/types'
 import { highlightCode } from './highlightCode'
 
 const md = new MarkdownIt({
@@ -11,7 +11,7 @@ const md = new MarkdownIt({
 
 export async function renderMarkdown(
   source: string,
-  theme: ShikiThemeKey = 'github',
+  theme: ResolvedTheme = 'light',
 ): Promise<string> {
   const rendered = md.render(source)
   const withHighlight = await applyCodeHighlight(rendered, theme)
@@ -20,7 +20,7 @@ export async function renderMarkdown(
   })
 }
 
-async function applyCodeHighlight(html: string, theme: ShikiThemeKey): Promise<string> {
+async function applyCodeHighlight(html: string, theme: ResolvedTheme): Promise<string> {
   const parser = new DOMParser()
   const doc = parser.parseFromString(html, 'text/html')
   const blocks = doc.querySelectorAll('pre > code')

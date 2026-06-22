@@ -5,6 +5,7 @@ import {
   deleteNote,
   fetchUserNotes,
   formatNoteDate,
+  getNoteExcerpt,
 } from '@/entities/note/api/noteRepository'
 import type { Note } from '@/entities/note/model/types'
 import { useAuthStore } from '@/entities/user/model/authStore'
@@ -42,7 +43,7 @@ async function loadNotes() {
 }
 
 async function handleDelete(note: Note) {
-  if (!confirm(`Delete note /v/${note.slug}?`)) return
+  if (!confirm(`Delete "${note.title}"?`)) return
 
   deletingId.value = note.id
 
@@ -69,7 +70,7 @@ onMounted(async () => {
 
     <main :class="$style.main">
       <div :class="$style.top">
-        <h1 :class="$style.title">Dashboard</h1>
+        <h1 :class="$style.heading">Dashboard</h1>
         <RouterLink to="/">
           <UiButton>New note</UiButton>
         </RouterLink>
@@ -105,10 +106,11 @@ onMounted(async () => {
       <ul v-else :class="$style.list">
         <li v-for="note in notes" :key="note.id" :class="$style.item">
           <div :class="$style.info">
-            <RouterLink :to="`/v/${note.slug}`" :class="$style.slug">
-              /v/{{ note.slug }}
+            <RouterLink :to="`/v/${note.slug}`" :class="$style.noteTitle">
+              {{ note.title }}
             </RouterLink>
-            <p :class="$style.preview">{{ note.content.slice(0, 120) }}...</p>
+            <span :class="$style.slug">/v/{{ note.slug }}</span>
+            <p :class="$style.preview">{{ getNoteExcerpt(note.content) }}</p>
             <time :class="$style.date">{{ formatNoteDate(note.created_at) }}</time>
           </div>
 
@@ -154,7 +156,7 @@ onMounted(async () => {
   margin-bottom: 1.5rem;
 }
 
-.title {
+.heading {
   margin: 0;
   font-size: 1.5rem;
   color: var(--text-primary);
@@ -186,24 +188,30 @@ onMounted(async () => {
   min-width: 200px;
 }
 
-.slug {
-  color: var(--accent-color);
-  font-family: var(--font-mono);
+.noteTitle {
+  display: block;
+  color: var(--text-primary);
   font-weight: 600;
   text-decoration: none;
+  margin-bottom: 0.25rem;
 
   &:hover {
-    text-decoration: underline;
+    color: var(--accent-color);
   }
 }
 
+.slug {
+  display: block;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  margin-bottom: 0.5rem;
+}
+
 .preview {
-  margin: 0.5rem 0;
+  margin: 0 0 0.5rem;
   color: var(--text-secondary);
   font-size: 0.875rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .date {

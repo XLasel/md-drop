@@ -1,7 +1,5 @@
-import type { NoteTheme } from '@/entities/note/model/types'
-import { NOTE_THEMES } from '@/entities/note/model/types'
-
 const MAX_CONTENT_LENGTH = 512_000
+const MAX_TITLE_LENGTH = 100
 
 export function validateNoteContent(content: string): string | null {
   const trimmed = content.trim()
@@ -17,10 +15,29 @@ export function validateNoteContent(content: string): string | null {
   return null
 }
 
-export function validateTheme(theme: string): theme is NoteTheme {
-  return NOTE_THEMES.some((item) => item.value === theme)
+export function validateTitle(title: string): string | null {
+  if (title.length > MAX_TITLE_LENGTH) {
+    return 'Title is too long (max 100 characters)'
+  }
+
+  return null
 }
 
 export function validateSlug(slug: string): boolean {
   return /^[a-z0-9]{6,12}$/.test(slug)
+}
+
+export function deriveTitle(title: string, content: string): string {
+  const trimmedTitle = title.trim()
+  if (trimmedTitle) {
+    return trimmedTitle.slice(0, MAX_TITLE_LENGTH)
+  }
+
+  const firstLine = content
+    .trim()
+    .split('\n')[0]
+    ?.replace(/^#+\s*/, '')
+    .trim() ?? ''
+
+  return firstLine.slice(0, MAX_TITLE_LENGTH) || 'Untitled'
 }

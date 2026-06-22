@@ -1,15 +1,22 @@
 <script setup lang="ts">
-import type { NoteTheme } from '@/entities/note/model/types'
-import { NOTE_THEMES } from '@/entities/note/model/types'
+import { storeToRefs } from 'pinia'
+import { useThemeStore } from '@/entities/theme/model/themeStore'
+import { APP_THEMES } from '@/entities/theme/model/types'
 
-const model = defineModel<NoteTheme>({ required: true })
+const themeStore = useThemeStore()
+const { preference } = storeToRefs(themeStore)
+
+async function onChange(event: Event) {
+  const value = (event.target as HTMLSelectElement).value
+  await themeStore.setPreference(value as typeof preference.value)
+}
 </script>
 
 <template>
   <label :class="$style.picker">
     <span :class="$style.label">Theme</span>
-    <select v-model="model" :class="$style.select">
-      <option v-for="theme in NOTE_THEMES" :key="theme.value" :value="theme.value">
+    <select :value="preference" :class="$style.select" @change="onChange">
+      <option v-for="theme in APP_THEMES" :key="theme.value" :value="theme.value">
         {{ theme.label }}
       </option>
     </select>

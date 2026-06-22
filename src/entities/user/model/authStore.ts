@@ -1,11 +1,20 @@
 import { defineStore } from 'pinia'
 import type { User } from '@supabase/supabase-js'
 import { ref } from 'vue'
+import { useThemeStore } from '@/entities/theme/model/themeStore'
+import { fetchProfile } from '@/entities/user/api/profileRepository'
 import { getSupabase } from '@/shared/api/supabase'
 
 export const useAuthStore = defineStore('auth', () => {
   const user = ref<User | null>(null)
   const loading = ref(true)
+
+  async function syncProfileTheme(userId: string) {
+    const profile = await fetchProfile(userId)
+    if (profile?.theme_preference) {
+      useThemeStore().syncFromProfile(profile.theme_preference)
+    }
+  }
 
   async function init() {
     const supabase = getSupabase()
@@ -17,8 +26,16 @@ export const useAuthStore = defineStore('auth', () => {
     const { data } = await supabase.auth.getSession()
     user.value = data.session?.user ?? null
 
-    supabase.auth.onAuthStateChange((_event, session) => {
+    if (user.value) {
+      await syncProfileTheme(user.value.id)
+    }
+
+    supabase.auth.onAuthStateChange(async (_event, session) => {
       user.value = session?.user ?? null
+
+      if (session?.user) {
+        await syncProfileTheme(session.user.id)
+      }
     })
 
     loading.value = false
@@ -56,6 +73,18 @@ export const useAuthStore = defineStore('auth', () => {
     user.value = null
   }
 
+  function getUserDisplayName(): string | null {
+    if (!user.value) return null
+
+    return (
+      user.value.user_metadata?.full_name ??
+      user.value.user_metadata?.name ??
+      user.value.user_metadata?.user_name ??
+      user.value.email ??
+      null
+    )
+  }
+
   return {
     user,
     loading,
@@ -63,5 +92,6 @@ export const useAuthStore = defineStore('auth', () => {
     signInWithGitHub,
     signInWithGoogle,
     signOut,
+    getUserDisplayName,
   }
 })

@@ -3,6 +3,7 @@ import { storeToRefs } from 'pinia'
 import { onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import ShareButton from '@/features/share-note/ui/ShareButton.vue'
+import FormatButton from '@/features/format-markdown/ui/FormatButton.vue'
 import ThemePicker from '@/features/theme-picker/ui/ThemePicker.vue'
 import { fetchNoteBySlug, hasEditAccess } from '@/entities/note/api/noteRepository'
 import { useEditorStore } from '@/entities/note/model/editorStore'
@@ -14,7 +15,7 @@ import PreviewPanel from '@/widgets/preview/ui/PreviewPanel.vue'
 const route = useRoute()
 const editorStore = useEditorStore()
 const authStore = useAuthStore()
-const { content, theme, editingSlug } = storeToRefs(editorStore)
+const { title, content, editingSlug } = storeToRefs(editorStore)
 
 onMounted(async () => {
   const slug = route.query.edit as string | undefined
@@ -26,7 +27,7 @@ onMounted(async () => {
     (hasEditAccess(slug) || note.author_id === authStore.user?.id)
 
   if (canEdit && note) {
-    editorStore.startEditing(note.slug, note.content, note.theme)
+    editorStore.startEditing(note.slug, note.title, note.content, note.indexable)
   } else {
     editorStore.reset()
   }
@@ -43,9 +44,10 @@ watch(
 </script>
 
 <template>
-  <div :data-theme="theme" :class="$style.page">
+  <div :class="$style.page">
     <AppHeader>
-      <ThemePicker v-model="theme" />
+      <ThemePicker />
+      <FormatButton />
       <ShareButton />
     </AppHeader>
 
@@ -54,9 +56,17 @@ watch(
         Editing <code>{{ editingSlug }}</code>
       </div>
 
+      <input
+        v-model="title"
+        type="text"
+        :class="$style.titleInput"
+        placeholder="Note title (optional)"
+        maxlength="100"
+      />
+
       <div :class="$style.workspace">
         <EditorPanel v-model="content" />
-        <PreviewPanel :content="content" :theme="theme" />
+        <PreviewPanel :content="content" />
       </div>
     </main>
   </div>
@@ -88,11 +98,32 @@ watch(
   }
 }
 
+.titleInput {
+  width: 100%;
+  margin-bottom: 0.75rem;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-weight: 500;
+
+  &::placeholder {
+    color: var(--text-muted);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--accent-color);
+  }
+}
+
 .workspace {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1px;
-  min-height: calc(100vh - var(--header-height) - 2rem);
+  min-height: calc(100vh - var(--header-height) - 6rem);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
   overflow: hidden;

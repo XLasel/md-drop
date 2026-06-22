@@ -1,32 +1,27 @@
-export type NoteTheme = 'github' | 'dracula' | 'nord'
-
 export interface Note {
   id: string
   slug: string
+  title: string
   content: string
-  theme: NoteTheme
   author_id: string | null
+  indexable: boolean
   created_at: string
   updated_at: string
 }
 
 export interface CreateNoteInput {
+  title: string
   content: string
-  theme: NoteTheme
   authorId?: string | null
+  indexable?: boolean
 }
 
 export interface UpdateNoteInput {
   slug: string
+  title: string
   content: string
-  theme: NoteTheme
   editToken: string
+  indexable?: boolean
 }
-
-export const NOTE_THEMES: { value: NoteTheme; label: string }[] = [
-  { value: 'github', label: 'GitHub' },
-  { value: 'dracula', label: 'Dracula' },
-  { value: 'nord', label: 'Nord' },
-]
 
 export const EDIT_TOKEN_STORAGE_PREFIX = 'md-drop:edit-token:'

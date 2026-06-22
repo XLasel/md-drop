@@ -2,6 +2,7 @@
 import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import IndexableCheckbox from '@/features/share-note/ui/IndexableCheckbox.vue'
 import {
   createNote,
   fetchNoteBySlug,
@@ -21,7 +22,7 @@ const router = useRouter()
 const toast = useToast()
 const editorStore = useEditorStore()
 const authStore = useAuthStore()
-const { content, theme, editingSlug } = storeToRefs(editorStore)
+const { title, content, indexable, editingSlug } = storeToRefs(editorStore)
 
 const loading = ref(false)
 
@@ -46,9 +47,10 @@ async function handleShare() {
       if (editToken) {
         const updated = await updateNoteByToken({
           slug: editingSlug.value,
+          title: title.value,
           content: content.value,
-          theme: theme.value,
           editToken,
+          indexable: indexable.value,
         })
 
         if (!updated) {
@@ -64,9 +66,10 @@ async function handleShare() {
 
         await updateNoteAsAuthor(
           editingSlug.value,
+          title.value,
           content.value,
-          theme.value,
           authStore.user.id,
+          indexable.value,
         )
       } else {
         toast.error('Edit token not found')
@@ -79,9 +82,10 @@ async function handleShare() {
     }
 
     const { note } = await createNote({
+      title: title.value,
       content: content.value,
-      theme: theme.value,
       authorId: authStore.user?.id ?? null,
+      indexable: indexable.value,
     })
 
     toast.success('Link copied to clipboard')
@@ -97,7 +101,18 @@ async function handleShare() {
 </script>
 
 <template>
-  <UiButton :loading="loading" @click="handleShare">
-    {{ editingSlug ? 'Update' : 'Share' }}
-  </UiButton>
+  <div :class="$style.share">
+    <IndexableCheckbox v-model="indexable" />
+    <UiButton :loading="loading" @click="handleShare">
+      {{ editingSlug ? 'Update' : 'Share' }}
+    </UiButton>
+  </div>
 </template>
+
+<style module lang="scss">
+.share {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+</style>

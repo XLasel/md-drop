@@ -1,38 +1,51 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import type { NoteTheme } from './types'
 
 export const useEditorStore = defineStore('editor', () => {
+  const title = ref('')
   const content = ref('')
-  const theme = ref<NoteTheme>('github')
+  const indexable = ref(false)
   const editingSlug = ref<string | null>(null)
+
+  function setTitle(value: string) {
+    title.value = value
+  }
 
   function setContent(value: string) {
     content.value = value
   }
 
-  function setTheme(value: NoteTheme) {
-    theme.value = value
+  function setIndexable(value: boolean) {
+    indexable.value = value
   }
 
-  function startEditing(slug: string, noteContent: string, noteTheme: NoteTheme) {
+  function startEditing(
+    slug: string,
+    noteTitle: string,
+    noteContent: string,
+    noteIndexable = false,
+  ) {
     editingSlug.value = slug
+    title.value = noteTitle
     content.value = noteContent
-    theme.value = noteTheme
+    indexable.value = noteIndexable
   }
 
   function reset() {
+    title.value = ''
     content.value = ''
-    theme.value = 'github'
+    indexable.value = false
     editingSlug.value = null
   }
 
   return {
+    title,
     content,
-    theme,
+    indexable,
     editingSlug,
+    setTitle,
     setContent,
-    setTheme,
+    setIndexable,
     startEditing,
     reset,
   }
