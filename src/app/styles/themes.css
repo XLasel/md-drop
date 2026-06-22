@@ -1,0 +1,50 @@
+[data-theme='github'] {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f6f8fa;
+  --bg-tertiary: #eaeef2;
+
+  --text-primary: #1f2328;
+  --text-secondary: #656d76;
+  --text-muted: #8c959f;
+
+  --border-color: #d0d7de;
+  --border-color-strong: #afb8c1;
+
+  --accent-color: #0969da;
+  --accent-hover: #0550ae;
+  --accent-bg: rgba(9, 105, 218, 0.1);
+}
+
+[data-theme='dracula'] {
+  --bg-primary: #282a36;
+  --bg-secondary: #21222c;
+  --bg-tertiary: #343746;
+
+  --text-primary: #f8f8f2;
+  --text-secondary: #bd93f9;
+  --text-muted: #6272a4;
+
+  --border-color: #44475a;
+  --border-color-strong: #6272a4;
+
+  --accent-color: #bd93f9;
+  --accent-hover: #a87ff0;
+  --accent-bg: rgba(189, 147, 249, 0.12);
+}
+
+[data-theme='nord'] {
+  --bg-primary: #2e3440;
+  --bg-secondary: #3b4252;
+  --bg-tertiary: #434c5e;
+
+  --text-primary: #eceff4;
+  --text-secondary: #d8dee9;
+  --text-muted: #81a1c1;
+
+  --border-color: #4c566a;
+  --border-color-strong: #5e81ac;
+
+  --accent-color: #88c0d0;
+  --accent-hover: #81a1c1;
+  --accent-bg: rgba(136, 192, 208, 0.12);
+}
