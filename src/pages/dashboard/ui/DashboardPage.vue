@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useI18n } from 'vue-i18n'
 import { RouterLink } from 'vue-router'
 import {
   deleteNote,
@@ -9,6 +11,7 @@ import {
 } from '@/entities/note/api/noteRepository'
 import type { Note } from '@/entities/note/model/types'
 import { useAuthStore } from '@/entities/user/model/authStore'
+import { useLocaleStore } from '@/entities/locale/model/localeStore'
 import { useToast } from '@/shared/lib/toast'
 import { PAGE_HEADER_ACTIONS_ID } from '@/widgets/header/lib/teleportTargets'
 import EmptyState from '@/shared/ui/EmptyState/EmptyState.vue'
@@ -18,7 +21,10 @@ import UiButton from '@/shared/ui/Button/Button.vue'
 import SignInPanel from '@/widgets/sign-in/ui/SignInPanel.vue'
 
 const authStore = useAuthStore()
+const localeStore = useLocaleStore()
+const { t } = useI18n()
 const toast = useToast()
+const { locale } = storeToRefs(localeStore)
 
 const notes = ref<Note[]>([])
 const loading = ref(true)
@@ -37,23 +43,23 @@ async function loadNotes() {
   try {
     notes.value = await fetchUserNotes(authStore.user.id)
   } catch (err) {
-    error.value = err instanceof Error ? err.message : 'Failed to load notes'
+    error.value = err instanceof Error ? err.message : t('dashboard.loadFailed')
   } finally {
     loading.value = false
   }
 }
 
 async function handleDelete(note: Note) {
-  if (!confirm(`Delete "${note.title}"?`)) return
+  if (!confirm(t('dashboard.deleteConfirm', { title: note.title }))) return
 
   deletingId.value = note.id
 
   try {
     await deleteNote(note.id)
     notes.value = notes.value.filter((item) => item.id !== note.id)
-    toast.success('Note deleted')
+    toast.success(t('dashboard.noteDeleted'))
   } catch (err) {
-    toast.error(err instanceof Error ? err.message : 'Failed to delete note')
+    toast.error(err instanceof Error ? err.message : t('dashboard.deleteFailed'))
   } finally {
     deletingId.value = null
   }
@@ -69,7 +75,7 @@ onMounted(async () => {
   <div :class="$style.page">
     <Teleport :to="`#${PAGE_HEADER_ACTIONS_ID}`">
       <RouterLink to="/write">
-        <UiButton size="sm">New note</UiButton>
+        <UiButton size="sm">{{ t('common.newNote') }}</UiButton>
       </RouterLink>
     </Teleport>
 
@@ -80,7 +86,7 @@ onMounted(async () => {
 
       <ErrorState
         v-else-if="error"
-        title="Unable to load dashboard"
+        :title="t('dashboard.unableToLoad')"
         :message="error"
         @retry="loadNotes"
       />
@@ -89,21 +95,21 @@ onMounted(async () => {
 
       <template v-else>
         <div :class="$style.top">
-          <h1 :class="$style.heading">Your notes</h1>
+          <h1 :class="$style.heading">{{ t('dashboard.heading') }}</h1>
           <p v-if="notes.length" :class="$style.subheading">
-            {{ notes.length }} {{ notes.length === 1 ? 'note' : 'notes' }}
+            {{ t('dashboard.noteCount', notes.length) }}
           </p>
-          <p v-else :class="$style.subheading">Nothing here yet.</p>
+          <p v-else :class="$style.subheading">{{ t('dashboard.emptySubheading') }}</p>
         </div>
 
         <EmptyState
           v-if="notes.length === 0"
           icon="#"
-          title="A blank canvas"
-          description="Your first note is one keystroke away. Write some markdown, hit Share, and you've got a link."
+          :title="t('dashboard.emptyTitle')"
+          :description="t('dashboard.emptyDescription')"
         >
           <RouterLink to="/write">
-            <UiButton size="lg">Write your first note →</UiButton>
+            <UiButton size="lg">{{ t('dashboard.emptyCta') }}</UiButton>
           </RouterLink>
         </EmptyState>
 
@@ -119,16 +125,16 @@ onMounted(async () => {
                   <span :class="$style.slug">/v/{{ note.slug }}</span>
                 </div>
                 <p :class="$style.preview">{{ getNoteExcerpt(note.content) }}</p>
-                <time :class="$style.date">{{ formatNoteDate(note.created_at) }}</time>
+                <time :class="$style.date">{{ formatNoteDate(note.created_at, locale) }}</time>
               </div>
             </div>
 
             <div :class="$style.actions">
               <RouterLink :to="`/v/${note.slug}`">
-                <UiButton variant="secondary" size="sm">View</UiButton>
+                <UiButton variant="secondary" size="sm">{{ t('common.view') }}</UiButton>
               </RouterLink>
               <RouterLink :to="{ path: '/write', query: { edit: note.slug } }">
-                <UiButton variant="secondary" size="sm">Edit</UiButton>
+                <UiButton variant="secondary" size="sm">{{ t('common.edit') }}</UiButton>
               </RouterLink>
               <UiButton
                 variant="danger"
@@ -136,7 +142,7 @@ onMounted(async () => {
                 :loading="deletingId === note.id"
                 @click="handleDelete(note)"
               >
-                Delete
+                {{ t('common.delete') }}
               </UiButton>
             </div>
           </li>

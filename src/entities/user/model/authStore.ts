@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import type { User } from '@supabase/supabase-js'
 import { ref } from 'vue'
+import { useLocaleStore } from '@/entities/locale/model/localeStore'
 import { useThemeStore } from '@/entities/theme/model/themeStore'
 import { fetchProfile } from '@/entities/user/api/profileRepository'
 import { getSupabase } from '@/shared/api/supabase'
@@ -9,10 +10,16 @@ export const useAuthStore = defineStore('auth', () => {
   const user = ref<User | null>(null)
   const loading = ref(true)
 
-  async function syncProfileTheme(userId: string) {
+  async function syncProfile(userId: string) {
     const profile = await fetchProfile(userId)
-    if (profile?.theme_preference) {
+    if (!profile) return
+
+    if (profile.theme_preference) {
       useThemeStore().syncFromProfile(profile.theme_preference)
+    }
+
+    if (profile.locale_preference) {
+      useLocaleStore().syncFromProfile(profile.locale_preference)
     }
   }
 
@@ -27,14 +34,14 @@ export const useAuthStore = defineStore('auth', () => {
     user.value = data.session?.user ?? null
 
     if (user.value) {
-      await syncProfileTheme(user.value.id)
+      await syncProfile(user.value.id)
     }
 
     supabase.auth.onAuthStateChange(async (_event, session) => {
       user.value = session?.user ?? null
 
       if (session?.user) {
-        await syncProfileTheme(session.user.id)
+        await syncProfile(session.user.id)
       }
     })
 

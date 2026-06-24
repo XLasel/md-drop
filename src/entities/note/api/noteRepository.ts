@@ -198,8 +198,8 @@ export function getNoteUrl(slug: string): string {
   return `${window.location.origin}/v/${slug}`
 }
 
-export function formatNoteDate(date: string): string {
-  return new Intl.DateTimeFormat(undefined, {
+export function formatNoteDate(date: string, locale?: string): string {
+  return new Intl.DateTimeFormat(locale, {
     dateStyle: 'medium',
     timeStyle: 'short',
   }).format(new Date(date))

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import {
   getNoteUrl,
@@ -25,6 +26,7 @@ const emit = defineEmits<{
 }>()
 
 const router = useRouter()
+const { t } = useI18n()
 const toast = useToast()
 const authStore = useAuthStore()
 const { copyText } = useCopyToClipboard()
@@ -94,7 +96,7 @@ async function persistIndexable(value: boolean) {
         editToken: props.editToken,
         indexable: value,
       })
-      if (!updated) throw new Error('Failed to update indexing preference')
+      if (!updated) throw new Error(t('share.indexingFailed'))
     } else if (props.authorId && authStore.user?.id === props.authorId) {
       await updateNoteAsAuthor(props.slug, props.title, props.content, props.authorId, value)
     }
@@ -102,19 +104,19 @@ async function persistIndexable(value: boolean) {
     emit('indexableChange', value)
   } catch (error) {
     localIndexable.value = !value
-    toast.error(error instanceof Error ? error.message : 'Failed to update indexing')
+    toast.error(error instanceof Error ? error.message : t('share.indexingUpdateFailed'))
   } finally {
     savingIndexable.value = false
   }
 }
 
 function copyLink() {
-  copyText(getNoteUrl(props.slug), 'Link copied')
+  copyText(getNoteUrl(props.slug), t('clipboard.linkCopied'))
   flashCopied('link')
 }
 
 function copyMarkdown() {
-  copyText(props.content, 'Markdown copied')
+  copyText(props.content, t('clipboard.markdownCopied'))
   flashCopied('md')
 }
 
@@ -157,19 +159,19 @@ function viewPage() {
               </svg>
             </span>
           </div>
-          <h2 :class="$style.title">Your note is live</h2>
-          <p :class="$style.subtitle">Anyone with the link can read it — no account needed.</p>
+          <h2 :class="$style.title">{{ t('share.noteLive') }}</h2>
+          <p :class="$style.subtitle">{{ t('share.noteLiveHint') }}</p>
         </div>
 
         <div :class="$style.linkRow">
           <span :class="$style.linkText">{{ displayUrl() }}</span>
           <button type="button" :class="$style.copyLinkBtn" @click="copyLink">
-            {{ copiedLink ? 'Copied ✓' : 'Copy link' }}
+            {{ copiedLink ? t('share.copied') : t('share.copyLink') }}
           </button>
         </div>
 
         <button type="button" :class="$style.copyMd" @click="copyMarkdown">
-          {{ copiedMd ? 'Markdown copied ✓' : 'Copy markdown source' }}
+          {{ copiedMd ? t('share.markdownCopied') : t('share.copyMarkdownSource') }}
         </button>
 
         <button
@@ -182,16 +184,20 @@ function viewPage() {
             <span v-if="localIndexable">✓</span>
           </span>
           <span :class="$style.seoCopy">
-            <span :class="$style.seoTitle">List in search engines</span>
+            <span :class="$style.seoTitle">{{ t('share.seoTitle') }}</span>
             <span :class="$style.seoHint">
-              Off keeps it link-only · currently {{ localIndexable ? 'on' : 'off' }}
+              {{
+                t('share.seoHint', {
+                  state: localIndexable ? t('share.seoOn') : t('share.seoOff'),
+                })
+              }}
             </span>
           </span>
         </button>
 
         <div :class="$style.actions">
-          <button type="button" :class="$style.doneBtn" @click="emit('close')">Done</button>
-          <button type="button" :class="$style.viewBtn" @click="viewPage">View page →</button>
+          <button type="button" :class="$style.doneBtn" @click="emit('close')">{{ t('common.done') }}</button>
+          <button type="button" :class="$style.viewBtn" @click="viewPage">{{ t('share.viewPage') }}</button>
         </div>
       </div>
     </div>

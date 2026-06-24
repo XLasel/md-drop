@@ -1,26 +1,27 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { useAuthStore } from '@/entities/user/model/authStore'
 import UiButton from '@/shared/ui/Button/Button.vue'
 
 const authStore = useAuthStore()
+const { t } = useI18n()
 </script>
 
 <template>
   <section :class="$style.panel">
     <div :class="$style.icon" aria-hidden="true">◑</div>
-    <h2 :class="$style.title">Sign in to open your dashboard</h2>
+    <h2 :class="$style.title">{{ t('auth.signInTitle') }}</h2>
     <p :class="$style.description">
-      Notes work without an account — write one and share the link right away. Sign in to keep
-      every note in one place: list, edit, and manage links.
+      {{ t('auth.signInDescription') }}
     </p>
     <div :class="$style.actions">
-      <UiButton @click="authStore.signInWithGitHub()">Continue with GitHub</UiButton>
+      <UiButton @click="authStore.signInWithGitHub()">{{ t('auth.continueGitHub') }}</UiButton>
       <UiButton variant="secondary" @click="authStore.signInWithGoogle()">
-        Continue with Google
+        {{ t('auth.continueGoogle') }}
       </UiButton>
     </div>
-    <RouterLink to="/write" :class="$style.anonLink">or write a note without signing in →</RouterLink>
+    <RouterLink to="/write" :class="$style.anonLink">{{ t('auth.writeAnonymously') }}</RouterLink>
   </section>
 </template>
 

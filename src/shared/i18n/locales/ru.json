@@ -1,0 +1,141 @@
+{
+  "meta": {
+    "default": "MD-Drop",
+    "landing": "MD-Drop — Напиши. Отправь ссылку.",
+    "create": "Редактор — MD-Drop",
+    "view": "Просмотр — MD-Drop",
+    "dashboard": "Заметки — MD-Drop",
+    "notFound": "Не найдено — MD-Drop",
+    "noteTitle": "{title} — MD-Drop"
+  },
+  "common": {
+    "newNote": "Новая заметка",
+    "share": "Поделиться",
+    "update": "Обновить",
+    "edit": "Редактировать",
+    "view": "Открыть",
+    "delete": "Удалить",
+    "dashboard": "Заметки",
+    "signIn": "Войти",
+    "signOut": "Выйти",
+    "copyLink": "Копировать ссылку",
+    "copyMarkdown": "Копировать Markdown",
+    "tryAgain": "Повторить",
+    "done": "Готово",
+    "improve": "Улучшить",
+    "undo": "Отменить",
+    "untitled": "Без названия"
+  },
+  "nav": {
+    "ariaLabel": "Разделы сайта",
+    "landing": "Главная",
+    "write": "Редактор",
+    "dashboard": "Заметки",
+    "signedIn": "вошли",
+    "signedOut": "гость"
+  },
+  "theme": {
+    "toggleTitle": "Переключить тему",
+    "toggleAria": "Переключить светлую и тёмную тему"
+  },
+  "language": {
+    "toggleTitle": "Сменить язык",
+    "toggleAria": "Сменить язык интерфейса"
+  },
+  "landing": {
+    "badge": "читать без регистрации",
+    "title": "Напиши.<br>Отправь ссылку.",
+    "lead": "Markdown на входе — аккуратная публичная страница на выходе. Поделись заметкой за секунды: без аккаунтов и лишнего. Редактируй в любой момент по приватной ссылке.",
+    "cta": "Начать писать →",
+    "metaPublicLinks": "публичные ссылки",
+    "metaEditTokens": "токены редактирования",
+    "metaAiImprove": "улучшение ИИ",
+    "demoKicker": "## Воскресные мысли",
+    "demoTitle": "Три строки, которые стоит сохранить",
+    "demoText": "Рецепт от друга, цитата из подкаста, ответ ChatGPT — вставь, отправь ссылку, закрой вкладку.",
+    "demoTag": "— рендер в реальном времени",
+    "sticker": "ссылка скопирована ✓"
+  },
+  "editor": {
+    "draft": "черновик",
+    "editing": "редактирование",
+    "titlePlaceholder": "Заголовок заметки",
+    "titleHint": "заголовок — необязательно",
+    "markdownLabel": "писать · markdown",
+    "wordCount": "{count} слов",
+    "placeholder": "Вставьте Markdown сюда...",
+    "preview": "превью",
+    "live": "● live",
+    "previewPlaceholder": "Здесь появится превью"
+  },
+  "view": {
+    "unableToLoad": "Не удалось загрузить заметку",
+    "noteNotFound": "Заметка не найдена",
+    "loadFailed": "Ошибка загрузки заметки",
+    "footerShared": "Опубликовано в",
+    "footerCta": "создать свою →"
+  },
+  "dashboard": {
+    "unableToLoad": "Не удалось загрузить заметки",
+    "loadFailed": "Ошибка загрузки заметок",
+    "deleteFailed": "Не удалось удалить заметку",
+    "deleteConfirm": "Удалить «{title}»?",
+    "noteDeleted": "Заметка удалена",
+    "heading": "Ваши заметки",
+    "noteCount": "нет заметок | {n} заметка | {n} заметки | {n} заметок",
+    "emptySubheading": "Пока пусто.",
+    "emptyTitle": "Чистый лист",
+    "emptyDescription": "Первая заметка — в одном нажатии. Напишите markdown, нажмите «Поделиться» — и ссылка готова.",
+    "emptyCta": "Написать первую заметку →"
+  },
+  "auth": {
+    "signInTitle": "Войдите, чтобы открыть заметки",
+    "signInDescription": "Заметки работают без аккаунта — напишите и сразу отправьте ссылку. Войдите, чтобы хранить все заметки в одном месте: список, редактирование и управление ссылками.",
+    "continueGitHub": "Войти через GitHub",
+    "continueGoogle": "Войти через Google",
+    "writeAnonymously": "или написать заметку без входа →"
+  },
+  "share": {
+    "noteLive": "Заметка опубликована",
+    "noteLiveHint": "Любой со ссылкой может прочитать — аккаунт не нужен.",
+    "copyLink": "Копировать ссылку",
+    "copied": "Скопировано ✓",
+    "copyMarkdownSource": "Копировать исходный markdown",
+    "markdownCopied": "Markdown скопирован ✓",
+    "seoTitle": "Показывать в поисковиках",
+    "seoHint": "Выкл. — только по ссылке · сейчас {state}",
+    "seoOn": "вкл.",
+    "seoOff": "выкл.",
+    "viewPage": "Открыть страницу →",
+    "supabaseNotConfigured": "Supabase не настроен. Добавьте данные в .env",
+    "updateFailed": "Не удалось обновить заметку",
+    "noPermission": "Нет прав на редактирование этой заметки",
+    "editTokenNotFound": "Токен редактирования не найден",
+    "noteUpdated": "Заметка обновлена",
+    "shareFailed": "Не удалось опубликовать заметку",
+    "indexingFailed": "Не удалось обновить настройки индексации",
+    "indexingUpdateFailed": "Ошибка обновления индексации"
+  },
+  "format": {
+    "tooLong": "Текст слишком длинный для ИИ-форматирования (макс. 10 КБ)",
+    "success": "Markdown отформатирован",
+    "failed": "Ошибка форматирования",
+    "reverted": "Форматирование отменено"
+  },
+  "clipboard": {
+    "linkCopied": "Ссылка скопирована",
+    "markdownCopied": "Markdown скопирован",
+    "copied": "Скопировано в буфер",
+    "failed": "Не удалось скопировать"
+  },
+  "validation": {
+    "contentEmpty": "Содержимое не может быть пустым",
+    "contentTooLong": "Содержимое слишком длинное (макс. 500 КБ)",
+    "titleTooLong": "Заголовок слишком длинный (макс. 100 символов)"
+  },
+  "notFound": {
+    "title": "Страница не найдена",
+    "description": "Страница не существует или была перемещена.",
+    "goHome": "На главную"
+  }
+}

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { onMounted, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import FormatButton from '@/features/format-markdown/ui/FormatButton.vue'
 import ShareButton from '@/features/share-note/ui/ShareButton.vue'
@@ -15,6 +16,7 @@ import EditorPanel from '@/widgets/editor/ui/EditorPanel.vue'
 import PreviewPanel from '@/widgets/preview/ui/PreviewPanel.vue'
 
 const route = useRoute()
+const { t } = useI18n()
 const editorStore = useEditorStore()
 const authStore = useAuthStore()
 const { title, content, editingSlug } = storeToRefs(editorStore)
@@ -49,9 +51,9 @@ watch(
     <Teleport :to="`#${PAGE_HEADER_START_ID}`">
       <span v-if="editingSlug" :class="$style.status">
         <span :class="$style.statusDot" />
-        editing
+        {{ t('editor.editing') }}
       </span>
-      <span v-else :class="$style.status">draft</span>
+      <span v-else :class="$style.status">{{ t('editor.draft') }}</span>
     </Teleport>
 
     <Teleport :to="`#${PAGE_HEADER_ACTIONS_ID}`">
@@ -64,10 +66,10 @@ watch(
         v-model="title"
         type="text"
         :class="$style.titleInput"
-        placeholder="Note title"
+        :placeholder="t('editor.titlePlaceholder')"
         maxlength="100"
       />
-      <span :class="$style.titleHint">title — optional</span>
+      <span :class="$style.titleHint">{{ t('editor.titleHint') }}</span>
     </div>
 
     <div :class="$style.workspace">

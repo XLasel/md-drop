@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import UiButton from '@/shared/ui/Button/Button.vue'
+
+const { t } = useI18n()
 </script>
 
 <template>
@@ -8,12 +11,12 @@ import UiButton from '@/shared/ui/Button/Button.vue'
     <main :class="$style.main">
       <div :class="$style.content">
         <div :class="$style.code">404</div>
-        <h1 :class="$style.title">Page not found</h1>
+        <h1 :class="$style.title">{{ t('notFound.title') }}</h1>
         <p :class="$style.description">
-          The page you're looking for doesn't exist or has been moved.
+          {{ t('notFound.description') }}
         </p>
         <RouterLink to="/">
-          <UiButton>Go home</UiButton>
+          <UiButton>{{ t('notFound.goHome') }}</UiButton>
         </RouterLink>
       </div>
     </main>

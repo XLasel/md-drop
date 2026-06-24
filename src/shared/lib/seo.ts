@@ -51,7 +51,9 @@ function setMetaProperty(property: string, content: string): void {
   meta.content = content
 }
 
+import { i18n } from '@/shared/i18n'
+
 export function resetPageMeta(): void {
-  document.title = 'MD-Drop'
+  document.title = i18n.global.t('meta.default')
   setRobotsMeta(false)
 }

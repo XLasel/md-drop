@@ -1,0 +1,141 @@
+{
+  "meta": {
+    "default": "MD-Drop",
+    "landing": "MD-Drop — Write it. Drop a link.",
+    "create": "Write — MD-Drop",
+    "view": "View — MD-Drop",
+    "dashboard": "Dashboard — MD-Drop",
+    "notFound": "Not Found — MD-Drop",
+    "noteTitle": "{title} — MD-Drop"
+  },
+  "common": {
+    "newNote": "New note",
+    "share": "Share",
+    "update": "Update",
+    "edit": "Edit",
+    "view": "View",
+    "delete": "Delete",
+    "dashboard": "Dashboard",
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "copyLink": "Copy Link",
+    "copyMarkdown": "Copy Markdown",
+    "tryAgain": "Try again",
+    "done": "Done",
+    "improve": "Improve",
+    "undo": "Undo",
+    "untitled": "Untitled"
+  },
+  "nav": {
+    "ariaLabel": "Site sections",
+    "landing": "Landing",
+    "write": "Write",
+    "dashboard": "Dashboard",
+    "signedIn": "signed in",
+    "signedOut": "signed out"
+  },
+  "theme": {
+    "toggleTitle": "Toggle theme",
+    "toggleAria": "Toggle light and dark theme"
+  },
+  "language": {
+    "toggleTitle": "Switch language",
+    "toggleAria": "Switch interface language"
+  },
+  "landing": {
+    "badge": "no signup to read",
+    "title": "Write it.<br>Drop a link.",
+    "lead": "Markdown in, a clean public page out. Share a note in seconds — no accounts, no clutter. Edit anytime with a private link.",
+    "cta": "Start writing →",
+    "metaPublicLinks": "public links",
+    "metaEditTokens": "edit tokens",
+    "metaAiImprove": "ai improve",
+    "demoKicker": "## Sunday thoughts",
+    "demoTitle": "Three lines worth keeping",
+    "demoText": "A recipe from a friend, a quote from a podcast, an answer from ChatGPT — paste it, share the link, forget the tab.",
+    "demoTag": "— rendered live",
+    "sticker": "link copied ✓"
+  },
+  "editor": {
+    "draft": "draft",
+    "editing": "editing",
+    "titlePlaceholder": "Note title",
+    "titleHint": "title — optional",
+    "markdownLabel": "write · markdown",
+    "wordCount": "{count} words",
+    "placeholder": "Paste your Markdown here...",
+    "preview": "preview",
+    "live": "● live",
+    "previewPlaceholder": "Preview will appear here"
+  },
+  "view": {
+    "unableToLoad": "Unable to load note",
+    "noteNotFound": "Note not found",
+    "loadFailed": "Failed to load note",
+    "footerShared": "Shared with",
+    "footerCta": "make your own →"
+  },
+  "dashboard": {
+    "unableToLoad": "Unable to load dashboard",
+    "loadFailed": "Failed to load notes",
+    "deleteFailed": "Failed to delete note",
+    "deleteConfirm": "Delete \"{title}\"?",
+    "noteDeleted": "Note deleted",
+    "heading": "Your notes",
+    "noteCount": "no notes | {n} note | {n} notes",
+    "emptySubheading": "Nothing here yet.",
+    "emptyTitle": "A blank canvas",
+    "emptyDescription": "Your first note is one keystroke away. Write some markdown, hit Share, and you've got a link.",
+    "emptyCta": "Write your first note →"
+  },
+  "auth": {
+    "signInTitle": "Sign in to open your dashboard",
+    "signInDescription": "Notes work without an account — write one and share the link right away. Sign in to keep every note in one place: list, edit, and manage links.",
+    "continueGitHub": "Continue with GitHub",
+    "continueGoogle": "Continue with Google",
+    "writeAnonymously": "or write a note without signing in →"
+  },
+  "share": {
+    "noteLive": "Your note is live",
+    "noteLiveHint": "Anyone with the link can read it — no account needed.",
+    "copyLink": "Copy link",
+    "copied": "Copied ✓",
+    "copyMarkdownSource": "Copy markdown source",
+    "markdownCopied": "Markdown copied ✓",
+    "seoTitle": "List in search engines",
+    "seoHint": "Off keeps it link-only · currently {state}",
+    "seoOn": "on",
+    "seoOff": "off",
+    "viewPage": "View page →",
+    "supabaseNotConfigured": "Supabase is not configured. Add credentials to .env",
+    "updateFailed": "Failed to update note",
+    "noPermission": "You do not have permission to edit this note",
+    "editTokenNotFound": "Edit token not found",
+    "noteUpdated": "Note updated",
+    "shareFailed": "Failed to share note",
+    "indexingFailed": "Failed to update indexing preference",
+    "indexingUpdateFailed": "Failed to update indexing"
+  },
+  "format": {
+    "tooLong": "Text is too long for AI formatting (max 10 KB)",
+    "success": "Markdown formatted",
+    "failed": "Formatting failed",
+    "reverted": "Reverted formatting"
+  },
+  "clipboard": {
+    "linkCopied": "Link copied",
+    "markdownCopied": "Markdown copied",
+    "copied": "Copied to clipboard",
+    "failed": "Failed to copy"
+  },
+  "validation": {
+    "contentEmpty": "Content cannot be empty",
+    "contentTooLong": "Content is too long (max 500 KB)",
+    "titleTooLong": "Title is too long (max 100 characters)"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "The page you're looking for doesn't exist or has been moved.",
+    "goHome": "Go home"
+  }
+}

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import ShareSuccessModal from '@/features/share-note/ui/ShareSuccessModal.vue'
 import {
@@ -19,6 +20,7 @@ import { validateNoteContent } from '@/shared/lib/validation'
 import UiButton from '@/shared/ui/Button/Button.vue'
 
 const router = useRouter()
+const { t } = useI18n()
 const toast = useToast()
 const editorStore = useEditorStore()
 const authStore = useAuthStore()
@@ -37,7 +39,7 @@ async function handleShare() {
   }
 
   if (!isSupabaseConfigured()) {
-    toast.error('Supabase is not configured. Add credentials to .env')
+    toast.error(t('share.supabaseNotConfigured'))
     return
   }
 
@@ -57,13 +59,13 @@ async function handleShare() {
         })
 
         if (!updated) {
-          toast.error('Failed to update note')
+          toast.error(t('share.updateFailed'))
           return
         }
       } else if (authStore.user) {
         const note = await fetchNoteBySlug(editingSlug.value)
         if (!note || note.author_id !== authStore.user.id) {
-          toast.error('You do not have permission to edit this note')
+          toast.error(t('share.noPermission'))
           return
         }
 
@@ -75,11 +77,11 @@ async function handleShare() {
           indexable.value,
         )
       } else {
-        toast.error('Edit token not found')
+        toast.error(t('share.editTokenNotFound'))
         return
       }
 
-      toast.success('Note updated')
+      toast.success(t('share.noteUpdated'))
       await router.push(`/v/${editingSlug.value}`)
       return
     }
@@ -96,7 +98,7 @@ async function handleShare() {
     successEditToken.value = editToken
     successAuthorId.value = note.author_id
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Failed to share note'
+    const message = error instanceof Error ? error.message : t('share.shareFailed')
     toast.error(message)
   } finally {
     loading.value = false
@@ -116,7 +118,7 @@ function onIndexableChange(value: boolean) {
 
 <template>
   <UiButton :loading="loading" @click="handleShare">
-    {{ editingSlug ? 'Update' : 'Share' }}
+    {{ editingSlug ? t('common.update') : t('common.share') }}
   </UiButton>
 
   <ShareSuccessModal

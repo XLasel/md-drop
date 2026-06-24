@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import UiButton from '@/shared/ui/Button/Button.vue'
 
 defineProps<{
@@ -9,6 +10,8 @@ defineProps<{
 defineEmits<{
   retry: []
 }>()
+
+const { t } = useI18n()
 </script>
 
 <template>
@@ -16,7 +19,7 @@ defineEmits<{
     <div :class="$style.icon" aria-hidden="true">⚠️</div>
     <h2 v-if="title" :class="$style.title">{{ title }}</h2>
     <p :class="$style.message">{{ message }}</p>
-    <UiButton variant="secondary" @click="$emit('retry')">Try again</UiButton>
+    <UiButton variant="secondary" @click="$emit('retry')">{{ t('common.tryAgain') }}</UiButton>
   </div>
 </template>
 

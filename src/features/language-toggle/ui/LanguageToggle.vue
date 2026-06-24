@@ -1,20 +1,23 @@
 <script setup lang="ts">
-import { useThemeStore } from '@/entities/theme/model/themeStore'
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useLocaleStore } from '@/entities/locale/model/localeStore'
 
-const themeStore = useThemeStore()
+const localeStore = useLocaleStore()
 const { t } = useI18n()
+
+const label = computed(() => localeStore.locale.toUpperCase())
 </script>
 
 <template>
   <button
     type="button"
     :class="$style.toggle"
-    :title="t('theme.toggleTitle')"
-    :aria-label="t('theme.toggleAria')"
-    @click="themeStore.toggleMode()"
+    :title="t('language.toggleTitle')"
+    :aria-label="t('language.toggleAria')"
+    @click="localeStore.toggleLocale()"
   >
-    ◑
+    {{ label }}
   </button>
 </template>
 
@@ -30,7 +33,10 @@ const { t } = useI18n()
   border-radius: 50%;
   background: transparent;
   color: var(--muted);
-  font-size: var(--step-0);
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  font-weight: 500;
+  letter-spacing: 0.02em;
   line-height: 1;
   cursor: pointer;
   flex: none;

@@ -1,20 +1,23 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
+import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { useAuthStore } from '@/entities/user/model/authStore'
 
 const authStore = useAuthStore()
 const { user } = storeToRefs(authStore)
+const { t } = useI18n()
 
-const items = [
-  { label: 'Landing', name: 'landing' as const },
-  { label: 'Write', name: 'create' as const },
-  { label: 'Dashboard', name: 'dashboard' as const },
-]
+const items = computed(() => [
+  { label: t('nav.landing'), name: 'landing' as const },
+  { label: t('nav.write'), name: 'create' as const },
+  { label: t('nav.dashboard'), name: 'dashboard' as const },
+])
 </script>
 
 <template>
-  <nav :class="$style.nav" aria-label="Site sections">
+  <nav :class="$style.nav" :aria-label="t('nav.ariaLabel')">
     <div :class="$style.inner">
       <RouterLink
         v-for="item in items"
@@ -35,10 +38,10 @@ const items = [
         @click="authStore.signOut()"
       >
         <span :class="$style.dot" />
-        signed in
+        {{ t('nav.signedIn') }}
       </button>
       <RouterLink v-else :to="{ name: 'dashboard' }" :class="$style.meta">
-        signed out
+        {{ t('nav.signedOut') }}
       </RouterLink>
     </div>
   </nav>

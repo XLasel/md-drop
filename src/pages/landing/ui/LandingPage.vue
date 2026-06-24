@@ -1,37 +1,39 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { PAGE_HEADER_ACTIONS_ID } from '@/widgets/header/lib/teleportTargets'
 import UiButton from '@/shared/ui/Button/Button.vue'
+
+const { t } = useI18n()
 </script>
 
 <template>
   <div :class="$style.page">
     <Teleport :to="`#${PAGE_HEADER_ACTIONS_ID}`">
       <RouterLink to="/write">
-        <UiButton size="sm">New note</UiButton>
+        <UiButton size="sm">{{ t('common.newNote') }}</UiButton>
       </RouterLink>
     </Teleport>
 
     <main :class="$style.main">
       <section :class="$style.hero">
         <div class="animate-fade-up" :class="$style.copy">
-          <span :class="$style.badge">no signup to read</span>
-          <h1 :class="$style.title">Write it.<br />Drop a link.</h1>
+          <span :class="$style.badge">{{ t('landing.badge') }}</span>
+          <h1 :class="$style.title" v-html="t('landing.title')" />
           <p :class="$style.lead">
-            Markdown in, a clean public page out. Share a note in seconds — no accounts, no
-            clutter. Edit anytime with a private link.
+            {{ t('landing.lead') }}
           </p>
           <div :class="$style.cta">
             <RouterLink to="/write">
-              <UiButton size="lg">Start writing →</UiButton>
+              <UiButton size="lg">{{ t('landing.cta') }}</UiButton>
             </RouterLink>
           </div>
           <div :class="$style.meta">
-            <span>public links</span>
+            <span>{{ t('landing.metaPublicLinks') }}</span>
             <span>/</span>
-            <span>edit tokens</span>
+            <span>{{ t('landing.metaEditTokens') }}</span>
             <span>/</span>
-            <span>ai improve</span>
+            <span>{{ t('landing.metaAiImprove') }}</span>
           </div>
         </div>
 
@@ -44,16 +46,15 @@ import UiButton from '@/shared/ui/Button/Button.vue'
               <span :class="$style.url">/v/sunday-thoughts-8k2</span>
             </div>
             <div :class="$style.cardBody">
-              <div :class="$style.cardKicker">## Sunday thoughts</div>
-              <div :class="$style.cardTitle">Three lines worth keeping</div>
+              <div :class="$style.cardKicker">{{ t('landing.demoKicker') }}</div>
+              <div :class="$style.cardTitle">{{ t('landing.demoTitle') }}</div>
               <p :class="$style.cardText">
-                A recipe from a friend, a quote from a podcast, an answer from ChatGPT — paste it,
-                share the link, forget the tab.
+                {{ t('landing.demoText') }}
               </p>
-              <span :class="$style.cardTag">— rendered live</span>
+              <span :class="$style.cardTag">{{ t('landing.demoTag') }}</span>
             </div>
           </div>
-          <span :class="$style.sticker">link copied ✓</span>
+          <span :class="$style.sticker">{{ t('landing.sticker') }}</span>
         </div>
       </section>
     </main>

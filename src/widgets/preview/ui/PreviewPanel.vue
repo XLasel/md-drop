@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useThemeStore } from '@/entities/theme/model/themeStore'
 import { renderMarkdown } from '@/shared/lib/markdown/renderMarkdown'
 import SkeletonLoader from '@/shared/ui/Skeleton/SkeletonLoader.vue'
@@ -11,6 +12,7 @@ const props = defineProps<{
 
 const themeStore = useThemeStore()
 const { resolved } = storeToRefs(themeStore)
+const { t } = useI18n()
 
 const html = ref('')
 const loading = ref(false)
@@ -33,8 +35,8 @@ watch(
 <template>
   <div :class="$style.panel">
     <div :class="$style.label">
-      <span>preview</span>
-      <span :class="$style.live">● live</span>
+      <span>{{ t('editor.preview') }}</span>
+      <span :class="$style.live">{{ t('editor.live') }}</span>
     </div>
     <div :class="$style.content">
       <SkeletonLoader v-if="loading && content" :lines="6" />
@@ -44,7 +46,7 @@ watch(
         :class="$style.markdown"
         v-html="html"
       />
-      <p v-else :class="$style.placeholder">Preview will appear here</p>
+      <p v-else :class="$style.placeholder">{{ t('editor.previewPlaceholder') }}</p>
     </div>
   </div>
 </template>

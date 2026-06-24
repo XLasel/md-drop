@@ -1,3 +1,5 @@
+import { i18n } from '@/shared/i18n'
+
 const MAX_CONTENT_LENGTH = 512_000
 const MAX_TITLE_LENGTH = 100
 
@@ -5,11 +7,11 @@ export function validateNoteContent(content: string): string | null {
   const trimmed = content.trim()
 
   if (!trimmed) {
-    return 'Content cannot be empty'
+    return i18n.global.t('validation.contentEmpty')
   }
 
   if (content.length > MAX_CONTENT_LENGTH) {
-    return 'Content is too long (max 500 KB)'
+    return i18n.global.t('validation.contentTooLong')
   }
 
   return null
@@ -17,7 +19,7 @@ export function validateNoteContent(content: string): string | null {
 
 export function validateTitle(title: string): string | null {
   if (title.length > MAX_TITLE_LENGTH) {
-    return 'Title is too long (max 100 characters)'
+    return i18n.global.t('validation.titleTooLong')
   }
 
   return null
@@ -39,5 +41,5 @@ export function deriveTitle(title: string, content: string): string {
     ?.replace(/^#+\s*/, '')
     .trim() ?? ''
 
-  return firstLine.slice(0, MAX_TITLE_LENGTH) || 'Untitled'
+  return firstLine.slice(0, MAX_TITLE_LENGTH) || i18n.global.t('common.untitled')
 }

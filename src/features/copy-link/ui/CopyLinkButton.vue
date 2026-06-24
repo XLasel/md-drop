@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { getNoteUrl } from '@/entities/note/api/noteRepository'
 import { useCopyToClipboard } from '@/shared/lib/useCopyToClipboard'
 import UiButton from '@/shared/ui/Button/Button.vue'
@@ -7,15 +8,16 @@ const props = defineProps<{
   slug: string
 }>()
 
+const { t } = useI18n()
 const { copyText } = useCopyToClipboard()
 
 function handleCopy() {
-  copyText(getNoteUrl(props.slug), 'Link copied')
+  copyText(getNoteUrl(props.slug), t('clipboard.linkCopied'))
 }
 </script>
 
 <template>
   <UiButton variant="secondary" size="sm" @click="handleCopy">
-    Copy Link
+    {{ t('common.copyLink') }}
   </UiButton>
 </template>

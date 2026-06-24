@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+
 const model = defineModel<string>({ required: true })
 
 defineProps<{
@@ -6,19 +9,26 @@ defineProps<{
   readonly?: boolean
   improving?: boolean
 }>()
+
+const { t } = useI18n()
+
+const wordCount = computed(() => {
+  const words = model.value.trim() ? model.value.trim().split(/\s+/).length : 0
+  return t('editor.wordCount', { count: words })
+})
 </script>
 
 <template>
   <div :class="$style.panel">
     <div :class="$style.label">
-      <span>write · markdown</span>
-      <span>{{ model.trim() ? model.trim().split(/\s+/).length : 0 }} words</span>
+      <span>{{ t('editor.markdownLabel') }}</span>
+      <span>{{ wordCount }}</span>
     </div>
     <div :class="$style.body">
       <textarea
         v-model="model"
         :class="$style.textarea"
-        :placeholder="placeholder ?? 'Paste your Markdown here...'"
+        :placeholder="placeholder ?? t('editor.placeholder')"
         :readonly="readonly"
         spellcheck="false"
       />

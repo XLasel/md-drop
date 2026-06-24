@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { formatMarkdown } from '@/features/format-markdown/api/formatMarkdown'
 import { useEditorStore } from '@/entities/note/model/editorStore'
 import { useToast } from '@/shared/lib/toast'
@@ -9,6 +10,7 @@ import UiButton from '@/shared/ui/Button/Button.vue'
 
 const editorStore = useEditorStore()
 const { content } = storeToRefs(editorStore)
+const { t } = useI18n()
 const toast = useToast()
 
 const loading = ref(false)
@@ -22,7 +24,7 @@ async function handleFormat() {
   }
 
   if (content.value.length > 10_000) {
-    toast.error('Text is too long for AI formatting (max 10 KB)')
+    toast.error(t('format.tooLong'))
     return
   }
 
@@ -31,10 +33,10 @@ async function handleFormat() {
 
   try {
     content.value = await formatMarkdown(content.value)
-    toast.success('Markdown formatted')
+    toast.success(t('format.success'))
   } catch (error) {
     previousContent.value = null
-    const message = error instanceof Error ? error.message : 'Formatting failed'
+    const message = error instanceof Error ? error.message : t('format.failed')
     toast.error(message)
   } finally {
     loading.value = false
@@ -45,7 +47,7 @@ function handleUndo() {
   if (previousContent.value !== null) {
     content.value = previousContent.value
     previousContent.value = null
-    toast.info('Reverted formatting')
+    toast.info(t('format.reverted'))
   }
 }
 </script>
@@ -58,11 +60,11 @@ function handleUndo() {
       size="sm"
       @click="handleUndo"
     >
-      ↩ Undo
+      ↩ {{ t('common.undo') }}
     </UiButton>
     <UiButton variant="accent-outline" size="sm" :loading="loading" @click="handleFormat">
       <span :class="$style.spark">✦</span>
-      Improve
+      {{ t('common.improve') }}
     </UiButton>
   </div>
 </template>

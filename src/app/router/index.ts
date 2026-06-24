@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { i18n } from '@/shared/i18n'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -8,7 +9,7 @@ const router = createRouter({
       name: 'landing',
       component: () => import('@/pages/landing/ui/LandingPage.vue'),
       meta: {
-        title: 'MD-Drop — Write it. Drop a link.',
+        titleKey: 'meta.landing',
         header: { maxWidth: 'narrow' },
       },
     },
@@ -16,14 +17,14 @@ const router = createRouter({
       path: '/write',
       name: 'create',
       component: () => import('@/pages/create/ui/CreatePage.vue'),
-      meta: { title: 'Write — MD-Drop' },
+      meta: { titleKey: 'meta.create' },
     },
     {
       path: '/v/:slug',
       name: 'view',
       component: () => import('@/pages/view/ui/ViewPage.vue'),
       meta: {
-        title: 'View — MD-Drop',
+        titleKey: 'meta.view',
         header: { maxWidth: 'narrow' },
       },
     },
@@ -32,7 +33,7 @@ const router = createRouter({
       name: 'dashboard',
       component: () => import('@/pages/dashboard/ui/DashboardPage.vue'),
       meta: {
-        title: 'Dashboard — MD-Drop',
+        titleKey: 'meta.dashboard',
         header: { maxWidth: 'narrow' },
       },
     },
@@ -41,7 +42,7 @@ const router = createRouter({
       name: 'not-found',
       component: () => import('@/pages/not-found/ui/NotFoundPage.vue'),
       meta: {
-        title: 'Not Found — MD-Drop',
+        titleKey: 'meta.notFound',
         header: { maxWidth: 'narrow', showAuth: false },
       },
     },
@@ -54,8 +55,8 @@ const router = createRouter({
 })
 
 router.afterEach((to) => {
-  const title = (to.meta.title as string | undefined) ?? 'MD-Drop'
-  document.title = title
+  const titleKey = to.meta.titleKey as string | undefined
+  document.title = titleKey ? i18n.global.t(titleKey) : i18n.global.t('meta.default')
 })
 
 export default router

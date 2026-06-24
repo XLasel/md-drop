@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import CopyLinkButton from '@/features/copy-link/ui/CopyLinkButton.vue'
 import CopyMarkdownButton from '@/features/copy-markdown/ui/CopyMarkdownButton.vue'
@@ -12,6 +13,7 @@ import {
 } from '@/entities/note/api/noteRepository'
 import type { Note } from '@/entities/note/model/types'
 import { useAuthStore } from '@/entities/user/model/authStore'
+import { useLocaleStore } from '@/entities/locale/model/localeStore'
 import { useThemeStore } from '@/entities/theme/model/themeStore'
 import { renderMarkdown } from '@/shared/lib/markdown/renderMarkdown'
 import { PAGE_HEADER_ACTIONS_ID, PAGE_HEADER_START_ID } from '@/widgets/header/lib/teleportTargets'
@@ -22,9 +24,12 @@ import UiButton from '@/shared/ui/Button/Button.vue'
 
 const route = useRoute()
 const router = useRouter()
+const { t } = useI18n()
 const authStore = useAuthStore()
+const localeStore = useLocaleStore()
 const themeStore = useThemeStore()
 const { resolved } = storeToRefs(themeStore)
+const { locale } = storeToRefs(localeStore)
 
 const note = ref<Note | null>(null)
 const html = ref('')
@@ -48,14 +53,14 @@ async function loadNote() {
     const result = await fetchNoteBySlug(slug.value)
 
     if (!result) {
-      error.value = 'Note not found'
+      error.value = t('view.noteNotFound')
       return
     }
 
     note.value = result
     html.value = await renderMarkdown(result.content, resolved.value)
   } catch (err) {
-    error.value = err instanceof Error ? err.message : 'Failed to load note'
+    error.value = err instanceof Error ? err.message : t('view.loadFailed')
   } finally {
     loading.value = false
   }
@@ -80,7 +85,7 @@ watch(note, (currentNote) => {
   }
 
   setPageMeta({
-    title: `${currentNote.title} — MD-Drop`,
+    title: t('meta.noteTitle', { title: currentNote.title }),
     description: getNoteExcerpt(currentNote.content),
     indexable: currentNote.indexable,
   })
@@ -99,7 +104,7 @@ onUnmounted(resetPageMeta)
     <Teleport :to="`#${PAGE_HEADER_ACTIONS_ID}`">
       <CopyMarkdownButton v-if="note" :content="note.content" />
       <UiButton v-if="canEdit" variant="accent-outline" size="sm" @click="goToEdit">
-        ✎ Edit
+        ✎ {{ t('common.edit') }}
       </UiButton>
       <CopyLinkButton v-if="note" :slug="slug" />
     </Teleport>
@@ -111,14 +116,14 @@ onUnmounted(resetPageMeta)
 
       <ErrorState
         v-else-if="error"
-        title="Unable to load note"
+        :title="t('view.unableToLoad')"
         :message="error"
         @retry="loadNote"
       />
 
       <article v-else-if="note" :class="$style.article">
         <div :class="$style.meta">
-          <time :datetime="note.created_at">{{ formatNoteDate(note.created_at) }}</time>
+          <time :datetime="note.created_at">{{ formatNoteDate(note.created_at, locale) }}</time>
         </div>
 
         <h1 :class="$style.title">{{ note.title }}</h1>
@@ -130,9 +135,10 @@ onUnmounted(resetPageMeta)
         />
 
         <footer :class="$style.footer">
-          Shared with <strong>md·drop</strong> —
+          {{ t('view.footerShared') }}
+          <strong>md·drop</strong> —
           <button type="button" :class="$style.footerLink" @click="router.push('/write')">
-            make your own →
+            {{ t('view.footerCta') }}
           </button>
         </footer>
       </article>
