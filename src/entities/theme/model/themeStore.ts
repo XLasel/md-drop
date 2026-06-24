@@ -16,7 +16,7 @@ function isColorMode(value: string): value is ColorMode {
 }
 
 function normalizePreference(value: AppTheme): ColorMode {
-  if (value === 'dark' || value === 'b-side') return 'dark'
+  if (value === 'dark') return 'dark'
   if (value === 'light') return 'light'
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
 }

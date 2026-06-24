@@ -4,7 +4,7 @@ import type { ResolvedTheme } from '@/entities/theme/model/types'
 import { getShikiTheme } from './shikiTheme'
 
 const LANGS = ['javascript', 'typescript', 'vue', 'json', 'bash'] as const satisfies readonly BundledLanguage[]
-const THEMES: BundledTheme[] = ['github-light', 'dracula', 'nord']
+const THEMES: BundledTheme[] = ['github-light', 'dracula']
 
 let highlighterPromise: Promise<Highlighter> | null = null
 
