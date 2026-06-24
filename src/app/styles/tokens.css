@@ -1,0 +1,48 @@
+/* MD-Drop design tokens — azure palette, light/dark from prototype */
+
+:root,
+[data-theme='light'] {
+  --bg: oklch(0.985 0.005 240);
+  --panel: oklch(1 0 0);
+  --panel2: oklch(0.975 0.004 240);
+  --ink: oklch(0.22 0.02 255);
+  --muted: oklch(0.52 0.02 255);
+  --faint: oklch(0.7 0.014 255);
+  --line: oklch(0.92 0.007 250);
+  --line2: oklch(0.955 0.005 250);
+  --accent: oklch(0.56 0.15 252);
+  --accent2: oklch(0.68 0.12 214);
+  --accent-soft: oklch(0.94 0.035 246);
+  --accent-hover: oklch(0.5 0.15 252);
+  --shadow: 0 14px 50px -20px rgba(20, 30, 60, 0.2);
+  --shadow-sm: 0 1px 2px rgba(20, 30, 60, 0.06);
+}
+
+[data-theme='dark'] {
+  --bg: oklch(0.18 0.018 258);
+  --panel: oklch(0.225 0.02 258);
+  --panel2: oklch(0.205 0.02 258);
+  --ink: oklch(0.96 0.008 250);
+  --muted: oklch(0.7 0.018 250);
+  --faint: oklch(0.5 0.02 255);
+  --line: oklch(0.3 0.02 258);
+  --line2: oklch(0.26 0.018 258);
+  --accent: oklch(0.7 0.14 250);
+  --accent2: oklch(0.78 0.11 212);
+  --accent-soft: oklch(0.32 0.06 250);
+  --accent-hover: oklch(0.64 0.14 250);
+  --shadow: 0 20px 56px -22px rgba(0, 0, 0, 0.6);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+:root {
+  --danger-color: oklch(0.55 0.2 25);
+  --danger-bg: color-mix(in oklch, var(--danger-color) 10%, transparent);
+  --success-color: oklch(0.55 0.13 162);
+  --success-bg: color-mix(in oklch, var(--success-color) 12%, transparent);
+
+  --header-blur-bg: color-mix(in oklch, var(--bg) 72%, transparent);
+
+  --font-sans: 'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, 'SF Mono', Consolas, monospace;
+}

@@ -2,7 +2,7 @@
 import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import IndexableCheckbox from '@/features/share-note/ui/IndexableCheckbox.vue'
+import ShareSuccessModal from '@/features/share-note/ui/ShareSuccessModal.vue'
 import {
   createNote,
   fetchNoteBySlug,
@@ -25,6 +25,9 @@ const authStore = useAuthStore()
 const { title, content, indexable, editingSlug } = storeToRefs(editorStore)
 
 const loading = ref(false)
+const successSlug = ref<string | null>(null)
+const successEditToken = ref<string | null>(null)
+const successAuthorId = ref<string | null>(null)
 
 async function handleShare() {
   const validationError = validateNoteContent(content.value)
@@ -81,16 +84,17 @@ async function handleShare() {
       return
     }
 
-    const { note } = await createNote({
+    const { note, editToken } = await createNote({
       title: title.value,
       content: content.value,
       authorId: authStore.user?.id ?? null,
       indexable: indexable.value,
     })
 
-    toast.success('Link copied to clipboard')
     await navigator.clipboard.writeText(getNoteUrl(note.slug))
-    await router.push(`/v/${note.slug}`)
+    successSlug.value = note.slug
+    successEditToken.value = editToken
+    successAuthorId.value = note.author_id
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Failed to share note'
     toast.error(message)
@@ -98,21 +102,32 @@ async function handleShare() {
     loading.value = false
   }
 }
+
+function closeSuccessModal() {
+  successSlug.value = null
+  successEditToken.value = null
+  successAuthorId.value = null
+}
+
+function onIndexableChange(value: boolean) {
+  editorStore.setIndexable(value)
+}
 </script>
 
 <template>
-  <div :class="$style.share">
-    <IndexableCheckbox v-model="indexable" />
-    <UiButton :loading="loading" @click="handleShare">
-      {{ editingSlug ? 'Update' : 'Share' }}
-    </UiButton>
-  </div>
-</template>
+  <UiButton :loading="loading" @click="handleShare">
+    {{ editingSlug ? 'Update' : 'Share' }}
+  </UiButton>
 
-<style module lang="scss">
-.share {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-</style>
+  <ShareSuccessModal
+    v-if="successSlug"
+    :slug="successSlug"
+    :title="title"
+    :content="content"
+    :indexable="indexable"
+    :edit-token="successEditToken"
+    :author-id="successAuthorId"
+    @close="closeSuccessModal"
+    @indexable-change="onIndexableChange"
+  />
+</template>

@@ -1,21 +1,45 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
-import { RouterView } from 'vue-router'
-import { useThemeStore } from '@/entities/theme/model/themeStore'
+import { RouterView, useRoute } from 'vue-router'
+import { useAuthStore } from '@/entities/user/model/authStore'
+import {
+  PAGE_HEADER_ACTIONS_ID,
+  PAGE_HEADER_START_ID,
+} from '@/widgets/header/lib/teleportTargets'
 import ToastContainer from '@/shared/ui/Toast/ToastContainer.vue'
+import AppHeader from '@/widgets/header/ui/AppHeader.vue'
+import AppSiteNav from '@/widgets/site-nav/ui/AppSiteNav.vue'
 
-const themeStore = useThemeStore()
-const { resolved } = storeToRefs(themeStore)
+const route = useRoute()
+const authStore = useAuthStore()
+const { user } = storeToRefs(authStore)
 
-const dataTheme = computed(() => resolved.value)
+const headerMaxWidth = computed(
+  () => route.meta.header?.maxWidth ?? 'default',
+)
 
-themeStore.init()
+const showAuth = computed(() => {
+  if (route.meta.header?.showAuth === false) return false
+  if (route.name === 'dashboard') return !!user.value
+  return true
+})
 </script>
 
 <template>
-  <div :data-theme="dataTheme" :class="$style.root">
-    <RouterView />
+  <div :class="$style.root">
+    <AppHeader :max-width="headerMaxWidth" :show-auth="showAuth">
+      <template #start>
+        <div :id="PAGE_HEADER_START_ID" :class="$style.headerStartSlot" />
+      </template>
+      <div :id="PAGE_HEADER_ACTIONS_ID" :class="$style.headerActionsSlot" />
+    </AppHeader>
+
+    <main :class="$style.main">
+      <RouterView />
+    </main>
+
+    <AppSiteNav />
     <ToastContainer />
   </div>
 </template>
@@ -23,6 +47,24 @@ themeStore.init()
 <style module lang="scss">
 .root {
   min-height: 100%;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  padding-bottom: var(--site-nav-offset);
+}
+
+.headerStartSlot {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-s);
+  min-width: 0;
+}
+
+.headerActionsSlot {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-xs);
+  flex-wrap: wrap;
+}
+
+.main {
+  min-height: 0;
 }
 </style>

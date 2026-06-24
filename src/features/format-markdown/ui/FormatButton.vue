@@ -52,16 +52,17 @@ function handleUndo() {
 
 <template>
   <div :class="$style.actions">
-    <UiButton variant="secondary" size="sm" :loading="loading" @click="handleFormat">
-      Improve
-    </UiButton>
     <UiButton
       v-if="previousContent !== null"
-      variant="ghost"
+      variant="secondary"
       size="sm"
       @click="handleUndo"
     >
-      Undo
+      ↩ Undo
+    </UiButton>
+    <UiButton variant="accent-outline" size="sm" :loading="loading" @click="handleFormat">
+      <span :class="$style.spark">✦</span>
+      Improve
     </UiButton>
   </div>
 </template>
@@ -70,6 +71,10 @@ function handleUndo() {
 .actions {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 6px;
+}
+
+.spark {
+  font-family: var(--font-mono);
 }
 </style>

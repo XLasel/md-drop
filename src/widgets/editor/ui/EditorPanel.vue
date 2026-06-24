@@ -4,19 +4,26 @@ const model = defineModel<string>({ required: true })
 defineProps<{
   placeholder?: string
   readonly?: boolean
+  improving?: boolean
 }>()
 </script>
 
 <template>
   <div :class="$style.panel">
-    <div :class="$style.label">Editor</div>
-    <textarea
-      v-model="model"
-      :class="$style.textarea"
-      :placeholder="placeholder ?? 'Paste your Markdown here...'"
-      :readonly="readonly"
-      spellcheck="false"
-    />
+    <div :class="$style.label">
+      <span>write · markdown</span>
+      <span>{{ model.trim() ? model.trim().split(/\s+/).length : 0 }} words</span>
+    </div>
+    <div :class="$style.body">
+      <textarea
+        v-model="model"
+        :class="$style.textarea"
+        :placeholder="placeholder ?? 'Paste your Markdown here...'"
+        :readonly="readonly"
+        spellcheck="false"
+      />
+      <div v-if="improving" :class="$style.shimmer" aria-hidden="true" />
+    </div>
   </div>
 </template>
 
@@ -26,39 +33,64 @@ defineProps<{
   flex-direction: column;
   min-height: 0;
   height: 100%;
-  background: var(--bg-primary);
+  border: 1px solid var(--line2);
+  border-radius: var(--radius-lg);
+  background: var(--panel);
+  overflow: hidden;
 }
 
 .label {
-  padding: 0.75rem 1rem;
-  font-size: 0.8125rem;
-  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 18px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--faint);
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--text-muted);
-  border-bottom: 1px solid var(--border-color);
-  background: var(--bg-secondary);
+}
+
+.body {
+  position: relative;
+  flex: 1;
+  min-height: 320px;
 }
 
 .textarea {
-  flex: 1;
   width: 100%;
+  height: 100%;
   min-height: 320px;
-  padding: 1rem;
+  padding: 14px 22px 24px;
   border: none;
   resize: none;
-  background: var(--bg-primary);
-  color: var(--text-primary);
+  background: transparent;
+  color: var(--muted);
   font-family: var(--font-mono);
-  font-size: 0.875rem;
-  line-height: 1.6;
+  font-size: 0.84375rem;
+  line-height: 1.9;
+
+  &::placeholder {
+    color: var(--faint);
+  }
 
   &:focus {
     outline: none;
+    color: var(--ink);
   }
+}
 
-  &::placeholder {
-    color: var(--text-muted);
-  }
+.shimmer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    transparent 20%,
+    var(--accent-soft) 50%,
+    transparent 80%
+  );
+  background-size: 440px 100%;
+  animation: shimmer 1s linear infinite;
 }
 </style>

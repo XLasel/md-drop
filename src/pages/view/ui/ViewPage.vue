@@ -4,7 +4,6 @@ import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import CopyLinkButton from '@/features/copy-link/ui/CopyLinkButton.vue'
 import CopyMarkdownButton from '@/features/copy-markdown/ui/CopyMarkdownButton.vue'
-import ThemePicker from '@/features/theme-picker/ui/ThemePicker.vue'
 import {
   fetchNoteBySlug,
   formatNoteDate,
@@ -15,10 +14,11 @@ import type { Note } from '@/entities/note/model/types'
 import { useAuthStore } from '@/entities/user/model/authStore'
 import { useThemeStore } from '@/entities/theme/model/themeStore'
 import { renderMarkdown } from '@/shared/lib/markdown/renderMarkdown'
+import { PAGE_HEADER_ACTIONS_ID, PAGE_HEADER_START_ID } from '@/widgets/header/lib/teleportTargets'
 import { resetPageMeta, setPageMeta } from '@/shared/lib/seo'
 import ErrorState from '@/shared/ui/ErrorState/ErrorState.vue'
 import SkeletonLoader from '@/shared/ui/Skeleton/SkeletonLoader.vue'
-import AppHeader from '@/widgets/header/ui/AppHeader.vue'
+import UiButton from '@/shared/ui/Button/Button.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -62,7 +62,7 @@ async function loadNote() {
 }
 
 function goToEdit() {
-  router.push({ path: '/', query: { edit: slug.value } })
+  router.push({ path: '/write', query: { edit: slug.value } })
 }
 
 watch(
@@ -92,12 +92,20 @@ onUnmounted(resetPageMeta)
 
 <template>
   <div :class="$style.page">
-    <AppHeader>
-      <ThemePicker />
-    </AppHeader>
+    <Teleport :to="`#${PAGE_HEADER_START_ID}`">
+      <span :class="$style.slug">/v/{{ slug }}</span>
+    </Teleport>
+
+    <Teleport :to="`#${PAGE_HEADER_ACTIONS_ID}`">
+      <CopyMarkdownButton v-if="note" :content="note.content" />
+      <UiButton v-if="canEdit" variant="accent-outline" size="sm" @click="goToEdit">
+        ✎ Edit
+      </UiButton>
+      <CopyLinkButton v-if="note" :slug="slug" />
+    </Teleport>
 
     <main :class="$style.main">
-      <div v-if="loading" :class="$style.card">
+      <div v-if="loading" :class="$style.loading">
         <SkeletonLoader :lines="8" />
       </div>
 
@@ -108,22 +116,25 @@ onUnmounted(resetPageMeta)
         @retry="loadNote"
       />
 
-      <article v-else-if="note" :class="$style.card">
-        <header :class="$style.meta">
-          <div :class="$style.metaInfo">
-            <h1 :class="$style.title">{{ note.title }}</h1>
-            <time :datetime="note.created_at">{{ formatNoteDate(note.created_at) }}</time>
-          </div>
-          <div :class="$style.actions">
-            <CopyMarkdownButton :content="note.content" />
-            <CopyLinkButton :slug="note.slug" />
-            <button v-if="canEdit" type="button" :class="$style.editBtn" @click="goToEdit">
-              Edit
-            </button>
-          </div>
-        </header>
+      <article v-else-if="note" :class="$style.article">
+        <div :class="$style.meta">
+          <time :datetime="note.created_at">{{ formatNoteDate(note.created_at) }}</time>
+        </div>
 
-        <div class="markdown-body" :class="$style.content" v-html="html" />
+        <h1 :class="$style.title">{{ note.title }}</h1>
+
+        <div
+          class="markdown-body markdown-body--reader"
+          :class="$style.content"
+          v-html="html"
+        />
+
+        <footer :class="$style.footer">
+          Shared with <strong>md·drop</strong> —
+          <button type="button" :class="$style.footerLink" @click="router.push('/write')">
+            make your own →
+          </button>
+        </footer>
       </article>
     </main>
   </div>
@@ -132,75 +143,79 @@ onUnmounted(resetPageMeta)
 <style module lang="scss">
 .page {
   min-height: 100vh;
-  background: var(--bg-primary);
+  background: var(--bg);
+}
+
+.slug {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--faint);
 }
 
 .main {
-  max-width: var(--content-max-width);
+  max-width: var(--reader-max-width);
   margin: 0 auto;
-  padding: 1.5rem 1rem 3rem;
+  padding: 6rem 2rem 8.125rem;
+  animation: fade-up 0.5s ease both;
 }
 
-.card {
-  max-width: var(--preview-max-width);
-  margin: 0 auto;
-  padding: 2rem;
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  background: var(--bg-secondary);
+.loading {
+  padding: 2rem 0;
+}
+
+.article {
+  max-width: 100%;
 }
 
 .meta {
   display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.metaInfo {
-  display: flex;
-  flex-direction: column;
-  gap: 0.375rem;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--faint);
 }
 
 .title {
-  margin: 0;
-  font-size: 1.75rem;
-  line-height: 1.25;
-  color: var(--text-primary);
-}
-
-.metaInfo time {
-  color: var(--text-secondary);
-  font-size: 0.875rem;
-}
-
-.actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.editBtn {
-  padding: 0.375rem 0.75rem;
-  border: 1px solid var(--accent-color);
-  border-radius: var(--radius-sm);
-  background: var(--accent-bg);
-  color: var(--accent-color);
-  font-size: 0.875rem;
-  font-weight: 500;
-
-  &:hover {
-    background: var(--accent-color);
-    color: var(--bg-primary);
-  }
+  margin: 0 0 1.75rem;
+  font-size: clamp(2.5rem, 6vw, 3.5rem);
+  line-height: 1.02;
+  font-weight: 600;
+  letter-spacing: -0.045em;
 }
 
 .content {
-  color: var(--text-primary);
+  margin-bottom: 3rem;
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--line2);
+  font-size: 0.8125rem;
+  color: var(--faint);
+
+  strong {
+    color: var(--accent);
+    font-weight: 600;
+  }
+}
+
+.footerLink {
+  border: none;
+  padding: 0;
+  background: transparent;
+  color: var(--muted);
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+  font: inherit;
+
+  &:hover {
+    color: var(--ink);
+  }
 }
 </style>

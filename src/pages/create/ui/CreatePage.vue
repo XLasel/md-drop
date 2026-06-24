@@ -2,14 +2,16 @@
 import { storeToRefs } from 'pinia'
 import { onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import ShareButton from '@/features/share-note/ui/ShareButton.vue'
 import FormatButton from '@/features/format-markdown/ui/FormatButton.vue'
-import ThemePicker from '@/features/theme-picker/ui/ThemePicker.vue'
+import ShareButton from '@/features/share-note/ui/ShareButton.vue'
 import { fetchNoteBySlug, hasEditAccess } from '@/entities/note/api/noteRepository'
 import { useEditorStore } from '@/entities/note/model/editorStore'
 import { useAuthStore } from '@/entities/user/model/authStore'
+import {
+  PAGE_HEADER_ACTIONS_ID,
+  PAGE_HEADER_START_ID,
+} from '@/widgets/header/lib/teleportTargets'
 import EditorPanel from '@/widgets/editor/ui/EditorPanel.vue'
-import AppHeader from '@/widgets/header/ui/AppHeader.vue'
 import PreviewPanel from '@/widgets/preview/ui/PreviewPanel.vue'
 
 const route = useRoute()
@@ -23,8 +25,7 @@ onMounted(async () => {
 
   const note = await fetchNoteBySlug(slug)
   const canEdit =
-    note &&
-    (hasEditAccess(slug) || note.author_id === authStore.user?.id)
+    note && (hasEditAccess(slug) || note.author_id === authStore.user?.id)
 
   if (canEdit && note) {
     editorStore.startEditing(note.slug, note.title, note.content, note.indexable)
@@ -45,93 +46,109 @@ watch(
 
 <template>
   <div :class="$style.page">
-    <AppHeader>
-      <ThemePicker />
+    <Teleport :to="`#${PAGE_HEADER_START_ID}`">
+      <span v-if="editingSlug" :class="$style.status">
+        <span :class="$style.statusDot" />
+        editing
+      </span>
+      <span v-else :class="$style.status">draft</span>
+    </Teleport>
+
+    <Teleport :to="`#${PAGE_HEADER_ACTIONS_ID}`">
       <FormatButton />
       <ShareButton />
-    </AppHeader>
+    </Teleport>
 
-    <main :class="$style.main">
-      <div v-if="editingSlug" :class="$style.editingBadge">
-        Editing <code>{{ editingSlug }}</code>
-      </div>
-
+    <div :class="$style.titleBlock">
       <input
         v-model="title"
         type="text"
         :class="$style.titleInput"
-        placeholder="Note title (optional)"
+        placeholder="Note title"
         maxlength="100"
       />
+      <span :class="$style.titleHint">title — optional</span>
+    </div>
 
-      <div :class="$style.workspace">
-        <EditorPanel v-model="content" />
-        <PreviewPanel :content="content" />
-      </div>
-    </main>
+    <div :class="$style.workspace">
+      <EditorPanel v-model="content" />
+      <PreviewPanel :content="content" />
+    </div>
   </div>
 </template>
 
 <style module lang="scss">
 .page {
   min-height: 100vh;
-  background: var(--bg-primary);
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
 }
 
-.main {
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--faint);
+}
+
+.statusDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent2);
+}
+
+.titleBlock {
   max-width: var(--content-max-width);
+  width: 100%;
   margin: 0 auto;
-  padding: 1rem;
-}
-
-.editingBadge {
-  margin-bottom: 0.75rem;
-  padding: 0.5rem 0.75rem;
-  border-radius: var(--radius-sm);
-  background: var(--accent-bg);
-  color: var(--text-secondary);
-  font-size: 0.875rem;
-
-  code {
-    font-family: var(--font-mono);
-    color: var(--accent-color);
-  }
+  padding: 26px 2.5rem 6px;
 }
 
 .titleInput {
   width: 100%;
-  margin-bottom: 0.75rem;
-  padding: 0.625rem 0.875rem;
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-sm);
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  font-size: 1rem;
-  font-weight: 500;
+  border: none;
+  background: transparent;
+  color: var(--ink);
+  font-size: 2.25rem;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
 
   &::placeholder {
-    color: var(--text-muted);
+    color: var(--faint);
   }
 
   &:focus {
     outline: none;
-    border-color: var(--accent-color);
   }
 }
 
+.titleHint {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--faint);
+}
+
 .workspace {
+  flex: 1;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1px;
-  min-height: calc(100vh - var(--header-height) - 6rem);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  background: var(--border-color);
+  gap: 18px;
+  min-height: 0;
+  max-width: var(--content-max-width);
+  width: 100%;
+  margin: 0 auto;
+  padding: 18px 2.5rem 5.25rem;
 
   @include mobile {
     grid-template-columns: 1fr;
-    min-height: auto;
+    padding-bottom: 2rem;
   }
 }
 </style>

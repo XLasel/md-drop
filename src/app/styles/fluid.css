@@ -1,0 +1,55 @@
+/* Fluid type, spacing & layout — Utopia-style (320px → 1280px) */
+
+:root {
+  /* Type scale */
+  --step--2: clamp(0.6875rem, 0.66rem + 0.13vw, 0.75rem);
+  --step--1: clamp(0.75rem, 0.71rem + 0.18vw, 0.875rem);
+  --step-0: clamp(0.875rem, 0.83rem + 0.22vw, 1rem);
+  --step-1: clamp(1rem, 0.93rem + 0.36vw, 1.25rem);
+  --step-2: clamp(1.2rem, 1.08rem + 0.61vw, 1.5625rem);
+  --step-3: clamp(1.44rem, 1.24rem + 0.99vw, 1.953rem);
+  --step-4: clamp(1.73rem, 1.42rem + 1.54vw, 2.44rem);
+  --step-5: clamp(2.07rem, 1.62rem + 2.27vw, 3.05rem);
+  --step-6: clamp(2.49rem, 1.84rem + 3.24vw, 3.81rem);
+  --step-7: clamp(2.98rem, 2.07rem + 4.55vw, 4.77rem);
+  --step-8: clamp(3.58rem, 2.32rem + 6.27vw, 5.96rem);
+
+  /* Spacing */
+  --space-3xs: clamp(0.25rem, 0.23rem + 0.11vw, 0.3125rem);
+  --space-2xs: clamp(0.5rem, 0.46rem + 0.22vw, 0.625rem);
+  --space-xs: clamp(0.75rem, 0.68rem + 0.33vw, 0.9375rem);
+  --space-s: clamp(1rem, 0.91rem + 0.45vw, 1.25rem);
+  --space-m: clamp(1.5rem, 1.32rem + 0.89vw, 2rem);
+  --space-l: clamp(2rem, 1.71rem + 1.43vw, 2.94rem);
+  --space-xl: clamp(3rem, 2.46rem + 2.68vw, 4.63rem);
+  --space-2xl: clamp(4rem, 3.21rem + 3.93vw, 6.25rem);
+
+  /* Layout */
+  --site-nav-offset: clamp(4.5rem, 4rem + 2.5vw, 5.5rem);
+  --header-pad-y: clamp(0.875rem, 0.78rem + 0.45vw, 1.0625rem);
+  --header-pad-x: clamp(1rem, 0.86rem + 0.67vw, 1.5rem);
+  --header-height: clamp(3.25rem, 3rem + 1.1vw, 4rem);
+  --content-max-width: min(80rem, calc(100% - 2 * var(--header-pad-x)));
+  --reader-max-width: clamp(36rem, 32rem + 12vw, 43.75rem);
+
+  /* Controls */
+  --control-h: clamp(2.125rem, 1.95rem + 0.85vw, 2.375rem);
+  --control-h-sm: clamp(1.875rem, 1.72rem + 0.75vw, 2.125rem);
+  --icon-btn: clamp(2.125rem, 1.95rem + 0.85vw, 2.375rem);
+
+  /* Radii */
+  --radius-sm: clamp(0.4375rem, 0.4rem + 0.18vw, 0.5rem);
+  --radius-md: clamp(0.75rem, 0.68rem + 0.33vw, 0.875rem);
+  --radius-lg: clamp(1rem, 0.88rem + 0.58vw, 1.125rem);
+  --radius-xl: clamp(1.375rem, 1.12rem + 1.22vw, 1.625rem);
+  --radius-card: clamp(1.125rem, 0.95rem + 0.85vw, 1.375rem);
+  --radius-pill: 999px;
+
+  /* Modal */
+  --modal-width: clamp(18rem, 16rem + 8vw, 28.75rem);
+
+  /* Gaps (aliases) */
+  --gap-2xs: var(--space-2xs);
+  --gap-xs: var(--space-xs);
+  --gap-s: var(--space-s);
+}

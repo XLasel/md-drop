@@ -38,12 +38,12 @@ defineEmits<{
 .title {
   margin: 0;
   font-size: 1.25rem;
-  color: var(--text-primary);
+  color: var(--ink);
 }
 
 .message {
   margin: 0;
   max-width: 28rem;
-  color: var(--text-secondary);
+  color: var(--muted);
 }
 </style>

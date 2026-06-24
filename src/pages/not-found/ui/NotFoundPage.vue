@@ -1,13 +1,10 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
 import UiButton from '@/shared/ui/Button/Button.vue'
-import AppHeader from '@/widgets/header/ui/AppHeader.vue'
 </script>
 
 <template>
   <div :class="$style.page">
-    <AppHeader :show-auth="false" />
-
     <main :class="$style.main">
       <div :class="$style.content">
         <div :class="$style.code">404</div>
@@ -26,7 +23,7 @@ import AppHeader from '@/widgets/header/ui/AppHeader.vue'
 <style module lang="scss">
 .page {
   min-height: 100vh;
-  background: var(--bg-primary);
+  background: var(--bg);
 }
 
 .main {
@@ -45,7 +42,7 @@ import AppHeader from '@/widgets/header/ui/AppHeader.vue'
 .code {
   font-size: 4rem;
   font-weight: 700;
-  color: var(--accent-color);
+  color: var(--accent);
   line-height: 1;
   margin-bottom: 1rem;
 }
@@ -53,11 +50,11 @@ import AppHeader from '@/widgets/header/ui/AppHeader.vue'
 .title {
   margin: 0 0 0.5rem;
   font-size: 1.5rem;
-  color: var(--text-primary);
+  color: var(--ink);
 }
 
 .description {
   margin: 0 0 1.5rem;
-  color: var(--text-secondary);
+  color: var(--muted);
 }
 </style>

@@ -32,7 +32,10 @@ watch(
 
 <template>
   <div :class="$style.panel">
-    <div :class="$style.label">Preview</div>
+    <div :class="$style.label">
+      <span>preview</span>
+      <span :class="$style.live">● live</span>
+    </div>
     <div :class="$style.content">
       <SkeletonLoader v-if="loading && content" :lines="6" />
       <div
@@ -52,36 +55,43 @@ watch(
   flex-direction: column;
   min-height: 0;
   height: 100%;
-  background: var(--bg-secondary);
+  border: 1px solid var(--line2);
+  border-radius: var(--radius-lg);
+  background: var(--panel2);
+  overflow: hidden;
 }
 
 .label {
-  padding: 0.75rem 1rem;
-  font-size: 0.8125rem;
-  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 18px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--faint);
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--text-muted);
-  border-bottom: 1px solid var(--border-color);
-  background: var(--bg-tertiary);
+}
+
+.live {
+  color: var(--accent2);
 }
 
 .content {
   flex: 1;
   overflow: auto;
-  padding: 1.5rem;
   min-height: 320px;
+  padding: 24px 36px 36px;
 }
 
 .markdown {
-  max-width: var(--preview-max-width);
-  margin: 0 auto;
+  max-width: none;
 }
 
 .placeholder {
   margin: 0;
-  color: var(--text-muted);
-  text-align: center;
   padding-top: 2rem;
+  text-align: center;
+  color: var(--faint);
 }
 </style>

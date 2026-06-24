@@ -10,41 +10,57 @@ const authStore = useAuthStore()
 const { user } = storeToRefs(authStore)
 
 const displayName = computed(() => authStore.getUserDisplayName())
+const initial = computed(() => displayName.value?.charAt(0).toUpperCase() ?? '?')
 </script>
 
 <template>
   <div v-if="user" :class="$style.auth">
-    <span :class="$style.name" :title="user.email ?? undefined">{{ displayName }}</span>
     <RouterLink to="/dashboard">
       <UiButton variant="ghost" size="sm">Dashboard</UiButton>
     </RouterLink>
-    <UiButton variant="ghost" size="sm" @click="authStore.signOut()">Sign out</UiButton>
+    <button
+      type="button"
+      :class="$style.avatar"
+      :title="user.email ?? 'Sign out'"
+      @click="authStore.signOut()"
+    >
+      {{ initial }}
+    </button>
   </div>
 
-  <div v-else-if="isSupabaseConfigured()" :class="$style.auth">
-    <UiButton variant="ghost" size="sm" @click="authStore.signInWithGitHub()">
-      GitHub
-    </UiButton>
-    <UiButton variant="ghost" size="sm" @click="authStore.signInWithGoogle()">
-      Google
-    </UiButton>
-  </div>
+  <RouterLink v-else-if="isSupabaseConfigured()" to="/dashboard" :class="$style.signInLink">
+    <UiButton variant="secondary" size="sm">Sign in</UiButton>
+  </RouterLink>
 </template>
 
 <style module lang="scss">
 .auth {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 6px;
 }
 
-.name {
-  max-width: 8rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.signInLink {
+  text-decoration: none;
+}
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
   font-size: 0.8125rem;
-  color: var(--text-secondary);
-  padding: 0 0.25rem;
+  font-weight: 600;
+  cursor: pointer;
+  flex: none;
+
+  &:hover {
+    background: color-mix(in oklch, var(--accent-soft) 70%, var(--accent));
+  }
 }
 </style>

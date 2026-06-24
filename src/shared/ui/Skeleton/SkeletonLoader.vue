@@ -26,9 +26,9 @@ defineProps<{
   border-radius: var(--radius-sm);
   background: linear-gradient(
     90deg,
-    var(--bg-secondary) 25%,
-    var(--bg-tertiary) 50%,
-    var(--bg-secondary) 75%
+    var(--panel2) 25%,
+    var(--panel) 50%,
+    var(--panel2) 75%
   );
   background-size: 200% 100%;
   animation: shimmer 1.2s infinite;

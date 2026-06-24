@@ -1,23 +1,31 @@
 <script setup lang="ts">
-import { RouterLink } from 'vue-router'
 import AuthButton from '@/features/auth/ui/AuthButton.vue'
+import ThemeToggle from '@/features/theme-toggle/ui/ThemeToggle.vue'
+import AppLogo from '@/widgets/logo/ui/AppLogo.vue'
 
-defineProps<{
-  showAuth?: boolean
-}>()
+withDefaults(
+  defineProps<{
+    showAuth?: boolean
+    maxWidth?: 'default' | 'narrow' | 'wide'
+  }>(),
+  {
+    showAuth: true,
+  },
+)
 </script>
 
 <template>
   <header :class="$style.header">
-    <div :class="$style.inner">
-      <RouterLink to="/" :class="$style.logo">
-        <span :class="$style.logoMark">MD</span>
-        <span :class="$style.logoText">Drop</span>
-      </RouterLink>
+    <div :class="[$style.inner, $style[maxWidth ?? 'default']]">
+      <div :class="$style.start">
+        <AppLogo to="/" />
+        <slot name="start" />
+      </div>
 
       <div :class="$style.actions">
         <slot />
-        <AuthButton v-if="showAuth !== false" />
+        <AuthButton v-if="showAuth" />
+        <ThemeToggle />
       </div>
     </div>
   </header>
@@ -25,54 +33,44 @@ defineProps<{
 
 <style module lang="scss">
 .header {
-  height: var(--header-height);
-  border-bottom: 1px solid var(--border-color);
-  background: var(--bg-primary);
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 30;
+  background: var(--header-blur-bg);
+  backdrop-filter: blur(16px) saturate(1.1);
+  padding: var(--header-pad-y) var(--header-pad-x);
 }
 
 .inner {
-  max-width: var(--content-max-width);
   margin: 0 auto;
-  height: 100%;
-  padding: 0 1rem;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  gap: var(--gap-s);
 }
 
-.logo {
-  display: inline-flex;
+.default,
+.wide {
+  max-width: var(--content-max-width);
+}
+
+.narrow {
+  max-width: min(72.5rem, 100%);
+}
+
+.start {
+  display: flex;
   align-items: center;
-  gap: 0.5rem;
-  text-decoration: none;
-  color: var(--text-primary);
-  font-weight: 600;
-}
-
-.logoMark {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  border-radius: var(--radius-sm);
-  background: var(--accent-bg);
-  color: var(--accent-color);
-  font-size: 0.75rem;
-  font-weight: 700;
-}
-
-.logoText {
-  font-size: 1.125rem;
+  gap: var(--gap-s);
+  min-width: 0;
 }
 
 .actions {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--gap-xs);
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 </style>

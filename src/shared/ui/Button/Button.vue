@@ -1,7 +1,7 @@
 <script setup lang="ts">
 defineProps<{
-  variant?: 'primary' | 'secondary' | 'ghost' | 'danger'
-  size?: 'sm' | 'md'
+  variant?: 'primary' | 'secondary' | 'ghost' | 'danger' | 'accent-outline'
+  size?: 'sm' | 'md' | 'lg'
   loading?: boolean
   disabled?: boolean
   type?: 'button' | 'submit'
@@ -26,9 +26,16 @@ defineProps<{
   justify-content: center;
   gap: 0.5rem;
   border: 1px solid transparent;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
   font-weight: 500;
-  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s,
+    color 0.15s,
+    transform 0.15s;
 
   &:disabled {
     opacity: 0.6;
@@ -38,21 +45,33 @@ defineProps<{
   &:focus-visible {
     @include focus-ring;
   }
+
+  &:active:not(:disabled) {
+    transform: scale(0.98);
+  }
 }
 
 .sm {
-  padding: 0.375rem 0.75rem;
-  font-size: 0.875rem;
+  min-height: var(--control-h-sm);
+  padding: 0.4em 0.9em;
+  font-size: var(--step--1);
 }
 
 .md {
-  padding: 0.5rem 1rem;
-  font-size: 0.9375rem;
+  min-height: var(--control-h);
+  padding: 0.45em 1.1em;
+  font-size: var(--step-0);
+}
+
+.lg {
+  min-height: var(--control-h);
+  padding: 0.65em 1.35em;
+  font-size: var(--step-0);
 }
 
 .primary {
-  background: var(--accent-color);
-  color: var(--bg-primary);
+  background: var(--accent);
+  color: #fff;
 
   &:hover:not(:disabled) {
     background: var(--accent-hover);
@@ -60,33 +79,43 @@ defineProps<{
 }
 
 .secondary {
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  border-color: var(--border-color);
+  background: var(--panel);
+  color: var(--muted);
+  border-color: var(--line);
 
   &:hover:not(:disabled) {
-    background: var(--bg-tertiary);
+    color: var(--ink);
+    background: var(--panel2);
   }
 }
 
 .ghost {
   background: transparent;
-  color: var(--text-secondary);
+  color: var(--muted);
 
   &:hover:not(:disabled) {
-    background: var(--bg-secondary);
-    color: var(--text-primary);
+    background: var(--panel2);
+    color: var(--ink);
+  }
+}
+
+.accent-outline {
+  background: transparent;
+  color: var(--accent);
+  border-color: var(--accent);
+
+  &:hover:not(:disabled) {
+    background: var(--accent-soft);
   }
 }
 
 .danger {
-  background: var(--danger-bg);
-  color: var(--danger-color);
-  border-color: transparent;
+  background: transparent;
+  color: var(--faint);
 
   &:hover:not(:disabled) {
-    background: var(--danger-color);
-    color: var(--bg-primary);
+    color: var(--danger-color);
+    background: var(--danger-bg);
   }
 }
 

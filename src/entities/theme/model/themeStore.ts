@@ -9,55 +9,79 @@ import {
   THEME_STORAGE_KEY,
 } from './types'
 
-function getSystemResolved(): ResolvedTheme {
+export type ColorMode = 'light' | 'dark'
+
+function isColorMode(value: string): value is ColorMode {
+  return value === 'light' || value === 'dark'
+}
+
+function normalizePreference(value: AppTheme): ColorMode {
+  if (value === 'dark' || value === 'b-side') return 'dark'
+  if (value === 'light') return 'light'
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
 }
 
-export const useThemeStore = defineStore('theme', () => {
-  const preference = ref<AppTheme>('system')
-  const systemDark = ref(getSystemResolved() === 'dark')
+function applyDomTheme(next: ColorMode) {
+  document.documentElement.setAttribute('data-theme', next)
+  document.documentElement.style.colorScheme = next
+}
 
-  const resolved = computed<ResolvedTheme>(() => {
-    if (preference.value === 'system') {
-      return systemDark.value ? 'dark' : 'light'
-    }
-    return preference.value
-  })
+export const useThemeStore = defineStore('theme', () => {
+  const mode = ref<ColorMode>('light')
+
+  const resolved = computed<ResolvedTheme>(() => mode.value)
+
+  function applyMode(next: ColorMode) {
+    mode.value = next
+    localStorage.setItem(THEME_STORAGE_KEY, next)
+    applyDomTheme(next)
+  }
 
   function init() {
     const stored = localStorage.getItem(THEME_STORAGE_KEY)
-    if (stored && isAppTheme(stored)) {
-      preference.value = stored
+
+    if (stored && isColorMode(stored)) {
+      mode.value = stored
+    } else if (stored && isAppTheme(stored)) {
+      mode.value = normalizePreference(stored)
     }
 
-    const media = window.matchMedia('(prefers-color-scheme: dark)')
-    systemDark.value = media.matches
-    media.addEventListener('change', (event) => {
-      systemDark.value = event.matches
-    })
+    applyDomTheme(mode.value)
   }
 
-  async function setPreference(theme: AppTheme) {
-    preference.value = theme
-    localStorage.setItem(THEME_STORAGE_KEY, theme)
+  function toggleMode() {
+    applyMode(mode.value === 'light' ? 'dark' : 'light')
+    void persistToProfile()
+  }
 
+  function setMode(next: ColorMode) {
+    applyMode(next)
+    void persistToProfile()
+  }
+
+  async function persistToProfile() {
     const authStore = useAuthStore()
-    if (authStore.user) {
-      await updateProfileTheme(authStore.user.id, theme)
-    }
+    if (!authStore.user) return
+    await updateProfileTheme(authStore.user.id, mode.value)
   }
 
   function syncFromProfile(themePreference: string) {
-    if (!isAppTheme(themePreference)) return
-    preference.value = themePreference
-    localStorage.setItem(THEME_STORAGE_KEY, themePreference)
+    if (isColorMode(themePreference)) {
+      applyMode(themePreference)
+      return
+    }
+
+    if (isAppTheme(themePreference)) {
+      applyMode(normalizePreference(themePreference))
+    }
   }
 
   return {
-    preference,
+    mode,
     resolved,
     init,
-    setPreference,
+    toggleMode,
+    setMode,
     syncFromProfile,
   }
 })

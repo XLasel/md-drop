@@ -44,10 +44,10 @@ const typeClass: Record<ToastType, string> = {
   gap: 0.75rem;
   padding: 0.75rem 1rem;
   border-radius: var(--radius-md);
-  border: 1px solid var(--border-color);
-  background: var(--bg-primary);
-  box-shadow: var(--shadow-md);
-  color: var(--text-primary);
+  border: 1px solid var(--line);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  color: var(--ink);
   font-size: 0.875rem;
 }
 
@@ -62,8 +62,8 @@ const typeClass: Record<ToastType, string> = {
 }
 
 .info {
-  border-color: var(--accent-color);
-  background: var(--accent-bg);
+  border-color: var(--accent);
+  background: var(--accent-soft);
 }
 
 .close {

@@ -10,11 +10,12 @@ import {
 import type { Note } from '@/entities/note/model/types'
 import { useAuthStore } from '@/entities/user/model/authStore'
 import { useToast } from '@/shared/lib/toast'
+import { PAGE_HEADER_ACTIONS_ID } from '@/widgets/header/lib/teleportTargets'
 import EmptyState from '@/shared/ui/EmptyState/EmptyState.vue'
 import ErrorState from '@/shared/ui/ErrorState/ErrorState.vue'
 import SkeletonLoader from '@/shared/ui/Skeleton/SkeletonLoader.vue'
 import UiButton from '@/shared/ui/Button/Button.vue'
-import AppHeader from '@/widgets/header/ui/AppHeader.vue'
+import SignInPanel from '@/widgets/sign-in/ui/SignInPanel.vue'
 
 const authStore = useAuthStore()
 const toast = useToast()
@@ -66,17 +67,14 @@ onMounted(async () => {
 
 <template>
   <div :class="$style.page">
-    <AppHeader />
+    <Teleport :to="`#${PAGE_HEADER_ACTIONS_ID}`">
+      <RouterLink to="/write">
+        <UiButton size="sm">New note</UiButton>
+      </RouterLink>
+    </Teleport>
 
     <main :class="$style.main">
-      <div :class="$style.top">
-        <h1 :class="$style.heading">Dashboard</h1>
-        <RouterLink to="/">
-          <UiButton>New note</UiButton>
-        </RouterLink>
-      </div>
-
-      <div v-if="authStore.loading || loading" :class="$style.list">
+      <div v-if="authStore.loading || loading" :class="$style.loading">
         <SkeletonLoader :lines="5" />
       </div>
 
@@ -87,51 +85,63 @@ onMounted(async () => {
         @retry="loadNotes"
       />
 
-      <EmptyState
-        v-else-if="!authStore.user"
-        title="Sign in required"
-        description="Sign in with GitHub or Google to manage your notes."
-      />
+      <SignInPanel v-else-if="!authStore.user" />
 
-      <EmptyState
-        v-else-if="notes.length === 0"
-        title="No notes yet"
-        description="Create your first Markdown note and share it with a link."
-      >
-        <RouterLink to="/">
-          <UiButton>Create note</UiButton>
-        </RouterLink>
-      </EmptyState>
+      <template v-else>
+        <div :class="$style.top">
+          <h1 :class="$style.heading">Your notes</h1>
+          <p v-if="notes.length" :class="$style.subheading">
+            {{ notes.length }} {{ notes.length === 1 ? 'note' : 'notes' }}
+          </p>
+          <p v-else :class="$style.subheading">Nothing here yet.</p>
+        </div>
 
-      <ul v-else :class="$style.list">
-        <li v-for="note in notes" :key="note.id" :class="$style.item">
-          <div :class="$style.info">
-            <RouterLink :to="`/v/${note.slug}`" :class="$style.noteTitle">
-              {{ note.title }}
-            </RouterLink>
-            <span :class="$style.slug">/v/{{ note.slug }}</span>
-            <p :class="$style.preview">{{ getNoteExcerpt(note.content) }}</p>
-            <time :class="$style.date">{{ formatNoteDate(note.created_at) }}</time>
-          </div>
+        <EmptyState
+          v-if="notes.length === 0"
+          icon="#"
+          title="A blank canvas"
+          description="Your first note is one keystroke away. Write some markdown, hit Share, and you've got a link."
+        >
+          <RouterLink to="/write">
+            <UiButton size="lg">Write your first note →</UiButton>
+          </RouterLink>
+        </EmptyState>
 
-          <div :class="$style.actions">
-            <RouterLink :to="`/v/${note.slug}`">
-              <UiButton variant="secondary" size="sm">Open</UiButton>
-            </RouterLink>
-            <RouterLink :to="{ path: '/', query: { edit: note.slug } }">
-              <UiButton variant="ghost" size="sm">Edit</UiButton>
-            </RouterLink>
-            <UiButton
-              variant="danger"
-              size="sm"
-              :loading="deletingId === note.id"
-              @click="handleDelete(note)"
-            >
-              Delete
-            </UiButton>
-          </div>
-        </li>
-      </ul>
+        <ul v-else :class="$style.list">
+          <li v-for="note in notes" :key="note.id" :class="$style.item">
+            <div :class="$style.info">
+              <span :class="$style.dot" />
+              <div :class="$style.copy">
+                <div :class="$style.titleRow">
+                  <RouterLink :to="`/v/${note.slug}`" :class="$style.noteTitle">
+                    {{ note.title }}
+                  </RouterLink>
+                  <span :class="$style.slug">/v/{{ note.slug }}</span>
+                </div>
+                <p :class="$style.preview">{{ getNoteExcerpt(note.content) }}</p>
+                <time :class="$style.date">{{ formatNoteDate(note.created_at) }}</time>
+              </div>
+            </div>
+
+            <div :class="$style.actions">
+              <RouterLink :to="`/v/${note.slug}`">
+                <UiButton variant="secondary" size="sm">View</UiButton>
+              </RouterLink>
+              <RouterLink :to="{ path: '/write', query: { edit: note.slug } }">
+                <UiButton variant="secondary" size="sm">Edit</UiButton>
+              </RouterLink>
+              <UiButton
+                variant="danger"
+                size="sm"
+                :loading="deletingId === note.id"
+                @click="handleDelete(note)"
+              >
+                Delete
+              </UiButton>
+            </div>
+          </li>
+        </ul>
+      </template>
     </main>
   </div>
 </template>
@@ -139,27 +149,34 @@ onMounted(async () => {
 <style module lang="scss">
 .page {
   min-height: 100vh;
-  background: var(--bg-primary);
+  background: var(--bg);
 }
 
 .main {
-  max-width: var(--content-max-width);
+  max-width: 68.75rem;
   margin: 0 auto;
-  padding: 1.5rem 1rem 3rem;
+  padding: 0 2rem 6.25rem;
+}
+
+.loading {
+  padding-top: 3.5rem;
 }
 
 .top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+  padding: 3.5rem 0 2rem;
 }
 
 .heading {
+  margin: 0 0 8px;
+  font-size: 2.5rem;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+
+.subheading {
   margin: 0;
-  font-size: 1.5rem;
-  color: var(--text-primary);
+  font-size: var(--step-0);
+  color: var(--muted);
 }
 
 .list {
@@ -168,60 +185,93 @@ onMounted(async () => {
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 4px;
 }
 
 .item {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 1rem;
-  border: 1px solid var(--border-color);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 18px;
+  align-items: center;
+  padding: 20px 22px;
   border-radius: var(--radius-md);
-  background: var(--bg-secondary);
+  transition: background 0.15s;
+
+  &:hover {
+    background: var(--panel2);
+  }
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
 }
 
 .info {
-  flex: 1;
-  min-width: 200px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 15px;
+  align-items: start;
+  min-width: 0;
+}
+
+.dot {
+  width: 9px;
+  height: 9px;
+  margin-top: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-soft);
+  flex: none;
+}
+
+.copy {
+  min-width: 0;
+}
+
+.titleRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 6px;
 }
 
 .noteTitle {
-  display: block;
-  color: var(--text-primary);
+  font-size: 1.0625rem;
   font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--ink);
   text-decoration: none;
-  margin-bottom: 0.25rem;
 
   &:hover {
-    color: var(--accent-color);
+    color: var(--accent);
   }
 }
 
 .slug {
-  display: block;
-  color: var(--text-muted);
   font-family: var(--font-mono);
-  font-size: 0.8125rem;
-  margin-bottom: 0.5rem;
+  font-size: 0.6875rem;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 3px 9px;
+  border-radius: 7px;
 }
 
 .preview {
-  margin: 0 0 0.5rem;
-  color: var(--text-secondary);
-  font-size: 0.875rem;
+  margin: 0 0 6px;
+  font-size: 0.8125rem;
+  color: var(--faint);
 }
 
 .date {
-  color: var(--text-muted);
+  font-family: var(--font-mono);
   font-size: 0.8125rem;
+  color: var(--faint);
 }
 
 .actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 6px;
 }
 </style>
