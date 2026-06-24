@@ -17,7 +17,7 @@ import { useAuthStore } from '@/entities/user/model/authStore'
 import { isSupabaseConfigured } from '@/shared/api/supabase'
 import { useToast } from '@/shared/lib/toast'
 import { validateNoteContent } from '@/shared/lib/validation'
-import UiButton from '@/shared/ui/Button/Button.vue'
+import UiButton from '@/shared/ui/Button/UiButton.vue'
 
 const router = useRouter()
 const { t } = useI18n()
@@ -117,7 +117,14 @@ function onIndexableChange(value: boolean) {
 </script>
 
 <template>
-  <UiButton :loading="loading" @click="handleShare">
+  <UiButton
+    size="sm"
+    compact
+    :loading="loading"
+    :aria-label="editingSlug ? t('common.update') : t('common.share')"
+    @click="handleShare"
+  >
+    <template #icon>{{ editingSlug ? '↻' : '↗' }}</template>
     {{ editingSlug ? t('common.update') : t('common.share') }}
   </UiButton>
 

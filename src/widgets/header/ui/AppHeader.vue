@@ -49,7 +49,8 @@ withDefaults(
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--gap-s);
+  gap: var(--gap-2xs);
+  flex-wrap: nowrap;
 }
 
 .default,
@@ -64,15 +65,22 @@ withDefaults(
 .start {
   display: flex;
   align-items: center;
-  gap: var(--gap-s);
+  gap: var(--gap-2xs);
+  flex: 1 1 auto;
   min-width: 0;
+  overflow: hidden;
 }
 
 .actions {
   display: flex;
   align-items: center;
-  gap: var(--gap-xs);
-  flex-wrap: wrap;
+  gap: var(--space-3xs);
+  flex: none;
   justify-content: flex-end;
+
+  @include tablet {
+    --icon-btn: var(--control-h-sm);
+    gap: 0.25rem;
+  }
 }
 </style>

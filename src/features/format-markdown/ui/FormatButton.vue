@@ -6,7 +6,7 @@ import { formatMarkdown } from '@/features/format-markdown/api/formatMarkdown'
 import { useEditorStore } from '@/entities/note/model/editorStore'
 import { useToast } from '@/shared/lib/toast'
 import { validateNoteContent } from '@/shared/lib/validation'
-import UiButton from '@/shared/ui/Button/Button.vue'
+import UiButton from '@/shared/ui/Button/UiButton.vue'
 
 const editorStore = useEditorStore()
 const { content } = storeToRefs(editorStore)
@@ -58,12 +58,22 @@ function handleUndo() {
       v-if="previousContent !== null"
       variant="secondary"
       size="sm"
+      compact
+      :aria-label="t('common.undo')"
       @click="handleUndo"
     >
-      ↩ {{ t('common.undo') }}
+      <template #icon>↩</template>
+      {{ t('common.undo') }}
     </UiButton>
-    <UiButton variant="accent-outline" size="sm" :loading="loading" @click="handleFormat">
-      <span :class="$style.spark">✦</span>
+    <UiButton
+      variant="accent-outline"
+      size="sm"
+      compact
+      :loading="loading"
+      :aria-label="t('common.improve')"
+      @click="handleFormat"
+    >
+      <template #icon>✦</template>
       {{ t('common.improve') }}
     </UiButton>
   </div>
@@ -74,9 +84,6 @@ function handleUndo() {
   display: flex;
   align-items: center;
   gap: 6px;
-}
-
-.spark {
-  font-family: var(--font-mono);
+  flex: none;
 }
 </style>

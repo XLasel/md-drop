@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import { useCopyToClipboard } from '@/shared/lib/useCopyToClipboard'
-import UiButton from '@/shared/ui/Button/Button.vue'
+import UiButton from '@/shared/ui/Button/UiButton.vue'
 
 const props = defineProps<{
   content: string
@@ -16,7 +16,8 @@ function handleCopy() {
 </script>
 
 <template>
-  <UiButton variant="secondary" size="sm" @click="handleCopy">
+  <UiButton variant="secondary" size="sm" compact :aria-label="t('common.copyMarkdown')" @click="handleCopy">
+    <template #icon>MD</template>
     {{ t('common.copyMarkdown') }}
   </UiButton>
 </template>

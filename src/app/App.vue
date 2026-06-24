@@ -51,17 +51,20 @@ const showAuth = computed(() => {
 }
 
 .headerStartSlot {
-  display: flex;
-  align-items: center;
-  gap: var(--gap-s);
+  display: contents;
+}
+
+.headerStartSlot > :global(*) {
+  flex: none;
   min-width: 0;
 }
 
 .headerActionsSlot {
-  display: flex;
-  align-items: center;
-  gap: var(--gap-xs);
-  flex-wrap: wrap;
+  display: contents;
+}
+
+.headerActionsSlot > :global(*) {
+  flex: none;
 }
 
 .main {

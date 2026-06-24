@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { RouterLink } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { PAGE_HEADER_ACTIONS_ID } from '@/widgets/header/lib/teleportTargets'
-import UiButton from '@/shared/ui/Button/Button.vue'
+import UiButton from '@/shared/ui/Button/UiButton.vue'
 
 const { t } = useI18n()
 </script>
@@ -10,9 +9,10 @@ const { t } = useI18n()
 <template>
   <div :class="$style.page">
     <Teleport :to="`#${PAGE_HEADER_ACTIONS_ID}`">
-      <RouterLink to="/write">
-        <UiButton size="sm">{{ t('common.newNote') }}</UiButton>
-      </RouterLink>
+      <UiButton to="/write" size="sm" compact :aria-label="t('common.newNote')">
+        <template #icon>+</template>
+        {{ t('common.newNote') }}
+      </UiButton>
     </Teleport>
 
     <main :class="$style.main">
@@ -24,9 +24,7 @@ const { t } = useI18n()
             {{ t('landing.lead') }}
           </p>
           <div :class="$style.cta">
-            <RouterLink to="/write">
-              <UiButton size="lg">{{ t('landing.cta') }}</UiButton>
-            </RouterLink>
+            <UiButton to="/write" size="lg">{{ t('landing.cta') }}</UiButton>
           </div>
           <div :class="$style.meta">
             <span>{{ t('landing.metaPublicLinks') }}</span>
@@ -187,6 +185,7 @@ const { t } = useI18n()
   font-size: var(--step-2);
   font-weight: 600;
   letter-spacing: -0.03em;
+  line-height: 1.3;
   margin-bottom: var(--space-s);
 }
 

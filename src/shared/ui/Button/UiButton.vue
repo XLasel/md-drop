@@ -1,22 +1,44 @@
 <script setup lang="ts">
+import type { RouteLocationRaw } from 'vue-router'
+import CoreButton from './CoreButton.vue'
+
 defineProps<{
+  to?: RouteLocationRaw
+  href?: string
+  as?: 'button' | 'span'
   variant?: 'primary' | 'secondary' | 'ghost' | 'danger' | 'accent-outline'
   size?: 'sm' | 'md' | 'lg'
   loading?: boolean
   disabled?: boolean
   type?: 'button' | 'submit'
+  compact?: boolean
+  ariaLabel?: string
 }>()
 </script>
 
 <template>
-  <button
+  <CoreButton
+    :to="to"
+    :href="href"
+    :as="as"
     :type="type ?? 'button'"
-    :class="[$style.button, $style[variant ?? 'primary'], $style[size ?? 'md']]"
     :disabled="disabled || loading"
+    :class="[
+      $style.button,
+      $style[variant ?? 'primary'],
+      $style[size ?? 'md'],
+      compact && $style.compact,
+    ]"
+    :aria-label="ariaLabel"
   >
     <span v-if="loading" :class="$style.spinner" aria-hidden="true" />
-    <slot />
-  </button>
+    <span v-if="$slots.icon" :class="$style.icon" aria-hidden="true">
+      <slot name="icon" />
+    </span>
+    <span v-if="$slots.default" :class="$style.label">
+      <slot />
+    </span>
+  </CoreButton>
 </template>
 
 <style module lang="scss">
@@ -31,11 +53,18 @@ defineProps<{
   font-weight: 500;
   white-space: nowrap;
   cursor: pointer;
+  text-decoration: none;
   transition:
     background 0.15s,
     border-color 0.15s,
     color 0.15s,
     transform 0.15s;
+
+  &[aria-disabled='true'] {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
 
   &:disabled {
     opacity: 0.6;
@@ -46,8 +75,29 @@ defineProps<{
     @include focus-ring;
   }
 
-  &:active:not(:disabled) {
+  &:active:not(:disabled):not([aria-disabled='true']) {
     transform: scale(0.98);
+  }
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  font-family: var(--font-mono);
+}
+
+.compact {
+  @include tablet {
+    gap: 0;
+    min-width: var(--control-h-sm);
+    width: var(--control-h-sm);
+    padding: 0;
+
+    .label {
+      display: none;
+    }
   }
 }
 
@@ -73,7 +123,7 @@ defineProps<{
   background: var(--accent);
   color: #fff;
 
-  &:hover:not(:disabled) {
+  &:hover:not(:disabled):not([aria-disabled='true']) {
     background: var(--accent-hover);
   }
 }
@@ -83,7 +133,7 @@ defineProps<{
   color: var(--muted);
   border-color: var(--line);
 
-  &:hover:not(:disabled) {
+  &:hover:not(:disabled):not([aria-disabled='true']) {
     color: var(--ink);
     background: var(--panel2);
   }
@@ -93,7 +143,7 @@ defineProps<{
   background: transparent;
   color: var(--muted);
 
-  &:hover:not(:disabled) {
+  &:hover:not(:disabled):not([aria-disabled='true']) {
     background: var(--panel2);
     color: var(--ink);
   }
@@ -104,7 +154,7 @@ defineProps<{
   color: var(--accent);
   border-color: var(--accent);
 
-  &:hover:not(:disabled) {
+  &:hover:not(:disabled):not([aria-disabled='true']) {
     background: var(--accent-soft);
   }
 }
@@ -113,7 +163,7 @@ defineProps<{
   background: transparent;
   color: var(--faint);
 
-  &:hover:not(:disabled) {
+  &:hover:not(:disabled):not([aria-disabled='true']) {
     color: var(--danger-color);
     background: var(--danger-bg);
   }

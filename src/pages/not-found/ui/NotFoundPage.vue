@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { RouterLink } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import UiButton from '@/shared/ui/Button/Button.vue'
+import UiButton from '@/shared/ui/Button/UiButton.vue'
 
 const { t } = useI18n()
 </script>
@@ -15,9 +14,7 @@ const { t } = useI18n()
         <p :class="$style.description">
           {{ t('notFound.description') }}
         </p>
-        <RouterLink to="/">
-          <UiButton>{{ t('notFound.goHome') }}</UiButton>
-        </RouterLink>
+        <UiButton to="/">{{ t('notFound.goHome') }}</UiButton>
       </div>
     </main>
   </div>

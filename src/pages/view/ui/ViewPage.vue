@@ -20,7 +20,7 @@ import { PAGE_HEADER_ACTIONS_ID, PAGE_HEADER_START_ID } from '@/widgets/header/l
 import { resetPageMeta, setPageMeta } from '@/shared/lib/seo'
 import ErrorState from '@/shared/ui/ErrorState/ErrorState.vue'
 import SkeletonLoader from '@/shared/ui/Skeleton/SkeletonLoader.vue'
-import UiButton from '@/shared/ui/Button/Button.vue'
+import UiButton from '@/shared/ui/Button/UiButton.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -103,8 +103,9 @@ onUnmounted(resetPageMeta)
 
     <Teleport :to="`#${PAGE_HEADER_ACTIONS_ID}`">
       <CopyMarkdownButton v-if="note" :content="note.content" />
-      <UiButton v-if="canEdit" variant="accent-outline" size="sm" @click="goToEdit">
-        ✎ {{ t('common.edit') }}
+      <UiButton v-if="canEdit" variant="accent-outline" size="sm" compact :aria-label="t('common.edit')" @click="goToEdit">
+        <template #icon>✎</template>
+        {{ t('common.edit') }}
       </UiButton>
       <CopyLinkButton v-if="note" :slug="slug" />
     </Teleport>
@@ -156,6 +157,15 @@ onUnmounted(resetPageMeta)
   font-family: var(--font-mono);
   font-size: 0.8125rem;
   color: var(--faint);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: clamp(4rem, 18vw, 12rem);
+
+  @include tablet {
+    font-size: var(--step--2);
+    max-width: clamp(3rem, 12vw, 8rem);
+  }
 }
 
 .main {

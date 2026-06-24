@@ -17,7 +17,7 @@ import { PAGE_HEADER_ACTIONS_ID } from '@/widgets/header/lib/teleportTargets'
 import EmptyState from '@/shared/ui/EmptyState/EmptyState.vue'
 import ErrorState from '@/shared/ui/ErrorState/ErrorState.vue'
 import SkeletonLoader from '@/shared/ui/Skeleton/SkeletonLoader.vue'
-import UiButton from '@/shared/ui/Button/Button.vue'
+import UiButton from '@/shared/ui/Button/UiButton.vue'
 import SignInPanel from '@/widgets/sign-in/ui/SignInPanel.vue'
 
 const authStore = useAuthStore()
@@ -74,9 +74,10 @@ onMounted(async () => {
 <template>
   <div :class="$style.page">
     <Teleport :to="`#${PAGE_HEADER_ACTIONS_ID}`">
-      <RouterLink to="/write">
-        <UiButton size="sm">{{ t('common.newNote') }}</UiButton>
-      </RouterLink>
+      <UiButton to="/write" size="sm" compact :aria-label="t('common.newNote')">
+        <template #icon>+</template>
+        {{ t('common.newNote') }}
+      </UiButton>
     </Teleport>
 
     <main :class="$style.main">
@@ -108,9 +109,7 @@ onMounted(async () => {
           :title="t('dashboard.emptyTitle')"
           :description="t('dashboard.emptyDescription')"
         >
-          <RouterLink to="/write">
-            <UiButton size="lg">{{ t('dashboard.emptyCta') }}</UiButton>
-          </RouterLink>
+          <UiButton to="/write" size="lg">{{ t('dashboard.emptyCta') }}</UiButton>
         </EmptyState>
 
         <ul v-else :class="$style.list">
@@ -130,12 +129,14 @@ onMounted(async () => {
             </div>
 
             <div :class="$style.actions">
-              <RouterLink :to="`/v/${note.slug}`">
-                <UiButton variant="secondary" size="sm">{{ t('common.view') }}</UiButton>
-              </RouterLink>
-              <RouterLink :to="{ path: '/write', query: { edit: note.slug } }">
-                <UiButton variant="secondary" size="sm">{{ t('common.edit') }}</UiButton>
-              </RouterLink>
+              <UiButton :to="`/v/${note.slug}`" variant="secondary" size="sm">{{ t('common.view') }}</UiButton>
+              <UiButton
+                :to="{ path: '/write', query: { edit: note.slug } }"
+                variant="secondary"
+                size="sm"
+              >
+                {{ t('common.edit') }}
+              </UiButton>
               <UiButton
                 variant="danger"
                 size="sm"

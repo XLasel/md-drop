@@ -53,7 +53,7 @@ watch(
         <span :class="$style.statusDot" />
         {{ t('editor.editing') }}
       </span>
-      <span v-else :class="$style.status">{{ t('editor.draft') }}</span>
+      <span v-else :class="[$style.status, $style.statusDraft]">{{ t('editor.draft') }}</span>
     </Teleport>
 
     <Teleport :to="`#${PAGE_HEADER_ACTIONS_ID}`">
@@ -92,8 +92,21 @@ watch(
   align-items: center;
   gap: 6px;
   font-family: var(--font-mono);
-  font-size: 0.8125rem;
+  font-size: var(--step--2);
   color: var(--faint);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  @include tablet {
+    max-width: clamp(3rem, 14vw, 7rem);
+  }
+}
+
+.statusDraft {
+  @include tablet {
+    display: none;
+  }
 }
 
 .statusDot {
@@ -101,6 +114,7 @@ watch(
   height: 7px;
   border-radius: 50%;
   background: var(--accent2);
+  flex: none;
 }
 
 .titleBlock {

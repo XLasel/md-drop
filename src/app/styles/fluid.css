@@ -46,7 +46,7 @@
   --radius-pill: 999px;
 
   /* Modal */
-  --modal-width: clamp(18rem, 16rem + 8vw, 28.75rem);
+  --modal-width: clamp(22rem, 20rem + 14vw, 38rem);
 
   /* Gaps (aliases) */
   --gap-2xs: var(--space-2xs);

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
-import { RouterLink } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useAuthStore } from '@/entities/user/model/authStore'
 import { isSupabaseConfigured } from '@/shared/api/supabase'
-import UiButton from '@/shared/ui/Button/Button.vue'
+import CoreButton from '@/shared/ui/Button/CoreButton.vue'
+import UiButton from '@/shared/ui/Button/UiButton.vue'
 
 const authStore = useAuthStore()
 const { user } = storeToRefs(authStore)
@@ -17,22 +17,38 @@ const initial = computed(() => displayName.value?.charAt(0).toUpperCase() ?? '?'
 
 <template>
   <div v-if="user" :class="$style.auth">
-    <RouterLink to="/dashboard">
-      <UiButton variant="ghost" size="sm">{{ t('common.dashboard') }}</UiButton>
-    </RouterLink>
-    <button
+    <UiButton
+      to="/dashboard"
+      variant="ghost"
+      size="sm"
+      compact
+      :aria-label="t('common.dashboard')"
+    >
+      <template #icon>▦</template>
+      {{ t('common.dashboard') }}
+    </UiButton>
+    <CoreButton
       type="button"
       :class="$style.avatar"
       :title="user.email ?? t('common.signOut')"
       @click="authStore.signOut()"
     >
       {{ initial }}
-    </button>
+    </CoreButton>
   </div>
 
-  <RouterLink v-else-if="isSupabaseConfigured()" to="/dashboard" :class="$style.signInLink">
-    <UiButton variant="secondary" size="sm">{{ t('common.signIn') }}</UiButton>
-  </RouterLink>
+  <UiButton
+    v-else-if="isSupabaseConfigured()"
+    to="/dashboard"
+    variant="secondary"
+    size="sm"
+    compact
+    :aria-label="t('common.signIn')"
+    :class="$style.signIn"
+  >
+    <template #icon>→</template>
+    {{ t('common.signIn') }}
+  </UiButton>
 </template>
 
 <style module lang="scss">
@@ -40,18 +56,19 @@ const initial = computed(() => displayName.value?.charAt(0).toUpperCase() ?? '?'
   display: flex;
   align-items: center;
   gap: 6px;
+  flex: none;
 }
 
-.signInLink {
-  text-decoration: none;
+.signIn {
+  flex: none;
 }
 
 .avatar {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
+  width: var(--control-h-sm);
+  height: var(--control-h-sm);
   border: none;
   border-radius: 50%;
   background: var(--accent-soft);

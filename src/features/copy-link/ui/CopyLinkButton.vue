@@ -2,7 +2,7 @@
 import { useI18n } from 'vue-i18n'
 import { getNoteUrl } from '@/entities/note/api/noteRepository'
 import { useCopyToClipboard } from '@/shared/lib/useCopyToClipboard'
-import UiButton from '@/shared/ui/Button/Button.vue'
+import UiButton from '@/shared/ui/Button/UiButton.vue'
 
 const props = defineProps<{
   slug: string
@@ -17,7 +17,8 @@ function handleCopy() {
 </script>
 
 <template>
-  <UiButton variant="secondary" size="sm" @click="handleCopy">
+  <UiButton variant="secondary" size="sm" compact :aria-label="t('common.copyLink')" @click="handleCopy">
+    <template #icon>⛓</template>
     {{ t('common.copyLink') }}
   </UiButton>
 </template>
