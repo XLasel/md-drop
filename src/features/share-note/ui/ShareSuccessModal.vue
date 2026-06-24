@@ -10,6 +10,7 @@ import {
 import { useAuthStore } from '@/entities/user/model/authStore'
 import { useCopyToClipboard } from '@/shared/lib/useCopyToClipboard'
 import { useToast } from '@/shared/lib/toast'
+import { useNewNote } from '@/features/new-note/lib/useNewNote'
 
 const props = defineProps<{
   slug: string
@@ -30,6 +31,7 @@ const { t } = useI18n()
 const toast = useToast()
 const authStore = useAuthStore()
 const { copyText } = useCopyToClipboard()
+const { startNewNote } = useNewNote()
 
 const localIndexable = ref(props.indexable)
 const savingIndexable = ref(false)
@@ -129,6 +131,11 @@ function viewPage() {
   emit('close')
   void router.push(`/v/${props.slug}`)
 }
+
+function writeNew() {
+  emit('close')
+  void startNewNote()
+}
 </script>
 
 <template>
@@ -197,6 +204,7 @@ function viewPage() {
 
         <div :class="$style.actions">
           <button type="button" :class="$style.doneBtn" @click="emit('close')">{{ t('common.done') }}</button>
+          <button type="button" :class="$style.writeNewBtn" @click="writeNew">{{ t('share.writeNew') }}</button>
           <button type="button" :class="$style.viewBtn" @click="viewPage">{{ t('share.viewPage') }}</button>
         </div>
       </div>
@@ -530,6 +538,7 @@ function viewPage() {
 }
 
 .doneBtn,
+.writeNewBtn,
 .viewBtn {
   flex: 1;
   padding: 0.8em;
@@ -548,6 +557,16 @@ function viewPage() {
   &:hover {
     color: var(--ink);
     background: var(--panel2);
+  }
+}
+
+.writeNewBtn {
+  border: 1px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+
+  &:hover {
+    background: var(--accent-soft);
   }
 }
 

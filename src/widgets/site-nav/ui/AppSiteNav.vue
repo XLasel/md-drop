@@ -2,8 +2,10 @@
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { useNewNote } from '@/features/new-note/lib/useNewNote'
 
 const { t } = useI18n()
+const { startNewNote } = useNewNote()
 
 const items = computed(() => [
   { label: t('nav.landing'), name: 'landing' as const },
@@ -24,6 +26,9 @@ const items = computed(() => [
       >
         {{ item.label }}
       </RouterLink>
+      <button type="button" :class="$style.newItem" @click="startNewNote">
+        + {{ t('nav.new') }}
+      </button>
     </div>
   </nav>
 </template>
@@ -75,6 +80,23 @@ const items = computed(() => [
 
   &:hover {
     color: var(--accent);
+  }
+}
+
+.newItem {
+  border: none;
+  background: var(--accent);
+  color: var(--on-accent);
+  padding: 0.45em 0.85em;
+  border-radius: var(--radius-pill);
+  font: inherit;
+  font-size: inherit;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--accent-hover);
   }
 }
 </style>

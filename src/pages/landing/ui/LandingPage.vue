@@ -1,19 +1,11 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { PAGE_HEADER_ACTIONS_ID } from '@/widgets/header/lib/teleportTargets'
 import UiButton from '@/shared/ui/Button/UiButton.vue'
 
 const { t } = useI18n()
 </script>
 
 <template>
-  <Teleport :to="`#${PAGE_HEADER_ACTIONS_ID}`">
-    <UiButton to="/write" size="sm" compact :aria-label="t('common.newNote')">
-      <template #icon>+</template>
-      {{ t('common.newNote') }}
-    </UiButton>
-  </Teleport>
-
   <section :class="$style.hero">
         <div class="animate-fade-up" :class="$style.copy">
           <span :class="$style.badge">{{ t('landing.badge') }}</span>

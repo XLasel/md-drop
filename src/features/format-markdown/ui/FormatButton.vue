@@ -8,6 +8,9 @@ import { useToast } from '@/shared/lib/toast'
 import { validateNoteContent } from '@/shared/lib/validation'
 import UiButton from '@/shared/ui/Button/UiButton.vue'
 
+/** Flip to true when AI formatting backend is ready. */
+const FORMAT_ENABLED = false
+
 const editorStore = useEditorStore()
 const { content } = storeToRefs(editorStore)
 const { t } = useI18n()
@@ -17,6 +20,11 @@ const loading = ref(false)
 const previousContent = ref<string | null>(null)
 
 async function handleFormat() {
+  if (!FORMAT_ENABLED) {
+    toast.info(t('format.comingSoon'))
+    return
+  }
+
   const validationError = validateNoteContent(content.value)
   if (validationError) {
     toast.error(validationError)
@@ -55,10 +63,9 @@ function handleUndo() {
 <template>
   <div :class="$style.actions">
     <UiButton
-      v-if="previousContent !== null"
+      v-if="FORMAT_ENABLED && previousContent !== null"
       variant="secondary"
       size="sm"
-      compact
       :aria-label="t('common.undo')"
       @click="handleUndo"
     >
@@ -68,7 +75,6 @@ function handleUndo() {
     <UiButton
       variant="accent-outline"
       size="sm"
-      compact
       :loading="loading"
       :aria-label="t('common.improve')"
       @click="handleFormat"

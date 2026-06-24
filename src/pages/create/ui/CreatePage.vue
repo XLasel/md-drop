@@ -4,15 +4,13 @@ import { onMounted, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import FormatButton from '@/features/format-markdown/ui/FormatButton.vue'
+import NewNoteButton from '@/features/new-note/ui/NewNoteButton.vue'
 import ShareButton from '@/features/share-note/ui/ShareButton.vue'
 import { fetchNoteBySlug, hasEditAccess } from '@/entities/note/api/noteRepository'
 import { useEditorStore } from '@/entities/note/model/editorStore'
 import { useAuthStore } from '@/entities/user/model/authStore'
-import {
-  PAGE_HEADER_ACTIONS_ID,
-  PAGE_HEADER_START_ID,
-} from '@/widgets/header/lib/teleportTargets'
 import EditorPanel from '@/widgets/editor/ui/EditorPanel.vue'
+import NoteActionsBar from '@/widgets/note-actions/ui/NoteActionsBar.vue'
 import PreviewPanel from '@/widgets/preview/ui/PreviewPanel.vue'
 
 const route = useRoute()
@@ -48,19 +46,6 @@ watch(
 
 <template>
   <div :class="$style.page">
-    <Teleport :to="`#${PAGE_HEADER_START_ID}`">
-      <span v-if="editingSlug" :class="$style.status">
-        <span :class="$style.statusDot" />
-        {{ t('editor.editing') }}
-      </span>
-      <span v-else :class="[$style.status, $style.statusDraft]">{{ t('editor.draft') }}</span>
-    </Teleport>
-
-    <Teleport :to="`#${PAGE_HEADER_ACTIONS_ID}`">
-      <FormatButton />
-      <ShareButton />
-    </Teleport>
-
     <div :class="$style.titleBlock">
       <input
         v-model="title"
@@ -71,6 +56,19 @@ watch(
       />
       <span :class="$style.titleHint">{{ t('editor.titleHint') }}</span>
     </div>
+
+    <NoteActionsBar>
+      <template #start>
+        <span v-if="editingSlug" :class="$style.status">
+          <span :class="$style.statusDot" />
+          {{ t('editor.editing') }}
+        </span>
+        <span v-else :class="$style.status">{{ t('editor.draft') }}</span>
+      </template>
+      <NewNoteButton variant="ribbon" />
+      <FormatButton />
+      <ShareButton />
+    </NoteActionsBar>
 
     <div :class="$style.workspace">
       <EditorPanel v-model="content" />
@@ -94,18 +92,6 @@ watch(
   font-size: var(--step--2);
   color: var(--faint);
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-
-  @include tablet {
-    max-width: clamp(3rem, 14vw, 7rem);
-  }
-}
-
-.statusDraft {
-  @include tablet {
-    display: none;
-  }
 }
 
 .statusDot {

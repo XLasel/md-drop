@@ -43,6 +43,8 @@ async function handleShare() {
     return
   }
 
+  if (loading.value) return
+
   loading.value = true
 
   try {
@@ -93,6 +95,8 @@ async function handleShare() {
       indexable: indexable.value,
     })
 
+    editorStore.startEditing(note.slug, title.value, content.value, indexable.value)
+
     await navigator.clipboard.writeText(getNoteUrl(note.slug))
     successSlug.value = note.slug
     successEditToken.value = editToken
@@ -119,7 +123,6 @@ function onIndexableChange(value: boolean) {
 <template>
   <UiButton
     size="sm"
-    compact
     :loading="loading"
     :aria-label="editingSlug ? t('common.update') : t('common.share')"
     @click="handleShare"

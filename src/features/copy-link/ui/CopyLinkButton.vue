@@ -17,7 +17,7 @@ function handleCopy() {
 </script>
 
 <template>
-  <UiButton variant="secondary" size="sm" compact :aria-label="t('common.copyLink')" @click="handleCopy">
+  <UiButton variant="secondary" size="sm" :aria-label="t('common.copyLink')" @click="handleCopy">
     <template #icon>⛓</template>
     {{ t('common.copyLink') }}
   </UiButton>

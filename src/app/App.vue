@@ -7,6 +7,7 @@ import {
   PAGE_HEADER_ACTIONS_ID,
   PAGE_HEADER_START_ID,
 } from '@/widgets/header/lib/teleportTargets'
+import NewNoteButton from '@/features/new-note/ui/NewNoteButton.vue'
 import ToastContainer from '@/shared/ui/Toast/ToastContainer.vue'
 import AppHeader from '@/widgets/header/ui/AppHeader.vue'
 import AppSiteNav from '@/widgets/site-nav/ui/AppSiteNav.vue'
@@ -32,6 +33,7 @@ const showAuth = computed(() => {
       <template #start>
         <div :id="PAGE_HEADER_START_ID" :class="$style.headerStartSlot" />
       </template>
+      <NewNoteButton />
       <div :id="PAGE_HEADER_ACTIONS_ID" :class="$style.headerActionsSlot" />
     </AppHeader>
 

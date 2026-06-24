@@ -30,6 +30,7 @@
     "ariaLabel": "Site sections",
     "landing": "Landing",
     "write": "Write",
+    "new": "New",
     "dashboard": "Dashboard",
     "signedIn": "signed in",
     "signedOut": "signed out"
@@ -107,6 +108,7 @@
     "seoOn": "on",
     "seoOff": "off",
     "viewPage": "View page →",
+    "writeNew": "Write new",
     "supabaseNotConfigured": "Supabase is not configured. Add credentials to .env",
     "updateFailed": "Failed to update note",
     "noPermission": "You do not have permission to edit this note",
@@ -117,6 +119,7 @@
     "indexingUpdateFailed": "Failed to update indexing"
   },
   "format": {
+    "comingSoon": "AI formatting is coming soon",
     "tooLong": "Text is too long for AI formatting (max 10 KB)",
     "success": "Markdown formatted",
     "failed": "Formatting failed",

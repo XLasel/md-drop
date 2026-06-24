@@ -15,7 +15,7 @@ import type { Note } from '@/entities/note/model/types'
 import { useAuthStore } from '@/entities/user/model/authStore'
 import { useLocaleStore } from '@/entities/locale/model/localeStore'
 import { renderMarkdown } from '@/shared/lib/markdown/renderMarkdown'
-import { PAGE_HEADER_ACTIONS_ID, PAGE_HEADER_START_ID } from '@/widgets/header/lib/teleportTargets'
+import NoteActionsBar from '@/widgets/note-actions/ui/NoteActionsBar.vue'
 import { resetPageMeta, setPageMeta } from '@/shared/lib/seo'
 import ErrorState from '@/shared/ui/ErrorState/ErrorState.vue'
 import SkeletonLoader from '@/shared/ui/Skeleton/SkeletonLoader.vue'
@@ -85,19 +85,6 @@ onUnmounted(resetPageMeta)
 </script>
 
 <template>
-  <Teleport :to="`#${PAGE_HEADER_START_ID}`">
-    <span :class="$style.slug">/v/{{ slug }}</span>
-  </Teleport>
-
-  <Teleport :to="`#${PAGE_HEADER_ACTIONS_ID}`">
-    <CopyMarkdownButton v-if="note" :content="note.content" />
-    <UiButton v-if="canEdit" variant="accent-outline" size="sm" compact :aria-label="t('common.edit')" @click="goToEdit">
-      <template #icon>✎</template>
-      {{ t('common.edit') }}
-    </UiButton>
-    <CopyLinkButton v-if="note" :slug="slug" />
-  </Teleport>
-
   <div :class="$style.container">
       <div v-if="loading" :class="$style.loading">
         <SkeletonLoader :lines="8" />
@@ -111,6 +98,24 @@ onUnmounted(resetPageMeta)
       />
 
       <article v-else-if="note">
+        <NoteActionsBar max-width="reader">
+          <template #start>
+            <span :class="$style.slug">/v/{{ slug }}</span>
+          </template>
+          <CopyMarkdownButton :content="note.content" />
+          <UiButton
+            v-if="canEdit"
+            variant="accent-outline"
+            size="sm"
+            :aria-label="t('common.edit')"
+            @click="goToEdit"
+          >
+            <template #icon>✎</template>
+            {{ t('common.edit') }}
+          </UiButton>
+          <CopyLinkButton :slug="slug" />
+        </NoteActionsBar>
+
         <div :class="$style.meta">
           <time :datetime="note.created_at">{{ formatNoteDate(note.created_at, locale) }}</time>
         </div>
@@ -149,11 +154,10 @@ onUnmounted(resetPageMeta)
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: clamp(4rem, 18vw, 12rem);
+  max-width: 100%;
 
   @include tablet {
     font-size: var(--step--2);
-    max-width: clamp(3rem, 12vw, 8rem);
   }
 }
 
@@ -166,6 +170,7 @@ onUnmounted(resetPageMeta)
   align-items: center;
   gap: 12px;
   margin-bottom: 1.75rem;
+  margin-top: 0.25rem;
   font-family: var(--font-mono);
   font-size: 0.8125rem;
   color: var(--faint);

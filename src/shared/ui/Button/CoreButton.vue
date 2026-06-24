@@ -20,6 +20,13 @@ const props = withDefaults(
 
 const attrs = useAttrs()
 
+const forwardedAttrs = computed(() => {
+  const { onClick: _onClick, ...rest } = attrs as Record<string, unknown> & {
+    onClick?: unknown
+  }
+  return rest
+})
+
 const tag = computed(() => {
   if (props.to != null) return RouterLink
   if (props.href != null) return 'a'
@@ -81,7 +88,7 @@ function onClick(event: MouseEvent) {
 </script>
 
 <template>
-  <component :is="tag" v-bind="{ ...rootBind, ...attrs }" @click="onClick">
+  <component :is="tag" v-bind="{ ...rootBind, ...forwardedAttrs }" @click="onClick">
     <slot />
   </component>
 </template>

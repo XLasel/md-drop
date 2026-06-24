@@ -13,7 +13,6 @@ import type { Note } from '@/entities/note/model/types'
 import { useAuthStore } from '@/entities/user/model/authStore'
 import { useLocaleStore } from '@/entities/locale/model/localeStore'
 import { useToast } from '@/shared/lib/toast'
-import { PAGE_HEADER_ACTIONS_ID } from '@/widgets/header/lib/teleportTargets'
 import EmptyState from '@/shared/ui/EmptyState/EmptyState.vue'
 import ErrorState from '@/shared/ui/ErrorState/ErrorState.vue'
 import SkeletonLoader from '@/shared/ui/Skeleton/SkeletonLoader.vue'
@@ -72,13 +71,6 @@ onMounted(async () => {
 </script>
 
 <template>
-  <Teleport :to="`#${PAGE_HEADER_ACTIONS_ID}`">
-    <UiButton to="/write" size="sm" compact :aria-label="t('common.newNote')">
-      <template #icon>+</template>
-      {{ t('common.newNote') }}
-    </UiButton>
-  </Teleport>
-
   <div :class="$style.content">
       <div v-if="authStore.loading || loading" :class="$style.loading">
         <SkeletonLoader :lines="5" />
