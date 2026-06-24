@@ -37,7 +37,7 @@ defineProps<{
   height: 1.5625rem;
   border-radius: var(--radius-sm);
   background: var(--accent);
-  color: #fff;
+  color: var(--on-accent);
   font-family: var(--font-mono);
   font-size: var(--step--1);
   flex: none;

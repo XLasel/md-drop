@@ -1,3 +1,5 @@
+@use 'sass:list';
+
 @mixin mobile {
   @media (max-width: 768px) {
     @content;
@@ -13,4 +15,25 @@
 @mixin focus-ring {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
+}
+
+/// Generic transition — hover/focus feedback on interactive elements.
+@mixin transition(
+  $properties: (color, background-color, border-color),
+  $duration: var(--transition-duration),
+  $ease: var(--transition-ease),
+) {
+  $result: ();
+  @each $prop in $properties {
+    $result: list.append($result, #{$prop} #{$duration} #{$ease}, comma);
+  }
+  transition: $result;
+}
+
+/// Press/active feedback only — colors follow @property tokens on <html>.
+@mixin transition-interactive(
+  $duration: var(--transition-duration-fast),
+  $ease: var(--transition-ease),
+) {
+  @include transition((transform), $duration, $ease);
 }

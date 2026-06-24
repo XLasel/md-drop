@@ -81,10 +81,9 @@ watch(
 
 <style module lang="scss">
 .page {
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: var(--bg);
+  min-height: calc(100vh - var(--header-height) - var(--site-nav-offset));
 }
 
 .status {

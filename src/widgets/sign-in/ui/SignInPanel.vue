@@ -31,8 +31,9 @@ const { t } = useI18n()
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  min-height: calc(100dvh - var(--header-height) - var(--site-nav-offset));
   text-align: center;
-  padding: clamp(4rem, 8vw, 6.75rem) var(--space-s) clamp(5rem, 10vw, 8.125rem);
+  padding: var(--space-l) var(--header-pad-x);
   animation: fade-up 0.5s ease both;
 }
 

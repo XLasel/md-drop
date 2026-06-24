@@ -59,11 +59,9 @@ const items = computed(() => [
   padding: 0.45em 0.85em;
   border-radius: var(--radius-pill);
   font: inherit;
+  font-weight: 400;
   text-decoration: none;
   cursor: pointer;
-  transition:
-    background 0.15s,
-    color 0.15s;
 
   &:hover {
     color: var(--ink);
@@ -74,5 +72,9 @@ const items = computed(() => [
   background: var(--accent-soft);
   color: var(--accent);
   font-weight: 500;
+
+  &:hover {
+    color: var(--accent);
+  }
 }
 </style>

@@ -54,11 +54,7 @@ defineProps<{
   white-space: nowrap;
   cursor: pointer;
   text-decoration: none;
-  transition:
-    background 0.15s,
-    border-color 0.15s,
-    color 0.15s,
-    transform 0.15s;
+  @include transition-interactive;
 
   &[aria-disabled='true'] {
     opacity: 0.6;
@@ -121,7 +117,7 @@ defineProps<{
 
 .primary {
   background: var(--accent);
-  color: #fff;
+  color: var(--on-accent);
 
   &:hover:not(:disabled):not([aria-disabled='true']) {
     background: var(--accent-hover);
@@ -131,7 +127,7 @@ defineProps<{
 .secondary {
   background: var(--panel);
   color: var(--muted);
-  border-color: var(--line);
+  border-color: var(--line2);
 
   &:hover:not(:disabled):not([aria-disabled='true']) {
     color: var(--ink);

@@ -6,37 +6,27 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <div :class="$style.page">
-    <main :class="$style.main">
-      <div :class="$style.content">
-        <div :class="$style.code">404</div>
-        <h1 :class="$style.title">{{ t('notFound.title') }}</h1>
-        <p :class="$style.description">
-          {{ t('notFound.description') }}
-        </p>
-        <UiButton to="/">{{ t('notFound.goHome') }}</UiButton>
-      </div>
-    </main>
+  <div :class="$style.content">
+    <div :class="$style.code">404</div>
+    <h1 :class="$style.title">{{ t('notFound.title') }}</h1>
+    <p :class="$style.description">
+      {{ t('notFound.description') }}
+    </p>
+    <UiButton to="/">{{ t('notFound.goHome') }}</UiButton>
   </div>
 </template>
 
 <style module lang="scss">
-.page {
-  min-height: 100vh;
-  background: var(--bg);
-}
-
-.main {
+.content {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: calc(100vh - var(--header-height));
   padding: 2rem 1rem;
-}
-
-.content {
   text-align: center;
   max-width: 28rem;
+  margin: 0 auto;
 }
 
 .code {

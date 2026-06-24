@@ -14,7 +14,6 @@ import {
 import type { Note } from '@/entities/note/model/types'
 import { useAuthStore } from '@/entities/user/model/authStore'
 import { useLocaleStore } from '@/entities/locale/model/localeStore'
-import { useThemeStore } from '@/entities/theme/model/themeStore'
 import { renderMarkdown } from '@/shared/lib/markdown/renderMarkdown'
 import { PAGE_HEADER_ACTIONS_ID, PAGE_HEADER_START_ID } from '@/widgets/header/lib/teleportTargets'
 import { resetPageMeta, setPageMeta } from '@/shared/lib/seo'
@@ -27,8 +26,6 @@ const router = useRouter()
 const { t } = useI18n()
 const authStore = useAuthStore()
 const localeStore = useLocaleStore()
-const themeStore = useThemeStore()
-const { resolved } = storeToRefs(themeStore)
 const { locale } = storeToRefs(localeStore)
 
 const note = ref<Note | null>(null)
@@ -58,7 +55,7 @@ async function loadNote() {
     }
 
     note.value = result
-    html.value = await renderMarkdown(result.content, resolved.value)
+    html.value = await renderMarkdown(result.content)
   } catch (err) {
     error.value = err instanceof Error ? err.message : t('view.loadFailed')
   } finally {
@@ -69,14 +66,6 @@ async function loadNote() {
 function goToEdit() {
   router.push({ path: '/write', query: { edit: slug.value } })
 }
-
-watch(
-  () => [note.value, resolved.value] as const,
-  async ([currentNote, theme]) => {
-    if (!currentNote) return
-    html.value = await renderMarkdown(currentNote.content, theme)
-  },
-)
 
 watch(note, (currentNote) => {
   if (!currentNote) {
@@ -96,21 +85,20 @@ onUnmounted(resetPageMeta)
 </script>
 
 <template>
-  <div :class="$style.page">
-    <Teleport :to="`#${PAGE_HEADER_START_ID}`">
-      <span :class="$style.slug">/v/{{ slug }}</span>
-    </Teleport>
+  <Teleport :to="`#${PAGE_HEADER_START_ID}`">
+    <span :class="$style.slug">/v/{{ slug }}</span>
+  </Teleport>
 
-    <Teleport :to="`#${PAGE_HEADER_ACTIONS_ID}`">
-      <CopyMarkdownButton v-if="note" :content="note.content" />
-      <UiButton v-if="canEdit" variant="accent-outline" size="sm" compact :aria-label="t('common.edit')" @click="goToEdit">
-        <template #icon>✎</template>
-        {{ t('common.edit') }}
-      </UiButton>
-      <CopyLinkButton v-if="note" :slug="slug" />
-    </Teleport>
+  <Teleport :to="`#${PAGE_HEADER_ACTIONS_ID}`">
+    <CopyMarkdownButton v-if="note" :content="note.content" />
+    <UiButton v-if="canEdit" variant="accent-outline" size="sm" compact :aria-label="t('common.edit')" @click="goToEdit">
+      <template #icon>✎</template>
+      {{ t('common.edit') }}
+    </UiButton>
+    <CopyLinkButton v-if="note" :slug="slug" />
+  </Teleport>
 
-    <main :class="$style.main">
+  <div :class="$style.container">
       <div v-if="loading" :class="$style.loading">
         <SkeletonLoader :lines="8" />
       </div>
@@ -122,7 +110,7 @@ onUnmounted(resetPageMeta)
         @retry="loadNote"
       />
 
-      <article v-else-if="note" :class="$style.article">
+      <article v-else-if="note">
         <div :class="$style.meta">
           <time :datetime="note.created_at">{{ formatNoteDate(note.created_at, locale) }}</time>
         </div>
@@ -131,7 +119,7 @@ onUnmounted(resetPageMeta)
 
         <div
           class="markdown-body markdown-body--reader"
-          :class="$style.content"
+          :class="$style.body"
           v-html="html"
         />
 
@@ -143,14 +131,15 @@ onUnmounted(resetPageMeta)
           </button>
         </footer>
       </article>
-    </main>
   </div>
 </template>
 
 <style module lang="scss">
-.page {
-  min-height: 100vh;
-  background: var(--bg);
+.container {
+  max-width: var(--reader-max-width);
+  margin: 0 auto;
+  padding: clamp(1.5rem, 1rem + 2vw, 6rem) var(--header-pad-x) clamp(2.5rem, 2rem + 3vw, 8.125rem);
+  animation: fade-up 0.5s ease both;
 }
 
 .slug {
@@ -168,19 +157,8 @@ onUnmounted(resetPageMeta)
   }
 }
 
-.main {
-  max-width: var(--reader-max-width);
-  margin: 0 auto;
-  padding: 6rem 2rem 8.125rem;
-  animation: fade-up 0.5s ease both;
-}
-
 .loading {
   padding: 2rem 0;
-}
-
-.article {
-  max-width: 100%;
 }
 
 .meta {
@@ -201,7 +179,7 @@ onUnmounted(resetPageMeta)
   letter-spacing: -0.045em;
 }
 
-.content {
+.body {
   margin-bottom: 3rem;
 }
 

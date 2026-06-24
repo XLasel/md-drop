@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
 import { ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useThemeStore } from '@/entities/theme/model/themeStore'
 import { renderMarkdown } from '@/shared/lib/markdown/renderMarkdown'
 import SkeletonLoader from '@/shared/ui/Skeleton/SkeletonLoader.vue'
 
@@ -10,20 +8,18 @@ const props = defineProps<{
   content: string
 }>()
 
-const themeStore = useThemeStore()
-const { resolved } = storeToRefs(themeStore)
 const { t } = useI18n()
 
 const html = ref('')
 const loading = ref(false)
 
 watch(
-  () => [props.content, resolved.value] as const,
-  async ([content, theme]) => {
+  () => props.content,
+  async (content) => {
     loading.value = true
 
     try {
-      html.value = content ? await renderMarkdown(content, theme) : ''
+      html.value = content ? await renderMarkdown(content) : ''
     } finally {
       loading.value = false
     }

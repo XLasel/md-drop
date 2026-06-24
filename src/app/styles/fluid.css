@@ -52,4 +52,11 @@
   --gap-2xs: var(--space-2xs);
   --gap-xs: var(--space-xs);
   --gap-s: var(--space-s);
+
+  /* Motion */
+  --transition-duration-fast: 0.15s;
+  --transition-duration: 0.2s;
+  --transition-duration-theme: 0.2s;
+  --transition-ease: ease;
+  --transition-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }

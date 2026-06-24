@@ -8,25 +8,19 @@
 @import './markdown.scss';
 
 html {
-  -webkit-font-smoothing: antialiased;
+  -webkit-font-smoothing: subpixel-antialiased;
 }
 
 body {
   font-family: var(--font-sans);
   font-size: var(--step-0);
   line-height: 1.6;
-  background: var(--bg);
+  background-color: var(--bg);
   color: var(--ink);
   letter-spacing: -0.01em;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
-}
-
-a {
-  color: var(--accent);
+  -webkit-font-smoothing: subpixel-antialiased;
+  -moz-osx-font-smoothing: auto;
+  transition: background-color var(--transition-duration-theme) var(--transition-ease) in srgb;
 }
 
 ::selection {

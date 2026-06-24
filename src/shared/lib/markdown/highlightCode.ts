@@ -1,17 +1,15 @@
-import type { BundledLanguage, BundledTheme, Highlighter } from 'shiki'
+import type { BundledLanguage, Highlighter } from 'shiki'
 import { createHighlighter } from 'shiki'
-import type { ResolvedTheme } from '@/entities/theme/model/types'
-import { getShikiTheme } from './shikiTheme'
 
 const LANGS = ['javascript', 'typescript', 'vue', 'json', 'bash'] as const satisfies readonly BundledLanguage[]
-const THEMES: BundledTheme[] = ['github-light', 'dracula']
+const THEMES = ['github-light', 'dracula'] as const
 
 let highlighterPromise: Promise<Highlighter> | null = null
 
 function getHighlighter(): Promise<Highlighter> {
   if (!highlighterPromise) {
     highlighterPromise = createHighlighter({
-      themes: THEMES,
+      themes: [...THEMES],
       langs: [...LANGS],
     })
   }
@@ -21,13 +19,8 @@ function getHighlighter(): Promise<Highlighter> {
 
 const SUPPORTED_LANGS = new Set<string>(LANGS)
 
-export async function highlightCode(
-  code: string,
-  lang: string,
-  theme: ResolvedTheme = 'light',
-): Promise<string> {
+export async function highlightCode(code: string, lang: string): Promise<string> {
   const highlighter = await getHighlighter()
-  const shikiTheme = getShikiTheme(theme) as BundledTheme
   const language = normalizeLang(lang)
 
   if (!SUPPORTED_LANGS.has(language)) {
@@ -37,7 +30,11 @@ export async function highlightCode(
   try {
     return highlighter.codeToHtml(code, {
       lang: language as BundledLanguage,
-      theme: shikiTheme,
+      themes: {
+        light: 'github-light',
+        dark: 'dracula',
+      },
+      defaultColor: 'light-dark()',
     })
   } catch {
     return fallbackCodeBlock(code)

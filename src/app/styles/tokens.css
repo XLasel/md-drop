@@ -14,8 +14,10 @@
   --accent2: oklch(0.68 0.12 214);
   --accent-soft: oklch(0.94 0.035 246);
   --accent-hover: oklch(0.5 0.15 252);
-  --shadow: 0 14px 50px -20px rgba(20, 30, 60, 0.2);
-  --shadow-sm: 0 1px 2px rgba(20, 30, 60, 0.06);
+  --shadow-color: oklch(0.25 0.04 255 / 0.2);
+  --shadow-sm-color: oklch(0.25 0.04 255 / 0.06);
+  --shadow: 0 14px 50px -20px var(--shadow-color);
+  --shadow-sm: 0 1px 2px var(--shadow-sm-color);
 }
 
 [data-theme='dark'] {
@@ -31,11 +33,14 @@
   --accent2: oklch(0.78 0.11 212);
   --accent-soft: oklch(0.32 0.06 250);
   --accent-hover: oklch(0.64 0.14 250);
-  --shadow: 0 20px 56px -22px rgba(0, 0, 0, 0.6);
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-color: oklch(0 0 0 / 0.6);
+  --shadow-sm-color: oklch(0 0 0 / 0.35);
+  --shadow: 0 20px 56px -22px var(--shadow-color);
+  --shadow-sm: 0 1px 2px var(--shadow-sm-color);
 }
 
 :root {
+  --on-accent: oklch(1 0 0);
   --danger-color: oklch(0.55 0.2 25);
   --danger-bg: color-mix(in oklch, var(--danger-color) 10%, transparent);
   --success-color: oklch(0.55 0.13 162);

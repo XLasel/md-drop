@@ -129,6 +129,13 @@
     margin: 0;
     background: var(--panel) !important;
   }
+
+  // Fallback when light-dark() in inline styles is unavailable
+  [data-theme='dark'] .shiki,
+  [data-theme='dark'] .shiki span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+  }
 }
 
 .markdown-body--reader {

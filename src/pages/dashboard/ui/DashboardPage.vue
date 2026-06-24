@@ -72,15 +72,14 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div :class="$style.page">
-    <Teleport :to="`#${PAGE_HEADER_ACTIONS_ID}`">
-      <UiButton to="/write" size="sm" compact :aria-label="t('common.newNote')">
-        <template #icon>+</template>
-        {{ t('common.newNote') }}
-      </UiButton>
-    </Teleport>
+  <Teleport :to="`#${PAGE_HEADER_ACTIONS_ID}`">
+    <UiButton to="/write" size="sm" compact :aria-label="t('common.newNote')">
+      <template #icon>+</template>
+      {{ t('common.newNote') }}
+    </UiButton>
+  </Teleport>
 
-    <main :class="$style.main">
+  <div :class="$style.content">
       <div v-if="authStore.loading || loading" :class="$style.loading">
         <SkeletonLoader :lines="5" />
       </div>
@@ -149,17 +148,11 @@ onMounted(async () => {
           </li>
         </ul>
       </template>
-    </main>
   </div>
 </template>
 
 <style module lang="scss">
-.page {
-  min-height: 100vh;
-  background: var(--bg);
-}
-
-.main {
+.content {
   max-width: 68.75rem;
   margin: 0 auto;
   padding: 0 2rem 6.25rem;
@@ -202,7 +195,6 @@ onMounted(async () => {
   align-items: center;
   padding: 20px 22px;
   border-radius: var(--radius-md);
-  transition: background 0.15s;
 
   &:hover {
     background: var(--panel2);

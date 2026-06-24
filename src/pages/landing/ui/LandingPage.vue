@@ -7,16 +7,14 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <div :class="$style.page">
-    <Teleport :to="`#${PAGE_HEADER_ACTIONS_ID}`">
-      <UiButton to="/write" size="sm" compact :aria-label="t('common.newNote')">
-        <template #icon>+</template>
-        {{ t('common.newNote') }}
-      </UiButton>
-    </Teleport>
+  <Teleport :to="`#${PAGE_HEADER_ACTIONS_ID}`">
+    <UiButton to="/write" size="sm" compact :aria-label="t('common.newNote')">
+      <template #icon>+</template>
+      {{ t('common.newNote') }}
+    </UiButton>
+  </Teleport>
 
-    <main :class="$style.main">
-      <section :class="$style.hero">
+  <section :class="$style.hero">
         <div class="animate-fade-up" :class="$style.copy">
           <span :class="$style.badge">{{ t('landing.badge') }}</span>
           <h1 :class="$style.title" v-html="t('landing.title')" />
@@ -55,33 +53,25 @@ const { t } = useI18n()
           <span :class="$style.sticker">{{ t('landing.sticker') }}</span>
         </div>
       </section>
-    </main>
-  </div>
 </template>
 
 <style module lang="scss">
-.page {
-  min-height: 100vh;
-  background: var(--bg);
-}
-
-.main {
+.hero {
   max-width: 75rem;
   margin: 0 auto;
-  padding: 0 var(--space-l);
-}
-
-.hero {
+  min-height: calc(100dvh - var(--header-height) - var(--site-nav-offset));
+  padding: var(--space-l);
   display: grid;
   grid-template-columns: 1.05fr 0.95fr;
   gap: var(--space-xl);
   align-items: center;
-  padding: var(--space-2xl) 0 var(--space-xl);
+  align-content: center;
 
   @include tablet {
     grid-template-columns: 1fr;
     gap: var(--space-l);
-    padding-top: var(--space-xl);
+    min-height: calc(100dvh - var(--header-height) - var(--site-nav-offset));
+    padding: var(--space-m) var(--header-pad-x);
   }
 }
 

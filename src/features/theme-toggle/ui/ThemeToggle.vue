@@ -34,10 +34,7 @@ const { t } = useI18n()
   line-height: 1;
   cursor: pointer;
   flex: none;
-  transition:
-    color 0.15s,
-    border-color 0.15s,
-    background 0.15s;
+  @include transition-interactive;
 
   &:hover {
     color: var(--ink);

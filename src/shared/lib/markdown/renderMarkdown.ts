@@ -1,6 +1,5 @@
 import MarkdownIt from 'markdown-it'
 import DOMPurify from 'dompurify'
-import type { ResolvedTheme } from '@/entities/theme/model/types'
 import { highlightCode } from './highlightCode'
 
 const md = new MarkdownIt({
@@ -9,18 +8,15 @@ const md = new MarkdownIt({
   breaks: true,
 })
 
-export async function renderMarkdown(
-  source: string,
-  theme: ResolvedTheme = 'light',
-): Promise<string> {
+export async function renderMarkdown(source: string): Promise<string> {
   const rendered = md.render(source)
-  const withHighlight = await applyCodeHighlight(rendered, theme)
+  const withHighlight = await applyCodeHighlight(rendered)
   return DOMPurify.sanitize(withHighlight, {
     ADD_ATTR: ['class', 'style', 'target', 'rel'],
   })
 }
 
-async function applyCodeHighlight(html: string, theme: ResolvedTheme): Promise<string> {
+async function applyCodeHighlight(html: string): Promise<string> {
   const parser = new DOMParser()
   const doc = parser.parseFromString(html, 'text/html')
   const blocks = doc.querySelectorAll('pre > code')
@@ -30,7 +26,7 @@ async function applyCodeHighlight(html: string, theme: ResolvedTheme): Promise<s
     const className = block.className
     const langMatch = className.match(/language-(\w+)/)
     const lang = langMatch?.[1] ?? 'text'
-    const highlighted = await highlightCode(code, lang, theme)
+    const highlighted = await highlightCode(code, lang)
     const wrapper = doc.createElement('div')
     wrapper.innerHTML = highlighted
     const pre = block.parentElement

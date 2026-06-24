@@ -150,7 +150,7 @@ function viewPage() {
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path
                   d="M5 12.5l4.2 4.2L19 7"
-                  stroke="#fff"
+                  stroke="var(--on-accent)"
                   stroke-width="2.4"
                   stroke-linecap="round"
                   stroke-linejoin="round"
@@ -434,7 +434,7 @@ function viewPage() {
 .copyLinkBtn {
   border: none;
   background: var(--accent);
-  color: #fff;
+  color: var(--on-accent);
   font-family: var(--font-sans);
   font-size: var(--step--1);
   font-weight: 500;
@@ -497,7 +497,7 @@ function viewPage() {
   border: 1.5px solid var(--accent);
   border-radius: var(--radius-sm);
   background: transparent;
-  color: #fff;
+  color: var(--on-accent);
   font-size: var(--step--2);
   flex: none;
 }
@@ -554,7 +554,7 @@ function viewPage() {
 .viewBtn {
   border: none;
   background: var(--accent);
-  color: #fff;
+  color: var(--on-accent);
   font-weight: 500;
 
   &:hover {
