@@ -4,36 +4,36 @@
     "landing": "MD-Drop — Write it. Drop a link.",
     "create": "Write — MD-Drop",
     "view": "View — MD-Drop",
-    "dashboard": "Dashboard — MD-Drop",
-    "notFound": "Not Found — MD-Drop",
+    "dashboard": "Your notes — MD-Drop",
+    "notFound": "Lost? — MD-Drop",
     "noteTitle": "{title} — MD-Drop"
   },
   "common": {
     "newNote": "New note",
     "share": "Share",
-    "update": "Update",
+    "update": "Save",
     "edit": "Edit",
     "view": "View",
     "delete": "Delete",
-    "dashboard": "Dashboard",
+    "dashboard": "My notes",
     "signIn": "Sign in",
     "signOut": "Sign out",
-    "copyLink": "Copy Link",
+    "copyLink": "Copy link",
     "copyMarkdown": "Copy text",
     "tryAgain": "Try again",
     "done": "Done",
-    "improve": "Improve",
+    "improve": "Polish",
     "undo": "Undo",
     "untitled": "Untitled"
   },
   "nav": {
     "ariaLabel": "Site sections",
-    "landing": "Landing",
+    "landing": "Home",
     "write": "Write",
     "new": "New",
-    "dashboard": "Dashboard",
+    "dashboard": "Notes",
     "signedIn": "signed in",
-    "signedOut": "signed out"
+    "signedOut": "guest"
   },
   "theme": {
     "toggleTitle": "Toggle theme",
@@ -46,14 +46,14 @@
   "landing": {
     "badge": "no signup to read",
     "title": "Write it.<br>Drop a link.",
-    "lead": "Markdown in, a clean public page out. Share a note in seconds — no accounts, no clutter. Edit anytime with a private link.",
+    "lead": "Markdown in, a clean public page out.\nShare a note in seconds — no accounts, no noise.\nEdit anytime with a private link.",
     "cta": "Start writing →",
     "metaPublicLinks": "paste & share",
     "metaEditTokens": "private edit link",
     "metaAiImprove": "live preview",
     "demoKicker": "## Sunday thoughts",
     "demoTitle": "Three lines worth keeping",
-    "demoText": "A recipe from a friend, a quote from a podcast, an answer from ChatGPT — paste it, share the link, forget the tab.",
+    "demoText": "A recipe from a friend, a quote from a podcast, an answer from ChatGPT — paste it, drop the link, close the tab.",
     "demoTag": "— rendered live",
     "sticker": "link copied ✓"
   },
@@ -67,39 +67,39 @@
     "placeholder": "Paste your Markdown here...",
     "preview": "preview",
     "live": "● live",
-    "previewPlaceholder": "Preview will appear here"
+    "previewPlaceholder": "Preview appears here"
   },
   "view": {
-    "unableToLoad": "Unable to load note",
+    "unableToLoad": "Couldn't load the note",
     "noteNotFound": "Note not found",
-    "loadFailed": "Failed to load note",
+    "loadFailed": "Something went wrong loading this note",
     "published": "Published",
     "readingTime": "no minutes | {n} min read | {n} min read",
     "footerShared": "Shared with",
     "footerCta": "make your own →"
   },
   "dashboard": {
-    "unableToLoad": "Unable to load dashboard",
+    "unableToLoad": "Couldn't load your notes",
     "loadFailed": "Failed to load notes",
-    "deleteFailed": "Failed to delete note",
+    "deleteFailed": "Couldn't delete that note",
     "deleteConfirm": "Delete \"{title}\"?",
     "noteDeleted": "Note deleted",
     "heading": "Your notes",
     "noteCount": "no notes | {n} note | {n} notes",
     "emptySubheading": "Nothing here yet.",
     "emptyTitle": "A blank canvas",
-    "emptyDescription": "Your first note is one keystroke away. Write some markdown, hit Share, and you've got a link.",
+    "emptyDescription": "Your first note is one click away. Write some markdown, hit Share, and you've got a link.",
     "emptyCta": "Write your first note →"
   },
   "auth": {
-    "signInTitle": "Sign in to open your dashboard",
-    "signInDescription": "Notes work without an account — write one and share the link right away. Sign in to keep every note in one place: list, edit, and manage links.",
+    "signInTitle": "Sign in to see all your notes",
+    "signInDescription": "Notes work without an account — write and share right away. Sign in to keep everything in one place: list, edit, manage links.",
     "continueGitHub": "Continue with GitHub",
     "continueGoogle": "Continue with Google",
     "writeAnonymously": "or write a note without signing in →"
   },
   "share": {
-    "noteLive": "Your note is live",
+    "noteLive": "Your note is live 🎉",
     "noteLiveHint": "Anyone with the link can read it — no account needed.",
     "copyLink": "Copy link",
     "copied": "Copied ✓",
@@ -110,37 +110,37 @@
     "seoOn": "on",
     "seoOff": "off",
     "viewPage": "View page →",
-    "writeNew": "Write new",
-    "supabaseNotConfigured": "Supabase is not configured. Add credentials to .env",
-    "updateFailed": "Failed to update note",
-    "noPermission": "You do not have permission to edit this note",
+    "writeNew": "Write another",
+    "supabaseNotConfigured": "Supabase isn't configured — add credentials to .env",
+    "updateFailed": "Couldn't update the note",
+    "noPermission": "You don't have permission to edit this note",
     "editTokenNotFound": "Edit token not found",
-    "noteUpdated": "Note updated",
-    "shareFailed": "Failed to share note",
-    "indexingFailed": "Failed to update indexing preference",
-    "indexingUpdateFailed": "Failed to update indexing"
+    "noteUpdated": "Note updated ✓",
+    "shareFailed": "Couldn't share the note",
+    "indexingFailed": "Couldn't update indexing preference",
+    "indexingUpdateFailed": "Indexing update failed"
   },
   "format": {
-    "comingSoon": "AI formatting is coming soon",
+    "comingSoon": "AI formatting is coming soon ✨",
     "tooLong": "Text is too long for AI formatting (max 10 KB)",
-    "success": "Markdown formatted",
-    "failed": "Formatting failed",
-    "reverted": "Reverted formatting"
+    "success": "Markdown polished ✓",
+    "failed": "Formatting hit a snag",
+    "reverted": "Changes rolled back"
   },
   "clipboard": {
     "linkCopied": "Link copied",
     "markdownCopied": "Markdown copied",
     "copied": "Copied to clipboard",
-    "failed": "Failed to copy"
+    "failed": "Couldn't copy that"
   },
   "validation": {
-    "contentEmpty": "Content cannot be empty",
+    "contentEmpty": "Can't share an empty note",
     "contentTooLong": "Content is too long (max 500 KB)",
     "titleTooLong": "Title is too long (max 100 characters)"
   },
   "notFound": {
-    "title": "Page not found",
-    "description": "The page you're looking for doesn't exist or has been moved.",
+    "title": "Nothing here",
+    "description": "This page doesn't exist or has moved.",
     "goHome": "Go home"
   }
 }

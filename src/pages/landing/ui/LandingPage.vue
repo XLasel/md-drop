@@ -94,6 +94,7 @@ const { t } = useI18n()
   line-height: 1.5;
   color: var(--muted);
   letter-spacing: -0.01em;
+  white-space: pre-line;
 }
 
 .cta {
@@ -106,7 +107,7 @@ const { t } = useI18n()
 .meta {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-s);
+  gap: var(--space-2xs);
   margin-top: var(--space-l);
   font-family: var(--font-mono);
   font-size: var(--step--1);

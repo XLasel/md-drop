@@ -41,7 +41,6 @@ withDefaults(
   align-items: center;
   width: 100%;
   min-height: var(--header-height);
-  padding-inline: var(--header-pad-x);
   background: var(--header-blur-bg);
   backdrop-filter: blur(16px) saturate(1.1);
 }
