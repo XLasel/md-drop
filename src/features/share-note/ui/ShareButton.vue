@@ -124,6 +124,7 @@ function onIndexableChange(value: boolean) {
   <UiButton
     size="sm"
     :loading="loading"
+    animated
     :aria-label="editingSlug ? t('common.update') : t('common.share')"
     @click="handleShare"
   >
