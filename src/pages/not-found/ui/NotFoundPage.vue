@@ -22,8 +22,8 @@ const { t } = useI18n()
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: calc(100vh - var(--header-height));
-  padding: 2rem 1rem;
+  min-height: calc(100dvh - var(--header-height) - var(--site-nav-offset));
+  padding: var(--space-l) var(--page-pad-x);
   text-align: center;
   max-width: 28rem;
   margin: 0 auto;

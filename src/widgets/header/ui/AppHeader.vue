@@ -7,7 +7,6 @@ import AppLogo from '@/widgets/logo/ui/AppLogo.vue'
 withDefaults(
   defineProps<{
     showAuth?: boolean
-    maxWidth?: 'default' | 'narrow' | 'wide'
   }>(),
   {
     showAuth: true,
@@ -17,7 +16,7 @@ withDefaults(
 
 <template>
   <header :class="$style.header">
-    <div :class="[$style.inner, $style[maxWidth ?? 'default']]">
+    <div :class="$style.inner">
       <div :class="$style.start">
         <AppLogo to="/" />
         <slot name="start" />
@@ -38,28 +37,22 @@ withDefaults(
   position: sticky;
   top: 0;
   z-index: 30;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: var(--header-height);
+  padding-inline: var(--header-pad-x);
   background: var(--header-blur-bg);
   backdrop-filter: blur(16px) saturate(1.1);
-  padding: var(--header-pad-y) var(--header-pad-x);
 }
 
 .inner {
-  margin: 0 auto;
-  width: 100%;
+  @include layout-shell;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--gap-2xs);
   flex-wrap: nowrap;
-}
-
-.default,
-.wide {
-  max-width: var(--content-max-width);
-}
-
-.narrow {
-  max-width: min(72.5rem, 100%);
 }
 
 .start {

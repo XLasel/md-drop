@@ -85,7 +85,7 @@ defineProps<{
 }
 
 .compact {
-  @include tablet {
+  @include mobile {
     gap: 0;
     min-width: var(--control-h-sm);
     width: var(--control-h-sm);

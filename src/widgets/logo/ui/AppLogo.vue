@@ -45,10 +45,6 @@ defineProps<{
 
 .text {
   line-height: 1;
-
-  @include tablet {
-    display: none;
-  }
 }
 
 .dot {

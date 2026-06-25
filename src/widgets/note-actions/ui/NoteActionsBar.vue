@@ -37,17 +37,11 @@ withDefaults(
 }
 
 .content {
-  max-width: var(--content-max-width);
-  padding-inline: 2.5rem;
-
-  @include mobile {
-    padding-inline: var(--header-pad-x);
-  }
+  @include layout-shell;
 }
 
 .reader {
-  max-width: var(--reader-max-width);
-  padding-inline: 0;
+  @include layout-shell(var(--reader-max-width));
 }
 
 .start {

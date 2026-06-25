@@ -17,7 +17,6 @@ function handleCopy() {
 
 <template>
   <UiButton variant="secondary" size="sm" :aria-label="t('common.copyMarkdown')" @click="handleCopy">
-    <template #icon>MD</template>
     {{ t('common.copyMarkdown') }}
   </UiButton>
 </template>

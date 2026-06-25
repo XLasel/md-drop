@@ -16,10 +16,6 @@ const route = useRoute()
 const authStore = useAuthStore()
 const { user } = storeToRefs(authStore)
 
-const headerMaxWidth = computed(
-  () => route.meta.header?.maxWidth ?? 'default',
-)
-
 const showAuth = computed(() => {
   if (route.meta.header?.showAuth === false) return false
   if (route.name === 'dashboard') return !!user.value
@@ -29,7 +25,7 @@ const showAuth = computed(() => {
 
 <template>
   <div :class="$style.root">
-    <AppHeader :max-width="headerMaxWidth" :show-auth="showAuth">
+    <AppHeader :show-auth="showAuth">
       <template #start>
         <div :id="PAGE_HEADER_START_ID" :class="$style.headerStartSlot" />
       </template>
@@ -49,7 +45,6 @@ const showAuth = computed(() => {
 <style module lang="scss">
 .root {
   min-height: 100%;
-  padding-bottom: var(--site-nav-offset);
 }
 
 .headerStartSlot {

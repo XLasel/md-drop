@@ -26,6 +26,7 @@ const items = computed(() => [
       >
         {{ item.label }}
       </RouterLink>
+      <span :class="$style.divider" aria-hidden="true" />
       <button type="button" :class="$style.newItem" @click="startNewNote">
         + {{ t('nav.new') }}
       </button>
@@ -81,6 +82,14 @@ const items = computed(() => [
   &:hover {
     color: var(--accent);
   }
+}
+
+.divider {
+  width: 1px;
+  height: 1.25em;
+  margin: 0 var(--space-3xs);
+  background: var(--line2);
+  flex: none;
 }
 
 .newItem {

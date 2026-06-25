@@ -30,7 +30,14 @@
   --header-pad-x: clamp(1rem, 0.86rem + 0.67vw, 1.5rem);
   --header-height: clamp(3.25rem, 3rem + 1.1vw, 4rem);
   --content-max-width: min(80rem, calc(100% - 2 * var(--header-pad-x)));
-  --reader-max-width: clamp(36rem, 32rem + 12vw, 43.75rem);
+  --landing-max-width: min(72rem, calc(100% - 2 * var(--header-pad-x)));
+  --reader-max-width: clamp(42rem, 36rem + 16vw, 52rem);
+
+  /* Page layout — horizontal rhythm matches header */
+  --page-pad-x: var(--header-pad-x);
+  --page-pad-top: var(--space-m);
+  --page-pad-top-lg: clamp(2rem, 1.5rem + 2vw, 3.5rem);
+  --page-pad-bottom: var(--site-nav-offset);
 
   /* Controls */
   --control-h: clamp(2.125rem, 1.95rem + 0.85vw, 2.375rem);

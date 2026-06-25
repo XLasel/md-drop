@@ -33,7 +33,7 @@ const { t } = useI18n()
   justify-content: center;
   min-height: calc(100dvh - var(--header-height) - var(--site-nav-offset));
   text-align: center;
-  padding: var(--space-l) var(--header-pad-x);
+  padding: var(--space-l) var(--page-pad-x);
   animation: fade-up 0.5s ease both;
 }
 

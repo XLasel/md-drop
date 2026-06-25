@@ -6,8 +6,9 @@ import { useRoute, useRouter } from 'vue-router'
 import CopyLinkButton from '@/features/copy-link/ui/CopyLinkButton.vue'
 import CopyMarkdownButton from '@/features/copy-markdown/ui/CopyMarkdownButton.vue'
 import {
+  estimateReadingMinutes,
   fetchNoteBySlug,
-  formatNoteDate,
+  formatNoteDateShort,
   getNoteExcerpt,
   hasEditAccess,
 } from '@/entities/note/api/noteRepository'
@@ -38,6 +39,9 @@ const canEdit = computed(
   () =>
     note.value !== null &&
     (hasEditAccess(slug.value) || note.value.author_id === authStore.user?.id),
+)
+const readingMinutes = computed(() =>
+  note.value ? estimateReadingMinutes(note.value.content) : 1,
 )
 
 async function loadNote() {
@@ -100,12 +104,18 @@ onUnmounted(resetPageMeta)
       <article v-else-if="note">
         <NoteActionsBar max-width="reader">
           <template #start>
-            <span :class="$style.slug">/v/{{ slug }}</span>
+            <div :class="$style.start">
+              <span :class="$style.status">
+                <span :class="$style.statusDot" />
+                {{ t('view.published') }}
+              </span>
+              <CopyLinkButton :slug="slug" variant="inline" />
+            </div>
           </template>
           <CopyMarkdownButton :content="note.content" />
           <UiButton
             v-if="canEdit"
-            variant="accent-outline"
+            variant="primary"
             size="sm"
             :aria-label="t('common.edit')"
             @click="goToEdit"
@@ -113,11 +123,12 @@ onUnmounted(resetPageMeta)
             <template #icon>✎</template>
             {{ t('common.edit') }}
           </UiButton>
-          <CopyLinkButton :slug="slug" />
         </NoteActionsBar>
 
         <div :class="$style.meta">
-          <time :datetime="note.created_at">{{ formatNoteDate(note.created_at, locale) }}</time>
+          <time :datetime="note.created_at">{{ formatNoteDateShort(note.created_at, locale) }}</time>
+          <span :class="$style.metaSep" aria-hidden="true">·</span>
+          <span>{{ t('view.readingTime', readingMinutes) }}</span>
         </div>
 
         <h1 :class="$style.title">{{ note.title }}</h1>
@@ -141,24 +152,41 @@ onUnmounted(resetPageMeta)
 
 <style module lang="scss">
 .container {
-  max-width: var(--reader-max-width);
-  margin: 0 auto;
-  padding: clamp(1.5rem, 1rem + 2vw, 6rem) var(--header-pad-x) clamp(2.5rem, 2rem + 3vw, 8.125rem);
+  @include layout-shell(var(--reader-max-width));
+  padding-block: var(--page-pad-top-lg) var(--page-pad-bottom);
+  padding-inline: var(--page-pad-x);
   animation: fade-up 0.5s ease both;
+
+  @media (min-width: 52rem) {
+    padding-inline: 0;
+  }
 }
 
-.slug {
+.start {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-family: var(--font-mono);
-  font-size: 0.8125rem;
+  font-size: var(--step--2);
   color: var(--faint);
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
+  flex: none;
+}
 
-  @include tablet {
-    font-size: var(--step--2);
-  }
+.statusDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--success-color);
+  flex: none;
 }
 
 .loading {
@@ -168,12 +196,15 @@ onUnmounted(resetPageMeta)
 .meta {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 0.5rem;
   margin-bottom: 1.75rem;
   margin-top: 0.25rem;
-  font-family: var(--font-mono);
-  font-size: 0.8125rem;
+  font-size: var(--step--1);
   color: var(--faint);
+}
+
+.metaSep {
+  color: var(--line);
 }
 
 .title {

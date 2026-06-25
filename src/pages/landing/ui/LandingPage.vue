@@ -49,10 +49,9 @@ const { t } = useI18n()
 
 <style module lang="scss">
 .hero {
-  max-width: 75rem;
-  margin: 0 auto;
+  @include layout-shell(var(--landing-max-width));
   min-height: calc(100dvh - var(--header-height) - var(--site-nav-offset));
-  padding: var(--space-l);
+  padding-block: var(--space-l);
   display: grid;
   grid-template-columns: 1.05fr 0.95fr;
   gap: var(--space-xl);
@@ -63,7 +62,7 @@ const { t } = useI18n()
     grid-template-columns: 1fr;
     gap: var(--space-l);
     min-height: calc(100dvh - var(--header-height) - var(--site-nav-offset));
-    padding: var(--space-m) var(--header-pad-x);
+    padding-block: var(--space-m);
   }
 }
 
@@ -90,7 +89,7 @@ const { t } = useI18n()
 
 .lead {
   margin: 0 0 var(--space-l);
-  max-width: 28ch;
+  max-width: 40ch;
   font-size: var(--step-1);
   line-height: 1.5;
   color: var(--muted);

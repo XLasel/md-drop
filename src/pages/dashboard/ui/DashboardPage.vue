@@ -145,17 +145,16 @@ onMounted(async () => {
 
 <style module lang="scss">
 .content {
-  max-width: 68.75rem;
-  margin: 0 auto;
-  padding: 0 2rem 6.25rem;
+  @include layout-shell;
+  padding-bottom: var(--page-pad-bottom);
 }
 
 .loading {
-  padding-top: 3.5rem;
+  padding-top: var(--page-pad-top-lg);
 }
 
 .top {
-  padding: 3.5rem 0 2rem;
+  padding: var(--page-pad-top-lg) 0 var(--space-m);
 }
 
 .heading {

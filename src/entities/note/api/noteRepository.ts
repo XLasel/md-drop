@@ -205,6 +205,15 @@ export function formatNoteDate(date: string, locale?: string): string {
   }).format(new Date(date))
 }
 
+export function formatNoteDateShort(date: string, locale?: string): string {
+  return new Intl.DateTimeFormat(locale, { dateStyle: 'medium' }).format(new Date(date))
+}
+
+export function estimateReadingMinutes(content: string): number {
+  const words = content.trim() ? content.trim().split(/\s+/).length : 0
+  return Math.max(1, Math.ceil(words / 200))
+}
+
 export function getNoteExcerpt(content: string, maxLength = 120): string {
   const plain = content.replace(/^#+\s+/gm, '').trim()
   if (plain.length <= maxLength) return plain

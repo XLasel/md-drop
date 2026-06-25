@@ -81,7 +81,7 @@ watch(
 .page {
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh - var(--header-height) - var(--site-nav-offset));
+  min-height: calc(100vh - var(--header-height));
 }
 
 .status {
@@ -103,10 +103,8 @@ watch(
 }
 
 .titleBlock {
-  max-width: var(--content-max-width);
-  width: 100%;
-  margin: 0 auto;
-  padding: 26px 2.5rem 6px;
+  @include layout-shell;
+  padding: var(--page-pad-top-lg) 0 6px;
 }
 
 .titleInput {
@@ -142,14 +140,12 @@ watch(
   grid-template-columns: 1fr 1fr;
   gap: 18px;
   min-height: 0;
-  max-width: var(--content-max-width);
-  width: 100%;
-  margin: 0 auto;
-  padding: 18px 2.5rem 5.25rem;
+  @include layout-shell;
+  padding: var(--space-s) 0 var(--page-pad-bottom);
 
   @include mobile {
     grid-template-columns: 1fr;
-    padding-bottom: 2rem;
+    padding-bottom: var(--page-pad-bottom);
   }
 }
 </style>

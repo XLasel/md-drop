@@ -10,7 +10,6 @@ const router = createRouter({
       component: () => import('@/pages/landing/ui/LandingPage.vue'),
       meta: {
         titleKey: 'meta.landing',
-        header: { maxWidth: 'narrow' },
       },
     },
     {
@@ -25,7 +24,6 @@ const router = createRouter({
       component: () => import('@/pages/view/ui/ViewPage.vue'),
       meta: {
         titleKey: 'meta.view',
-        header: { maxWidth: 'narrow' },
       },
     },
     {
@@ -34,7 +32,6 @@ const router = createRouter({
       component: () => import('@/pages/dashboard/ui/DashboardPage.vue'),
       meta: {
         titleKey: 'meta.dashboard',
-        header: { maxWidth: 'narrow' },
       },
     },
     {
@@ -43,7 +40,7 @@ const router = createRouter({
       component: () => import('@/pages/not-found/ui/NotFoundPage.vue'),
       meta: {
         titleKey: 'meta.notFound',
-        header: { maxWidth: 'narrow', showAuth: false },
+        header: { showAuth: false },
       },
     },
   ],

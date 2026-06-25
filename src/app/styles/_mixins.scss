@@ -37,3 +37,10 @@
 ) {
   @include transition((transform), $duration, $ease);
 }
+
+/// Centered page column aligned with the site header.
+@mixin layout-shell($max-width: var(--content-max-width)) {
+  width: 100%;
+  max-width: $max-width;
+  margin-inline: auto;
+}
