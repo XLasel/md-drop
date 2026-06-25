@@ -71,6 +71,8 @@ const items = computed(() => [
   text-decoration: none;
   cursor: pointer;
 
+  @include transition;
+
   &:hover {
     color: var(--ink);
   }

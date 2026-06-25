@@ -1,4 +1,5 @@
 import { getSupabase } from '@/shared/api/supabase'
+import { stripMarkdown, stripMarkdownLine } from '@/shared/lib/markdown/stripMarkdown'
 import { deriveTitle, validateNoteContent, validateTitle } from '@/shared/lib/validation'
 import { generateEditToken, generateSlug } from '@/shared/lib/slug'
 import type { CreateNoteInput, Note, UpdateNoteInput } from '../model/types'
@@ -214,8 +215,17 @@ export function estimateReadingMinutes(content: string): number {
   return Math.max(1, Math.ceil(words / 200))
 }
 
-export function getNoteExcerpt(content: string, maxLength = 120): string {
-  const plain = content.replace(/^#+\s+/gm, '').trim()
+export function getNoteExcerpt(content: string, maxLength = 120, title?: string): string {
+  let plain = stripMarkdown(content)
+
+  if (title) {
+    const normalizedTitle = stripMarkdownLine(title.trim())
+    if (normalizedTitle && plain.startsWith(normalizedTitle)) {
+      plain = plain.slice(normalizedTitle.length).trimStart()
+    }
+  }
+
+  if (!plain) return ''
   if (plain.length <= maxLength) return plain
-  return `${plain.slice(0, maxLength)}...`
+  return `${plain.slice(0, maxLength).trimEnd()}...`
 }

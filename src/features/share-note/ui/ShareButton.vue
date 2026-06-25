@@ -95,7 +95,7 @@ async function handleShare() {
       indexable: indexable.value,
     })
 
-    editorStore.startEditing(note.slug, title.value, content.value, indexable.value)
+    editorStore.startEditing(note.slug, note.title, content.value, indexable.value)
 
     await navigator.clipboard.writeText(getNoteUrl(note.slug))
     successSlug.value = note.slug

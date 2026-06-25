@@ -80,6 +80,8 @@ const { t } = useI18n()
   text-decoration: none;
   border-bottom: 1px solid var(--line);
 
+  @include transition((color));
+
   &:hover {
     color: var(--muted);
   }

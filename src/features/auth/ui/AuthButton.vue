@@ -136,6 +136,8 @@ onKeyStroke('Escape', () => {
   cursor: pointer;
   flex: none;
 
+  @include transition;
+
   &:hover {
     background: color-mix(in srgb, var(--accent-soft) 70%, var(--accent));
   }
@@ -194,14 +196,16 @@ onKeyStroke('Escape', () => {
   padding: 8px 10px;
   border: none;
   border-radius: calc(var(--radius-md) - 2px);
-  background: transparent;
+  background-color: transparent;
   color: var(--ink);
   font-size: var(--step--1);
   text-align: left;
   cursor: pointer;
 
+  @include transition(background-color);
+
   &:hover {
-    background: var(--panel2);
+    background-color: var(--panel2);
   }
 
   &:focus-visible {

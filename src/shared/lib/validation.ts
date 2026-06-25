@@ -1,3 +1,4 @@
+import { stripMarkdownLine } from '@/shared/lib/markdown/stripMarkdown'
 import { i18n } from '@/shared/i18n'
 
 const MAX_CONTENT_LENGTH = 512_000
@@ -32,14 +33,15 @@ export function validateSlug(slug: string): boolean {
 export function deriveTitle(title: string, content: string): string {
   const trimmedTitle = title.trim()
   if (trimmedTitle) {
-    return trimmedTitle.slice(0, MAX_TITLE_LENGTH)
+    return stripMarkdownLine(trimmedTitle).slice(0, MAX_TITLE_LENGTH)
   }
 
-  const firstLine = content
-    .trim()
-    .split('\n')[0]
-    ?.replace(/^#+\s*/, '')
-    .trim() ?? ''
+  for (const line of content.split('\n')) {
+    const firstLine = stripMarkdownLine(line)
+    if (firstLine) {
+      return firstLine.slice(0, MAX_TITLE_LENGTH)
+    }
+  }
 
-  return firstLine.slice(0, MAX_TITLE_LENGTH) || i18n.global.t('common.untitled')
+  return i18n.global.t('common.untitled')
 }

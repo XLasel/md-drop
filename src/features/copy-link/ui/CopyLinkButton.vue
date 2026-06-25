@@ -79,6 +79,8 @@ function handleCopy() {
   font: inherit;
   line-height: 1;
   cursor: pointer;
+  
+  @include transition(color);
 
   &:hover {
     color: var(--ink);

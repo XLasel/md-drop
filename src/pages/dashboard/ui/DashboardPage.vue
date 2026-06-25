@@ -117,7 +117,7 @@ onMounted(async () => {
                   </RouterLink>
                   <span :class="$style.slug">/v/{{ note.slug }}</span>
                 </div>
-                <p :class="$style.preview">{{ getNoteExcerpt(note.content) }}</p>
+                <p :class="$style.preview">{{ getNoteExcerpt(note.content, 120, note.title) }}</p>
                 <time :class="$style.date">{{ formatNoteDate(note.created_at, locale) }}</time>
               </div>
             </div>
@@ -190,6 +190,8 @@ onMounted(async () => {
   padding: 20px 22px;
   border-radius: var(--radius-md);
 
+  @include transition(background-color);
+
   &:hover {
     background: var(--panel2);
   }
@@ -235,6 +237,8 @@ onMounted(async () => {
   letter-spacing: -0.02em;
   color: var(--ink);
   text-decoration: none;
+
+  @include transition(color);
 
   &:hover {
     color: var(--accent);

@@ -193,7 +193,7 @@ const { t } = useI18n()
 .sticker {
   position: absolute;
   top: calc(-1 * var(--space-s));
-  right: calc(-1 * var(--space-s));
+  right: calc(-0.5 * var(--space-s));
   background: var(--ink);
   color: var(--bg);
   font-family: var(--font-mono);

@@ -79,7 +79,7 @@ watch(note, (currentNote) => {
 
   setPageMeta({
     title: t('meta.noteTitle', { title: currentNote.title }),
-    description: getNoteExcerpt(currentNote.content),
+    description: getNoteExcerpt(currentNote.content, 120, currentNote.title),
     indexable: currentNote.indexable,
   })
 })

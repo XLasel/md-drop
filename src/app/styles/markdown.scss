@@ -59,6 +59,8 @@
     color: var(--accent);
     text-decoration: none;
 
+    @include transition(text-decoration);
+
     &:hover {
       text-decoration: underline;
     }
@@ -231,6 +233,8 @@
     .footnote-backref {
       margin-left: 0.25em;
       text-decoration: none;
+      
+      @include transition(text-decoration);
 
       &:hover {
         text-decoration: underline;
