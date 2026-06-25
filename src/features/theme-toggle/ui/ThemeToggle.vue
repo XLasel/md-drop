@@ -34,7 +34,7 @@ const { t } = useI18n()
   line-height: 1;
   cursor: pointer;
   flex: none;
-  @include transition-interactive;
+  @include transition;
 
   &:hover {
     color: var(--ink);

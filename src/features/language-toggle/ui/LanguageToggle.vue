@@ -40,7 +40,8 @@ const label = computed(() => localeStore.locale.toUpperCase())
   line-height: 1;
   cursor: pointer;
   flex: none;
-  @include transition-interactive;
+
+  @include transition;
 
   &:hover {
     color: var(--ink);

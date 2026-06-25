@@ -229,7 +229,7 @@ function writeNew() {
   justify-content: center;
   padding: var(--space-m);
   overflow-y: auto;
-  background: color-mix(in oklch, var(--ink) 32%, transparent);
+  background: color-mix(in srgb, var(--ink) 32%, transparent);
   backdrop-filter: blur(6px);
 }
 

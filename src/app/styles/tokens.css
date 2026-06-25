@@ -1,52 +1,50 @@
-/* MD-Drop design tokens — azure palette, light/dark from prototype */
-
 :root,
 [data-theme='light'] {
-  --bg: oklch(0.985 0.005 240);
-  --panel: oklch(1 0 0);
-  --panel2: oklch(0.975 0.004 240);
-  --ink: oklch(0.22 0.02 255);
-  --muted: oklch(0.52 0.02 255);
-  --faint: oklch(0.7 0.014 255);
-  --line: oklch(0.92 0.007 250);
-  --line2: oklch(0.955 0.005 250);
-  --accent: oklch(0.56 0.15 252);
-  --accent2: oklch(0.68 0.12 214);
-  --accent-soft: oklch(0.94 0.035 246);
-  --accent-hover: oklch(0.5 0.15 252);
-  --shadow-color: oklch(0.25 0.04 255 / 0.2);
-  --shadow-sm-color: oklch(0.25 0.04 255 / 0.06);
+  --bg: #f7fbfd;
+  --panel: #ffffff;
+  --panel2: #f4f7f9;
+  --ink: #141b24;
+  --muted: #616a75;
+  --faint: #999fa7;
+  --line: #e1e5e9;
+  --line2: #eef0f3;
+  --accent: #2076c9;
+  --accent2: #00abc5;
+  --accent-soft: #d9eeff;
+  --accent-hover: #0064b5;
+  --shadow-color: rgb(20 34 52 / 0.2);
+  --shadow-sm-color: rgb(20 34 52 / 0.06);
   --shadow: 0 14px 50px -20px var(--shadow-color);
   --shadow-sm: 0 1px 2px var(--shadow-sm-color);
 }
 
 [data-theme='dark'] {
-  --bg: oklch(0.18 0.018 258);
-  --panel: oklch(0.225 0.02 258);
-  --panel2: oklch(0.205 0.02 258);
-  --ink: oklch(0.96 0.008 250);
-  --muted: oklch(0.7 0.018 250);
-  --faint: oklch(0.5 0.02 255);
-  --line: oklch(0.3 0.02 258);
-  --line2: oklch(0.26 0.018 258);
-  --accent: oklch(0.7 0.14 250);
-  --accent2: oklch(0.78 0.11 212);
-  --accent-soft: oklch(0.32 0.06 250);
-  --accent-hover: oklch(0.64 0.14 250);
-  --shadow-color: oklch(0 0 0 / 0.6);
-  --shadow-sm-color: oklch(0 0 0 / 0.35);
+  --bg: #0d121a;
+  --panel: #161c25;
+  --panel2: #111720;
+  --ink: #eef2f7;
+  --muted: #96a0a9;
+  --faint: #5c646f;
+  --line: #282e38;
+  --line2: #1f242d;
+  --accent: #53a3f2;
+  --accent2: #52cae0;
+  --accent-soft: #193550;
+  --accent-hover: #3f90dd;
+  --shadow-color: rgb(0 0 0 / 0.6);
+  --shadow-sm-color: rgb(0 0 0 / 0.35);
   --shadow: 0 20px 56px -22px var(--shadow-color);
   --shadow-sm: 0 1px 2px var(--shadow-sm-color);
 }
 
 :root {
-  --on-accent: oklch(1 0 0);
-  --danger-color: oklch(0.55 0.2 25);
-  --danger-bg: color-mix(in oklch, var(--danger-color) 10%, transparent);
-  --success-color: oklch(0.55 0.13 162);
-  --success-bg: color-mix(in oklch, var(--success-color) 12%, transparent);
+  --on-accent: #ffffff;
+  --danger-color: #cc272e;
+  --danger-bg: color-mix(in srgb, var(--danger-color) 10%, transparent);
+  --success-color: #008859;
+  --success-bg: color-mix(in srgb, var(--success-color) 12%, transparent);
 
-  --header-blur-bg: color-mix(in oklch, var(--bg) 72%, transparent);
+  --header-blur-bg: color-mix(in srgb, var(--bg) 72%, transparent);
 
   --font-sans: 'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'Geist Mono', ui-monospace, 'SF Mono', Consolas, monospace;

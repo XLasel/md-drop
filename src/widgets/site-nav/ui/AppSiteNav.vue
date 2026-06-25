@@ -28,7 +28,7 @@ const items = computed(() => [
         {{ item.label }}
       </RouterLink>
       <span :class="$style.divider" aria-hidden="true" />
-      <UiButton size="sm" :aria-label="t('nav.new')" @click="startNewNote">
+      <UiButton size="sm" :aria-label="t('nav.new')" animated @click="startNewNote">
         <template #icon>+</template>
         {{ t('nav.new') }}
       </UiButton>

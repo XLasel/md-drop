@@ -11,6 +11,14 @@ html {
   -webkit-font-smoothing: subpixel-antialiased;
 }
 
+/* next-themes-style lock: snap theme swap, keep hover transitions after */
+html.theme-changing,
+html.theme-changing *,
+html.theme-changing *::before,
+html.theme-changing *::after {
+  transition: none !important;
+}
+
 body {
   font-family: var(--font-sans);
   font-size: var(--step-0);
@@ -20,7 +28,7 @@ body {
   letter-spacing: -0.01em;
   -webkit-font-smoothing: subpixel-antialiased;
   -moz-osx-font-smoothing: auto;
-  transition: background-color var(--transition-duration-theme) var(--transition-ease) in srgb;
+  transition: background-color var(--transition-duration-theme) var(--transition-ease);
 }
 
 ::selection {

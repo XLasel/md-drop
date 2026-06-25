@@ -11,6 +11,8 @@ import {
 
 export type ColorMode = 'light' | 'dark'
 
+const THEME_TRANSITION_LOCK_CLASS = 'theme-changing'
+
 function isColorMode(value: string): value is ColorMode {
   return value === 'light' || value === 'dark'
 }
@@ -21,9 +23,21 @@ function normalizePreference(value: AppTheme): ColorMode {
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
 }
 
+function unlockThemeTransitions() {
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      document.documentElement.classList.remove(THEME_TRANSITION_LOCK_CLASS)
+    })
+  })
+}
+
 function applyDomTheme(next: ColorMode) {
-  document.documentElement.setAttribute('data-theme', next)
-  document.documentElement.style.colorScheme = next
+  const root = document.documentElement
+  root.classList.add(THEME_TRANSITION_LOCK_CLASS)
+  root.setAttribute('data-theme', next)
+  root.style.colorScheme = next
+  void root.offsetHeight
+  unlockThemeTransitions()
 }
 
 export const useThemeStore = defineStore('theme', () => {

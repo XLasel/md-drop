@@ -30,13 +30,12 @@
   transition: $result;
 }
 
-/// Press/active feedback only — colors follow @property tokens on <html>.
-@mixin transition-interactive(
-  $duration: var(--transition-duration-fast),
-  $ease: var(--transition-ease),
-) {
-  @include transition((transform), $duration, $ease);
-}
+// @mixin transition-interactive(
+//   $duration: var(--transition-duration-fast),
+//   $ease: var(--transition-ease),
+// ) {
+//   @include transition((transform), $duration, $ease);
+// }
 
 /// Centered page column aligned with the site header.
 @mixin layout-shell($max-width: var(--content-max-width)) {

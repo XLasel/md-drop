@@ -31,8 +31,7 @@ const isAnimated = computed(
     props.animated &&
     Boolean(slots.icon) &&
     !props.loading &&
-    !props.disabled &&
-    !props.compact,
+    !props.disabled,
 )
 </script>
 
@@ -108,7 +107,7 @@ const isAnimated = computed(
   white-space: nowrap;
   cursor: pointer;
   text-decoration: none;
-  @include transition-interactive;
+  @include transition;
 
   &[aria-disabled='true'] {
     opacity: 0.6;
@@ -259,6 +258,43 @@ const isAnimated = computed(
 
     .label {
       display: none;
+    }
+
+    &.animated {
+      .inner,
+      .iconReveal {
+        transition: none;
+      }
+
+      &.iconStart:hover:not(:disabled):not([aria-disabled='true']) {
+        .inner {
+          transform: none;
+          scale: 1;
+        }
+
+        .revealStart {
+          transform: none;
+        }
+
+        .revealEnd {
+          transform: translateX(calc(100% + var(--btn-shift)));
+        }
+      }
+
+      &.iconEnd:hover:not(:disabled):not([aria-disabled='true']) {
+        .inner {
+          transform: none;
+          scale: 1;
+        }
+
+        .revealStart {
+          transform: translateX(calc(-1 * 100% - var(--btn-shift)));
+        }
+
+        .revealEnd {
+          transform: none;
+        }
+      }
     }
   }
 }

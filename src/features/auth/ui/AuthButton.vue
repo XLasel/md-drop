@@ -137,11 +137,11 @@ onKeyStroke('Escape', () => {
   flex: none;
 
   &:hover {
-    background: color-mix(in oklch, var(--accent-soft) 70%, var(--accent));
+    background: color-mix(in srgb, var(--accent-soft) 70%, var(--accent));
   }
 
   &[aria-expanded='true'] {
-    background: color-mix(in oklch, var(--accent-soft) 55%, var(--accent));
+    background: color-mix(in srgb, var(--accent-soft) 55%, var(--accent));
   }
 }
 
