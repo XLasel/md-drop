@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import UiButton from '@/shared/ui/Button/UiButton.vue'
-import { useNewNote } from '@/features/new-note/lib/useNewNote'
+import { useNewNote } from '@/features/new-note'
 
 const { t } = useI18n()
 const { startNewNote } = useNewNote()

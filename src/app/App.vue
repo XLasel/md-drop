@@ -2,15 +2,15 @@
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import { RouterView, useRoute } from 'vue-router'
-import { useAuthStore } from '@/entities/user/model/authStore'
+import { useAuthStore } from '@/entities/user'
+import { NewNoteButton } from '@/features/new-note'
+import ToastContainer from '@/shared/ui/Toast/ToastContainer.vue'
 import {
+  AppHeader,
   PAGE_HEADER_ACTIONS_ID,
   PAGE_HEADER_START_ID,
-} from '@/widgets/header/lib/teleportTargets'
-import NewNoteButton from '@/features/new-note/ui/NewNoteButton.vue'
-import ToastContainer from '@/shared/ui/Toast/ToastContainer.vue'
-import AppHeader from '@/widgets/header/ui/AppHeader.vue'
-import AppSiteNav from '@/widgets/site-nav/ui/AppSiteNav.vue'
+} from '@/widgets/header'
+import { AppSiteNav } from '@/widgets/site-nav'
 
 const route = useRoute()
 const authStore = useAuthStore()

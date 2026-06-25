@@ -7,7 +7,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'landing',
-      component: () => import('@/pages/landing/ui/LandingPage.vue'),
+      component: () => import('@/pages/landing'),
       meta: {
         titleKey: 'meta.landing',
       },
@@ -15,13 +15,13 @@ const router = createRouter({
     {
       path: '/write',
       name: 'create',
-      component: () => import('@/pages/create/ui/CreatePage.vue'),
+      component: () => import('@/pages/create'),
       meta: { titleKey: 'meta.create' },
     },
     {
       path: '/v/:slug',
       name: 'view',
-      component: () => import('@/pages/view/ui/ViewPage.vue'),
+      component: () => import('@/pages/view'),
       meta: {
         titleKey: 'meta.view',
       },
@@ -29,7 +29,7 @@ const router = createRouter({
     {
       path: '/dashboard',
       name: 'dashboard',
-      component: () => import('@/pages/dashboard/ui/DashboardPage.vue'),
+      component: () => import('@/pages/dashboard'),
       meta: {
         titleKey: 'meta.dashboard',
       },
@@ -37,7 +37,7 @@ const router = createRouter({
     {
       path: '/:pathMatch(.*)*',
       name: 'not-found',
-      component: () => import('@/pages/not-found/ui/NotFoundPage.vue'),
+      component: () => import('@/pages/not-found'),
       meta: {
         titleKey: 'meta.notFound',
         header: { showAuth: false },

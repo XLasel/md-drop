@@ -3,7 +3,7 @@ import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
-import ShareSuccessModal from '@/features/share-note/ui/ShareSuccessModal.vue'
+import ShareSuccessModal from './ShareSuccessModal.vue'
 import {
   createNote,
   fetchNoteBySlug,
@@ -11,9 +11,9 @@ import {
   getNoteUrl,
   updateNoteAsAuthor,
   updateNoteByToken,
-} from '@/entities/note/api/noteRepository'
-import { useEditorStore } from '@/entities/note/model/editorStore'
-import { useAuthStore } from '@/entities/user/model/authStore'
+  useEditorStore,
+} from '@/entities/note'
+import { useAuthStore } from '@/entities/user'
 import { isSupabaseConfigured } from '@/shared/api/supabase'
 import { useToast } from '@/shared/lib/toast'
 import { validateNoteContent } from '@/shared/lib/validation'

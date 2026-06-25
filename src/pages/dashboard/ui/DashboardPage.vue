@@ -8,16 +8,16 @@ import {
   fetchUserNotes,
   formatNoteDate,
   getNoteExcerpt,
-} from '@/entities/note/api/noteRepository'
-import type { Note } from '@/entities/note/model/types'
-import { useAuthStore } from '@/entities/user/model/authStore'
-import { useLocaleStore } from '@/entities/locale/model/localeStore'
+} from '@/entities/note'
+import type { Note } from '@/entities/note'
+import { useLocaleStore } from '@/entities/locale'
+import { useAuthStore } from '@/entities/user'
 import { useToast } from '@/shared/lib/toast'
 import EmptyState from '@/shared/ui/EmptyState/EmptyState.vue'
 import ErrorState from '@/shared/ui/ErrorState/ErrorState.vue'
 import SkeletonLoader from '@/shared/ui/Skeleton/SkeletonLoader.vue'
 import UiButton from '@/shared/ui/Button/UiButton.vue'
-import SignInPanel from '@/widgets/sign-in/ui/SignInPanel.vue'
+import { SignInPanel } from '@/widgets/sign-in'
 
 const authStore = useAuthStore()
 const localeStore = useLocaleStore()

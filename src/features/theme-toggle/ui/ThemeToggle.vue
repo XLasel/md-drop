@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useThemeStore } from '@/entities/theme/model/themeStore'
+import { useThemeStore } from '@/entities/theme'
 import { useI18n } from 'vue-i18n'
 
 const themeStore = useThemeStore()

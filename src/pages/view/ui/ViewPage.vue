@@ -3,20 +3,20 @@ import { storeToRefs } from 'pinia'
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
-import CopyLinkButton from '@/features/copy-link/ui/CopyLinkButton.vue'
-import CopyMarkdownButton from '@/features/copy-markdown/ui/CopyMarkdownButton.vue'
 import {
   estimateReadingMinutes,
   fetchNoteBySlug,
   formatNoteDateShort,
   getNoteExcerpt,
   hasEditAccess,
-} from '@/entities/note/api/noteRepository'
-import type { Note } from '@/entities/note/model/types'
-import { useAuthStore } from '@/entities/user/model/authStore'
-import { useLocaleStore } from '@/entities/locale/model/localeStore'
+} from '@/entities/note'
+import type { Note } from '@/entities/note'
+import { useLocaleStore } from '@/entities/locale'
+import { useAuthStore } from '@/entities/user'
+import { CopyLinkButton } from '@/features/copy-link'
+import { CopyMarkdownButton } from '@/features/copy-markdown'
 import { renderMarkdown } from '@/shared/lib/markdown/renderMarkdown'
-import NoteActionsBar from '@/widgets/note-actions/ui/NoteActionsBar.vue'
+import { NoteActionsBar } from '@/widgets/note-actions'
 import { resetPageMeta, setPageMeta } from '@/shared/lib/seo'
 import ErrorState from '@/shared/ui/ErrorState/ErrorState.vue'
 import SkeletonLoader from '@/shared/ui/Skeleton/SkeletonLoader.vue'

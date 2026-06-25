@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { getNoteUrl } from '@/entities/note/api/noteRepository'
+import { getNoteUrl } from '@/entities/note'
 import { useCopyToClipboard } from '@/shared/lib/useCopyToClipboard'
 import UiButton from '@/shared/ui/Button/UiButton.vue'
 

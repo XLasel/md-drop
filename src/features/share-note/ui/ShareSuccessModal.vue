@@ -6,11 +6,11 @@ import {
   getNoteUrl,
   updateNoteAsAuthor,
   updateNoteByToken,
-} from '@/entities/note/api/noteRepository'
-import { useAuthStore } from '@/entities/user/model/authStore'
+} from '@/entities/note'
+import { useAuthStore } from '@/entities/user'
 import { useCopyToClipboard } from '@/shared/lib/useCopyToClipboard'
 import { useToast } from '@/shared/lib/toast'
-import { useNewNote } from '@/features/new-note/lib/useNewNote'
+import { useNewNote } from '@/features/new-note'
 import UiButton from '@/shared/ui/Button/UiButton.vue'
 
 const props = defineProps<{

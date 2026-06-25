@@ -1,5 +1,5 @@
 import { useRouter } from 'vue-router'
-import { useEditorStore } from '@/entities/note/model/editorStore'
+import { useEditorStore } from '@/entities/note'
 
 export function useNewNote() {
   const router = useRouter()

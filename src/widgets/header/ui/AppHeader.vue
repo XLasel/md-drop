@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import AuthButton from '@/features/auth/ui/AuthButton.vue'
-import LanguageToggle from '@/features/language-toggle/ui/LanguageToggle.vue'
-import ThemeToggle from '@/features/theme-toggle/ui/ThemeToggle.vue'
-import AppLogo from '@/widgets/logo/ui/AppLogo.vue'
+import { AuthButton } from '@/features/auth'
+import { LanguageToggle } from '@/features/language-toggle'
+import { ThemeToggle } from '@/features/theme-toggle'
+import { AppLogo } from '@/widgets/logo'
 
 withDefaults(
   defineProps<{
