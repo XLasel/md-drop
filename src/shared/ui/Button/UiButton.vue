@@ -189,7 +189,7 @@ const isAnimated = computed(
 
 .iconStart:hover:not(:disabled):not([aria-disabled='true']) {
   .inner {
-    scale: 0.95;
+    scale: 0.98;
     transform: translateX(calc(-1 * var(--btn-shift) * 1.35));
   }
 
@@ -207,7 +207,7 @@ const isAnimated = computed(
 .iconEnd:hover:not(:disabled):not([aria-disabled='true']) {
   
   .inner {
-    scale: 0.95;
+    scale: 0.98;
     transform: translateX(calc(var(--btn-shift) * 1.35));
   }
 
@@ -267,7 +267,9 @@ const isAnimated = computed(
   --btn-shift: 0.9em;
   min-height: var(--control-h-sm);
   padding-block: 0.4em;
-  font-size: var(--step--1);  
+  font-size: var(--step--1); 
+
+  gap: 0.6rem;
 }
 
 .md {
@@ -276,6 +278,7 @@ const isAnimated = computed(
   padding-block: 0.45em;
   font-size: var(--step-0);
 
+  gap: 0.9rem;
 }
 
 .lg {
@@ -284,6 +287,7 @@ const isAnimated = computed(
   padding-block: 0.65em;
   font-size: var(--step-0);
 
+  gap: 1rem;
 }
 
 .primary {
