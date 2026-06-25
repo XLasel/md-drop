@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import { useCopyToClipboard } from '@/shared/lib/useCopyToClipboard'
-import UiButton from '@/shared/ui/Button/UiButton.vue'
+import { UiButton } from '@/shared/ui/Button'
 
 const props = defineProps<{
   content: string

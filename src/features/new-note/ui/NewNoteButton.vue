@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import { useNewNote } from '../lib/useNewNote'
-import UiButton from '@/shared/ui/Button/UiButton.vue'
+import { UiButton } from '@/shared/ui/Button'
 
 withDefaults(
   defineProps<{

@@ -11,7 +11,7 @@ import { useAuthStore } from '@/entities/user'
 import { useCopyToClipboard } from '@/shared/lib/useCopyToClipboard'
 import { useToast } from '@/shared/lib/toast'
 import { useNewNote } from '@/features/new-note'
-import UiButton from '@/shared/ui/Button/UiButton.vue'
+import { UiButton } from '@/shared/ui/Button'
 
 const props = defineProps<{
   slug: string

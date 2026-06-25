@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import UiButton from '@/shared/ui/Button/UiButton.vue'
+import { UiButton } from '@/shared/ui/Button'
 import { useNewNote } from '@/features/new-note'
 
 const { t } = useI18n()

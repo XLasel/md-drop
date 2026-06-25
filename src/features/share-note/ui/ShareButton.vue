@@ -17,7 +17,7 @@ import { useAuthStore } from '@/entities/user'
 import { isSupabaseConfigured } from '@/shared/api/supabase'
 import { useToast } from '@/shared/lib/toast'
 import { validateNoteContent } from '@/shared/lib/validation'
-import UiButton from '@/shared/ui/Button/UiButton.vue'
+import { UiButton } from '@/shared/ui/Button'
 
 const router = useRouter()
 const { t } = useI18n()

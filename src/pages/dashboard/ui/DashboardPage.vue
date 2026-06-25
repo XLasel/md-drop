@@ -16,7 +16,7 @@ import { useToast } from '@/shared/lib/toast'
 import EmptyState from '@/shared/ui/EmptyState/EmptyState.vue'
 import ErrorState from '@/shared/ui/ErrorState/ErrorState.vue'
 import SkeletonLoader from '@/shared/ui/Skeleton/SkeletonLoader.vue'
-import UiButton from '@/shared/ui/Button/UiButton.vue'
+import { UiButton } from '@/shared/ui/Button'
 import { SignInPanel } from '@/widgets/sign-in'
 
 const authStore = useAuthStore()

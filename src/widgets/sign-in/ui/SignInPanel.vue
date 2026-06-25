@@ -2,7 +2,7 @@
 import { RouterLink } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useAuthStore } from '@/entities/user'
-import UiButton from '@/shared/ui/Button/UiButton.vue'
+import { UiButton } from '@/shared/ui/Button'
 
 const authStore = useAuthStore()
 const { t } = useI18n()

@@ -6,7 +6,7 @@ import { formatMarkdown } from '../api/formatMarkdown'
 import { useEditorStore } from '@/entities/note'
 import { useToast } from '@/shared/lib/toast'
 import { validateNoteContent } from '@/shared/lib/validation'
-import UiButton from '@/shared/ui/Button/UiButton.vue'
+import { UiButton } from '@/shared/ui/Button'
 
 /** Flip to true when AI formatting backend is ready. */
 const FORMAT_ENABLED = false

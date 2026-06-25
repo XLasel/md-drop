@@ -20,7 +20,7 @@ import { NoteActionsBar } from '@/widgets/note-actions'
 import { resetPageMeta, setPageMeta } from '@/shared/lib/seo'
 import ErrorState from '@/shared/ui/ErrorState/ErrorState.vue'
 import SkeletonLoader from '@/shared/ui/Skeleton/SkeletonLoader.vue'
-import UiButton from '@/shared/ui/Button/UiButton.vue'
+import { UiButton } from '@/shared/ui/Button'
 
 const route = useRoute()
 const router = useRouter()

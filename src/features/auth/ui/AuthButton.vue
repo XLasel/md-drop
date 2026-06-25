@@ -5,8 +5,7 @@ import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useAuthStore } from '@/entities/user'
 import { isSupabaseConfigured } from '@/shared/api/supabase'
-import CoreButton from '@/shared/ui/Button/CoreButton.vue'
-import UiButton from '@/shared/ui/Button/UiButton.vue'
+import { CoreButton, UiButton } from '@/shared/ui/Button'
 
 const authStore = useAuthStore()
 const { user } = storeToRefs(authStore)
