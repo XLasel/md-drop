@@ -89,6 +89,8 @@ const isAnimated = computed(
 .button {
   --btn-hover-duration: 0.4s;
   --btn-hover-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --btn-hover-ease: cubic-bezier(.23, 1, .32, 1);
+
   --btn-icon-shift: calc(1em + 0.5rem);
 
   --btn-shift: 1.35em;
@@ -157,22 +159,22 @@ const isAnimated = computed(
   align-items: center;
   justify-content: center;
   line-height: 1;
-  transition:
-    transform var(--btn-hover-duration) var(--btn-hover-ease),
-    opacity 0.3s ease;
+  transition: transform var(--btn-hover-duration) var(--btn-hover-ease), opacity 0.3s ease;
 }
 
 .iconStart {
   .revealEnd {
     position: absolute;
     transform: translateX(calc(100% + var(--btn-shift)));
+    transition: transform var(--btn-hover-duration) 75ms var(--btn-hover-ease);
   }
 }
 
 .iconEnd {
   .revealStart {
     position: absolute;
-    transform: translateX(calc(-1 * 100% - var(--btn-shift)))
+    transform: translateX(calc(-1 * 100% - var(--btn-shift)));
+    transition: transform var(--btn-hover-duration) 75ms var(--btn-hover-ease);
   }
 }
 
@@ -184,10 +186,12 @@ const isAnimated = computed(
 
   .revealEnd {
     transform: translate(0);
+    transition: transform var(--btn-hover-duration) 0s var(--btn-hover-ease);
   }
 
   .revealStart {
     transform: translate(calc(-1 * 100% - var(--btn-shift)));
+    transition: transform var(--btn-hover-duration) 75ms var(--btn-hover-ease);
   }
 }
 
@@ -200,10 +204,12 @@ const isAnimated = computed(
 
   .revealStart {
     transform: translate(0);
+    transition: transform var(--btn-hover-duration) 0s var(--btn-hover-ease);
   }
 
   .revealEnd {
     transform: translate(calc(100% + var(--btn-shift)));
+    transition: transform var(--btn-hover-duration) 75ms var(--btn-hover-ease);
   }
 }
 
