@@ -47,7 +47,7 @@
     "badge": "no signup to read",
     "title": "Write it.<br>Drop a link.",
     "lead": "Markdown in, a clean public page out.\nShare a note in seconds — no accounts, no noise.\nEdit anytime with a private link.",
-    "cta": "Start writing →",
+    "cta": "Start writing",
     "metaPublicLinks": "paste & share",
     "metaEditTokens": "private edit link",
     "metaAiImprove": "live preview",
@@ -89,7 +89,7 @@
     "emptySubheading": "Nothing here yet.",
     "emptyTitle": "A blank canvas",
     "emptyDescription": "Your first note is one click away. Write some markdown, hit Share, and you've got a link.",
-    "emptyCta": "Write your first note →"
+    "emptyCta": "Write your first note"
   },
   "auth": {
     "signInTitle": "Sign in to see all your notes",

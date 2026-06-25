@@ -14,7 +14,10 @@ const { t } = useI18n()
             {{ t('landing.lead') }}
           </p>
           <div :class="$style.cta">
-            <UiButton to="/write" size="lg">{{ t('landing.cta') }}</UiButton>
+            <UiButton to="/write" size="lg" icon-position="end" animated>
+              <template #icon>→</template>
+              {{ t('landing.cta') }}
+            </UiButton>
           </div>
           <div :class="$style.meta">
             <span>{{ t('landing.metaPublicLinks') }}</span>

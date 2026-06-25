@@ -100,7 +100,10 @@ onMounted(async () => {
           :title="t('dashboard.emptyTitle')"
           :description="t('dashboard.emptyDescription')"
         >
-          <UiButton to="/write" size="lg">{{ t('dashboard.emptyCta') }}</UiButton>
+          <UiButton to="/write" size="lg" icon-position="end" animated>
+            <template #icon>→</template>
+            {{ t('dashboard.emptyCta') }}
+          </UiButton>
         </EmptyState>
 
         <ul v-else :class="$style.list">

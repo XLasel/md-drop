@@ -11,6 +11,7 @@ import { useAuthStore } from '@/entities/user/model/authStore'
 import { useCopyToClipboard } from '@/shared/lib/useCopyToClipboard'
 import { useToast } from '@/shared/lib/toast'
 import { useNewNote } from '@/features/new-note/lib/useNewNote'
+import UiButton from '@/shared/ui/Button/UiButton.vue'
 
 const props = defineProps<{
   slug: string
@@ -172,14 +173,14 @@ function writeNew() {
 
         <div :class="$style.linkRow">
           <span :class="$style.linkText">{{ displayUrl() }}</span>
-          <button type="button" :class="$style.copyLinkBtn" @click="copyLink">
+          <UiButton variant="primary" size="sm" @click="copyLink">
             {{ copiedLink ? t('share.copied') : t('share.copyLink') }}
-          </button>
+          </UiButton>
         </div>
 
-        <button type="button" :class="$style.copyMd" @click="copyMarkdown">
+        <UiButton variant="secondary" size="sm" :class="$style.copyMd" @click="copyMarkdown">
           {{ copiedMd ? t('share.markdownCopied') : t('share.copyMarkdownSource') }}
-        </button>
+        </UiButton>
 
         <button
           type="button"
@@ -203,9 +204,15 @@ function writeNew() {
         </button>
 
         <div :class="$style.actions">
-          <button type="button" :class="$style.doneBtn" @click="emit('close')">{{ t('common.done') }}</button>
-          <button type="button" :class="$style.writeNewBtn" @click="writeNew">{{ t('share.writeNew') }}</button>
-          <button type="button" :class="$style.viewBtn" @click="viewPage">{{ t('share.viewPage') }}</button>
+          <UiButton variant="secondary" size="sm" :class="$style.actionBtn" @click="emit('close')">
+            {{ t('common.done') }}
+          </UiButton>
+          <UiButton variant="accent-outline" size="sm" :class="$style.actionBtn" @click="writeNew">
+            {{ t('share.writeNew') }}
+          </UiButton>
+          <UiButton variant="primary" size="sm" :class="$style.actionBtn" @click="viewPage">
+            {{ t('share.viewPage') }}
+          </UiButton>
         </div>
       </div>
     </div>
@@ -439,42 +446,11 @@ function writeNew() {
   color: var(--ink);
 }
 
-.copyLinkBtn {
-  border: none;
-  background: var(--accent);
-  color: var(--on-accent);
-  font-family: var(--font-sans);
-  font-size: var(--step--1);
-  font-weight: 500;
-  padding: 0.55em 1em;
-  border-radius: var(--radius-md);
-  white-space: nowrap;
-  cursor: pointer;
-
-  &:hover {
-    background: var(--accent-hover);
-  }
-}
-
 .copyMd {
   display: block;
   width: 100%;
-  box-sizing: border-box;
   margin-bottom: var(--space-s);
-  padding: 0.7em;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-md);
-  background: transparent;
-  color: var(--muted);
-  font-family: var(--font-sans);
-  font-size: var(--step--1);
   text-align: center;
-  cursor: pointer;
-
-  &:hover {
-    background: var(--panel2);
-    color: var(--ink);
-  }
 }
 
 .seo {
@@ -537,47 +513,8 @@ function writeNew() {
   gap: var(--gap-2xs);
 }
 
-.doneBtn,
-.writeNewBtn,
-.viewBtn {
+.actionBtn {
   flex: 1;
-  padding: 0.8em;
-  border-radius: var(--radius-pill);
-  font-family: var(--font-sans);
-  font-size: var(--step--1);
-  cursor: pointer;
-  text-align: center;
-}
-
-.doneBtn {
-  border: 1px solid var(--line);
-  background: transparent;
-  color: var(--muted);
-
-  &:hover {
-    color: var(--ink);
-    background: var(--panel2);
-  }
-}
-
-.writeNewBtn {
-  border: 1px solid var(--accent);
-  background: transparent;
-  color: var(--accent);
-
-  &:hover {
-    background: var(--accent-soft);
-  }
-}
-
-.viewBtn {
-  border: none;
-  background: var(--accent);
-  color: var(--on-accent);
-  font-weight: 500;
-
-  &:hover {
-    background: var(--accent-hover);
-  }
+  justify-content: center;
 }
 </style>

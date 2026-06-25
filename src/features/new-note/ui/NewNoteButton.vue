@@ -21,6 +21,7 @@ const { startNewNote } = useNewNote()
     :variant="variant === 'ribbon' ? 'secondary' : 'primary'"
     size="sm"
     :compact="variant === 'header'"
+    animated
     :aria-label="t('common.newNote')"
     @click="startNewNote"
   >

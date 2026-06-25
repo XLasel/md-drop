@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import UiButton from '@/shared/ui/Button/UiButton.vue'
 import { useNewNote } from '@/features/new-note/lib/useNewNote'
 
 const { t } = useI18n()
@@ -27,9 +28,10 @@ const items = computed(() => [
         {{ item.label }}
       </RouterLink>
       <span :class="$style.divider" aria-hidden="true" />
-      <button type="button" :class="$style.newItem" @click="startNewNote">
-        + {{ t('nav.new') }}
-      </button>
+      <UiButton size="sm" :aria-label="t('nav.new')" @click="startNewNote">
+        <template #icon>+</template>
+        {{ t('nav.new') }}
+      </UiButton>
     </div>
   </nav>
 </template>
@@ -90,22 +92,5 @@ const items = computed(() => [
   margin: 0 var(--space-3xs);
   background: var(--line2);
   flex: none;
-}
-
-.newItem {
-  border: none;
-  background: var(--accent);
-  color: var(--on-accent);
-  padding: 0.45em 0.85em;
-  border-radius: var(--radius-pill);
-  font: inherit;
-  font-size: inherit;
-  font-weight: 500;
-  white-space: nowrap;
-  cursor: pointer;
-
-  &:hover {
-    background: var(--accent-hover);
-  }
 }
 </style>
