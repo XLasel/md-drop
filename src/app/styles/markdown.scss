@@ -4,6 +4,10 @@
   font-size: 1.125rem;
   line-height: 1.72;
 
+  > *:last-child {
+    margin-bottom: 0;
+  }
+
   h1,
   h2,
   h3,
@@ -41,6 +45,16 @@
     color: var(--ink);
   }
 
+  strong {
+    font-weight: 600;
+  }
+
+  del,
+  s {
+    text-decoration: line-through;
+    color: var(--muted);
+  }
+
   a {
     color: var(--accent);
     text-decoration: none;
@@ -57,8 +71,27 @@
     line-height: 1.85;
   }
 
+  ul ul,
+  ul ol,
+  ol ul,
+  ol ol {
+    margin: 0.35em 0;
+  }
+
   li {
     margin: 0.35em 0;
+  }
+
+  li > p {
+    margin: 0.25em 0;
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 
   blockquote {
@@ -70,13 +103,25 @@
     font-style: italic;
     letter-spacing: -0.01em;
     background: transparent;
+
+    > :first-child {
+      margin-top: 0;
+    }
+
+    > :last-child {
+      margin-bottom: 0;
+    }
   }
 
   table {
-    width: 100%;
+    display: block;
+    width: max-content;
+    max-width: 100%;
+    overflow-x: auto;
     border-collapse: collapse;
     margin: 0 0 1.25em;
     font-size: 0.95em;
+    -webkit-overflow-scrolling: touch;
   }
 
   th,
@@ -92,7 +137,9 @@
   }
 
   img {
+    display: block;
     max-width: 100%;
+    margin: 1.25em 0;
     border-radius: var(--radius-md);
   }
 
@@ -126,7 +173,7 @@
 
   .shiki {
     padding: 1.25rem 1.375rem;
-    margin: 0;
+    margin: 0 0 1.25em;
     background: var(--panel) !important;
   }
 
@@ -136,6 +183,60 @@
     color: var(--shiki-dark) !important;
     background-color: var(--shiki-dark-bg) !important;
   }
+
+  .contains-task-list {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .task-list-item {
+    list-style: none;
+
+    input[type='checkbox'] {
+      margin: 0.35em 0.5em 0 0;
+      accent-color: var(--accent);
+      cursor: default;
+      vertical-align: top;
+    }
+  }
+
+  .footnote-ref {
+    font-size: 0.75em;
+    line-height: 0;
+
+    a {
+      padding: 0 0.1em;
+    }
+  }
+
+  .footnotes-sep {
+    margin: 2.5em 0 1.25em;
+    border: none;
+    border-top: 1px solid var(--line2);
+  }
+
+  .footnotes {
+    font-size: 0.9em;
+    color: var(--muted);
+
+    .footnotes-list {
+      margin: 0;
+      padding-left: 1.25rem;
+    }
+
+    .footnote-item {
+      margin: 0.5em 0;
+    }
+
+    .footnote-backref {
+      margin-left: 0.25em;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
 }
 
 .markdown-body--reader {
@@ -144,7 +245,7 @@
     margin-bottom: 1.75rem;
   }
 
-  > p:first-of-type {
+  > p:first-of-type:not(:last-child) {
     font-size: 1.25rem;
     line-height: 1.6;
     color: var(--muted);
