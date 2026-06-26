@@ -149,7 +149,7 @@ onMounted(async () => {
 </template>
 
 <style module lang="scss">
-.root {
+.page {
   display: flex;
   flex-direction: column;
   min-height: calc(100dvh - var(--header-height) - var(--site-nav-offset));
