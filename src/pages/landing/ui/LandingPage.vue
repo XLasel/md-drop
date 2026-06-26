@@ -70,8 +70,8 @@ function teardown() {
 function setupTitleSplit() {
   if (!titleLine1Ref.value || !titleLine2Ref.value) return
 
-  titleSplit1 = SplitText.create(titleLine1Ref.value, { type: 'words,chars', mask: 'chars' })
-  titleSplit2 = SplitText.create(titleLine2Ref.value, { type: 'words,chars', mask: 'chars' })
+  titleSplit1 = SplitText.create(titleLine1Ref.value, { type: 'words,chars' })
+  titleSplit2 = SplitText.create(titleLine2Ref.value, { type: 'words,chars' })
 }
 
 async function playEntrance() {
@@ -222,6 +222,8 @@ onUnmounted(() => {
 .titleLine {
   display: block;
   overflow: hidden;
+  padding-block: 0.14em;
+  margin-block: -0.14em;
   white-space: nowrap;
 }
 
