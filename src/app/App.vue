@@ -69,6 +69,7 @@ const showAuth = computed(() => {
 .main {
   position: relative;
   overflow: visible;
+  overflow-x: clip;
   min-height: calc(100dvh - var(--header-height));
 }
 </style>
