@@ -3,22 +3,31 @@ import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
 import { RouterLink } from 'vue-router'
-import { deleteNote, fetchUserNotes, formatNoteDate, getNoteExcerpt } from '@/entities/note'
+import {
+  fetchUserNotes,
+  formatNoteDate,
+  getNoteExcerpt,
+  getNoteUrl,
+} from '@/entities/note'
 import type { Note } from '@/entities/note'
 import { useLocaleStore } from '@/entities/locale'
 import { useAuthStore } from '@/entities/user'
+import { useDeleteNote } from '@/features/delete-note'
 import { NOTES_PAGE_SIZE } from '@/shared/config/notes'
-import { useToast } from '@/shared/lib/toast'
+import { useCopyToClipboard } from '@/shared/lib/useCopyToClipboard'
 import EmptyState from '@/shared/ui/EmptyState/EmptyState.vue'
 import ErrorState from '@/shared/ui/ErrorState/ErrorState.vue'
 import SkeletonLoader from '@/shared/ui/Skeleton/SkeletonLoader.vue'
 import { UiButton } from '@/shared/ui/Button'
+import { OverflowMenu } from '@/shared/ui/OverflowMenu'
+import type { OverflowMenuItem } from '@/shared/ui/OverflowMenu'
 import { SignInPanel } from '@/widgets/sign-in'
 
 const authStore = useAuthStore()
 const localeStore = useLocaleStore()
 const { t } = useI18n()
-const toast = useToast()
+const { copyText } = useCopyToClipboard()
+const { confirmAndDelete, isDeleting } = useDeleteNote()
 const { locale } = storeToRefs(localeStore)
 
 const notes = ref<Note[]>([])
@@ -26,10 +35,21 @@ const totalNotes = ref(0)
 const page = ref(0)
 const loading = ref(true)
 const error = ref<string | null>(null)
-const deletingId = ref<string | null>(null)
 
 const totalPages = computed(() => Math.max(1, Math.ceil(totalNotes.value / NOTES_PAGE_SIZE)))
 const showPagination = computed(() => totalNotes.value > NOTES_PAGE_SIZE)
+
+function menuItems(note: Note): OverflowMenuItem[] {
+  return [
+    { key: 'copyLink', label: t('common.copyLink') },
+    {
+      key: 'delete',
+      label: t('common.delete'),
+      variant: 'danger',
+      disabled: isDeleting(note.slug),
+    },
+  ]
+}
 
 async function loadNotes() {
   if (!authStore.user) {
@@ -51,22 +71,19 @@ async function loadNotes() {
   }
 }
 
-async function handleDelete(note: Note) {
-  if (!confirm(t('dashboard.deleteConfirm', { title: note.title }))) return
+async function handleMenuSelect(key: string, note: Note) {
+  if (key === 'copyLink') {
+    copyText(getNoteUrl(note.slug), t('clipboard.linkCopied'))
+    return
+  }
 
-  deletingId.value = note.id
-
-  try {
-    await deleteNote(note.id)
-    if (notes.value.length === 1 && page.value > 0) {
-      page.value -= 1
-    }
-    await loadNotes()
-    toast.success(t('dashboard.noteDeleted'))
-  } catch (err) {
-    toast.error(err instanceof Error ? err.message : t('dashboard.deleteFailed'))
-  } finally {
-    deletingId.value = null
+  if (key === 'delete') {
+    await confirmAndDelete(note, async () => {
+      if (notes.value.length === 1 && page.value > 0) {
+        page.value -= 1
+      }
+      await loadNotes()
+    })
   }
 }
 
@@ -146,14 +163,11 @@ onMounted(async () => {
                 >
                   {{ t('common.edit') }}
                 </UiButton>
-                <UiButton
-                  variant="danger"
-                  size="sm"
-                  :loading="deletingId === note.id"
-                  @click="handleDelete(note)"
-                >
-                  {{ t('common.delete') }}
-                </UiButton>
+                <OverflowMenu
+                  :items="menuItems(note)"
+                  :ariaLabel="t('common.moreActions')"
+                  @select="handleMenuSelect($event, note)"
+                />
               </div>
             </li>
           </ul>
@@ -318,6 +332,7 @@ onMounted(async () => {
 .actions {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 6px;
 }
 

@@ -226,6 +226,10 @@ export async function fetchUserNotes(
   }
 }
 
+export function clearEditToken(slug: string): void {
+  localStorage.removeItem(`${EDIT_TOKEN_STORAGE_PREFIX}${slug}`)
+}
+
 export async function deleteNote(noteId: string): Promise<void> {
   const supabase = getSupabase()
   if (!supabase) {
@@ -237,6 +241,24 @@ export async function deleteNote(noteId: string): Promise<void> {
   if (error) {
     throw new NoteRepositoryError(error.message)
   }
+}
+
+export async function deleteNoteByToken(slug: string, editToken: string): Promise<boolean> {
+  const supabase = getSupabase()
+  if (!supabase) {
+    throw new NoteRepositoryError('Supabase is not configured')
+  }
+
+  const { data, error } = await supabase.rpc('delete_note_by_token', {
+    p_slug: slug,
+    p_edit_token: editToken,
+  })
+
+  if (error) {
+    throw new NoteRepositoryError(error.message)
+  }
+
+  return Boolean(data)
 }
 
 export function getNoteUrl(slug: string): string {

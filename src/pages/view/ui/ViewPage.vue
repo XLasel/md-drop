@@ -15,13 +15,16 @@ import type { Note } from '@/entities/note'
 import { useLocaleStore } from '@/entities/locale'
 import { useAuthStore } from '@/entities/user'
 import { CopyLinkButton } from '@/features/copy-link'
-import { CopyMarkdownButton } from '@/features/copy-markdown'
+import { useDeleteNote } from '@/features/delete-note'
 import { renderMarkdown } from '@/shared/lib/markdown/renderMarkdown'
+import { useCopyToClipboard } from '@/shared/lib/useCopyToClipboard'
 import { NoteActionsBar } from '@/widgets/note-actions'
 import { resetPageMeta, setPageMeta } from '@/shared/lib/seo'
 import ErrorState from '@/shared/ui/ErrorState/ErrorState.vue'
 import SkeletonLoader from '@/shared/ui/Skeleton/SkeletonLoader.vue'
 import { UiButton } from '@/shared/ui/Button'
+import { OverflowMenu } from '@/shared/ui/OverflowMenu'
+import type { OverflowMenuItem } from '@/shared/ui/OverflowMenu'
 
 const route = useRoute()
 const router = useRouter()
@@ -29,6 +32,8 @@ const { t } = useI18n()
 const authStore = useAuthStore()
 const localeStore = useLocaleStore()
 const { locale } = storeToRefs(localeStore)
+const { copyText } = useCopyToClipboard()
+const { canDelete, confirmAndDelete, isDeleting } = useDeleteNote()
 
 const note = ref<Note | null>(null)
 const html = ref('')
@@ -44,6 +49,25 @@ const canEdit = computed(
 const readingMinutes = computed(() =>
   note.value ? estimateReadingMinutes(note.value.content) : null,
 )
+
+const overflowItems = computed((): OverflowMenuItem[] => {
+  if (!note.value) return []
+
+  const items: OverflowMenuItem[] = [
+    { key: 'copyMarkdown', label: t('common.copyMarkdown') },
+  ]
+
+  if (canDelete(note.value)) {
+    items.push({
+      key: 'delete',
+      label: t('common.delete'),
+      variant: 'danger',
+      disabled: isDeleting(note.value.slug),
+    })
+  }
+
+  return items
+})
 
 async function loadNote() {
   loading.value = true
@@ -74,6 +98,21 @@ async function loadNote() {
 
 function goToEdit() {
   router.push({ path: '/write', query: { edit: slug.value } })
+}
+
+async function handleOverflowSelect(key: string) {
+  if (!note.value) return
+
+  if (key === 'copyMarkdown') {
+    copyText(note.value.content, t('clipboard.markdownCopied'))
+    return
+  }
+
+  if (key === 'delete') {
+    await confirmAndDelete(note.value, () => {
+      router.push('/write')
+    })
+  }
 }
 
 watch(note, (currentNote) => {
@@ -118,7 +157,6 @@ onUnmounted(resetPageMeta)
               <CopyLinkButton :slug="slug" variant="inline" />
             </div>
           </template>
-          <CopyMarkdownButton :content="note.content" />
           <UiButton
             v-if="canEdit"
             variant="primary"
@@ -129,6 +167,11 @@ onUnmounted(resetPageMeta)
             <template #icon>✎</template>
             {{ t('common.edit') }}
           </UiButton>
+          <OverflowMenu
+            :items="overflowItems"
+            :ariaLabel="t('common.moreActions')"
+            @select="handleOverflowSelect"
+          />
         </NoteActionsBar>
 
         <div :class="$style.meta">

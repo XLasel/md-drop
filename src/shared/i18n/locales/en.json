@@ -24,7 +24,8 @@
     "done": "Done",
     "improve": "Polish",
     "undo": "Undo",
-    "untitled": "Untitled"
+    "untitled": "Untitled",
+    "moreActions": "More actions"
   },
   "nav": {
     "ariaLabel": "Site sections",
