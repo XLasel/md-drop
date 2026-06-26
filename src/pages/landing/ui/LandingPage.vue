@@ -1,26 +1,97 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import { UiButton } from '@/shared/ui/Button'
+import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
+import gsap from 'gsap'
+import { SplitText } from 'gsap/SplitText'
+
+gsap.registerPlugin(SplitText)
 
 const { t } = useI18n()
+
+const badgeRef = ref<HTMLElement | null>(null)
+const titleLine1Ref = ref<HTMLElement | null>(null)
+const titleLine2Ref = ref<HTMLElement | null>(null)
+const leadRef = ref<HTMLElement | null>(null)
+const ctaRef = ref<HTMLElement | null>(null)
+const metaRef = ref<HTMLElement | null>(null)
+const cardRef = ref<HTMLElement | null>(null)
+
+const titleLines = computed(() =>
+  t('landing.title').split(/<br\s*\/?>/i).map((line) => line.trim())
+)
+
+let timeline: gsap.core.Timeline | null = null
+let titleSplit1: SplitText | null = null
+let titleSplit2: SplitText | null = null
+
+const titleCharTween = {
+  yPercent: 110,
+  duration: 1.05,
+  stagger: 0.042,
+  ease: 'power4.out'
+} as const
+
+onMounted(async () => {
+  await nextTick()
+
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+  timeline = gsap.timeline()
+
+  if (reducedMotion) {
+    timeline
+      .from(
+        [badgeRef.value, titleLine1Ref.value, titleLine2Ref.value, cardRef.value, leadRef.value, ctaRef.value, metaRef.value],
+        { opacity: 0, duration: 0.15, stagger: 0.05 },
+        0
+      )
+    return
+  }
+
+  titleSplit1 = SplitText.create(titleLine1Ref.value, { type: 'words,chars', mask: 'chars' })
+  titleSplit2 = SplitText.create(titleLine2Ref.value, { type: 'words,chars', mask: 'chars' })
+
+  timeline
+    .from(badgeRef.value, { opacity: 0, y: 6, duration: 0.8, ease: 'power2.out' }, 0)
+    .from(titleSplit1.chars, titleCharTween, 0.1)
+    .from(titleSplit2.chars, titleCharTween, 0.18)
+    .from(cardRef.value, { opacity: 0, y: 14, scale: 0.97, duration: 1.1, ease: 'power3.out' }, 0.42)
+    .from(leadRef.value, { opacity: 0, y: 6, duration: 0.9, ease: 'power2.out' }, 0.62)
+    .from(ctaRef.value, { opacity: 0, y: 6, duration: 0.85, ease: 'power2.out' }, 0.82)
+    .from(metaRef.value, { opacity: 0, duration: 0.8, ease: 'power1.out' }, 0.98)
+})
+
+onUnmounted(() => {
+  timeline?.kill()
+  titleSplit1?.revert()
+  titleSplit2?.revert()
+})
 </script>
 
 <template>
 <div :class="$style.root">
   <section :class="$style.hero">
-        <div class="animate-fade-up" :class="$style.copy">
-          <span :class="$style.badge">{{ t('landing.badge') }}</span>
-          <h1 :class="$style.title" v-html="t('landing.title')" />
-          <p :class="$style.lead">
+        <div :class="$style.copy">
+          <span ref="badgeRef" :class="$style.badge">{{ t('landing.badge') }}</span>
+          <h1 :class="$style.title">
+            <span :class="$style.titleLine">
+              <span ref="titleLine1Ref" :class="$style.titleInner">{{ titleLines[0] }}</span>
+            </span>
+            <span :class="$style.titleLine">
+              <span ref="titleLine2Ref" :class="$style.titleInner">{{ titleLines[1] }}</span>
+            </span>
+          </h1>
+          <p ref="leadRef" :class="$style.lead">
             {{ t('landing.lead') }}
           </p>
-          <div :class="$style.cta">
+          <div ref="ctaRef" :class="$style.cta">
             <UiButton to="/write" size="lg" icon-position="end" animated>
               <template #icon>→</template>
               {{ t('landing.cta') }}
             </UiButton>
           </div>
-          <div :class="$style.meta">
+          <div ref="metaRef" :class="$style.meta">
             <span>{{ t('landing.metaPublicLinks') }}</span>
             <span>/</span>
             <span>{{ t('landing.metaEditTokens') }}</span>
@@ -29,24 +100,26 @@ const { t } = useI18n()
           </div>
         </div>
 
-        <div class="animate-fade-up-delayed" :class="$style.preview">
-          <div class="animate-floaty" :class="$style.card">
-            <div :class="$style.cardChrome">
-              <span />
-              <span />
-              <span />
-              <span :class="$style.url">/v/sunday-thoughts-8k2</span>
+        <div :class="$style.preview">
+          <div ref="cardRef" :class="$style.cardEnter">
+            <div class="animate-floaty" :class="$style.card">
+              <div :class="$style.cardChrome">
+                <span />
+                <span />
+                <span />
+                <span :class="$style.url">/v/sunday-thoughts-8k2</span>
+              </div>
+              <div :class="$style.cardBody">
+                <div :class="$style.cardKicker">{{ t('landing.demoKicker') }}</div>
+                <div :class="$style.cardTitle">{{ t('landing.demoTitle') }}</div>
+                <p :class="$style.cardText">
+                  {{ t('landing.demoText') }}
+                </p>
+                <span :class="$style.cardTag">{{ t('landing.demoTag') }}</span>
+              </div>
             </div>
-            <div :class="$style.cardBody">
-              <div :class="$style.cardKicker">{{ t('landing.demoKicker') }}</div>
-              <div :class="$style.cardTitle">{{ t('landing.demoTitle') }}</div>
-              <p :class="$style.cardText">
-                {{ t('landing.demoText') }}
-              </p>
-              <span :class="$style.cardTag">{{ t('landing.demoTag') }}</span>
-            </div>
+            <span :class="$style.sticker">{{ t('landing.sticker') }}</span>
           </div>
-          <span :class="$style.sticker">{{ t('landing.sticker') }}</span>
         </div>
       </section>
     </div>
@@ -98,6 +171,17 @@ const { t } = useI18n()
   font-weight: 600;
 }
 
+.titleLine {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.titleInner {
+  display: inline-block;
+  white-space: nowrap;
+}
+
 .lead {
   margin: 0 0 var(--space-l);
   max-width: 40ch;
@@ -131,6 +215,11 @@ const { t } = useI18n()
 
 .preview {
   position: relative;
+}
+
+.cardEnter {
+  position: relative;
+  transform-origin: center center;
 }
 
 .card {
