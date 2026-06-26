@@ -2,12 +2,7 @@
 import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
-import {
-  fetchUserNotes,
-  formatNoteDate,
-  getNoteExcerpt,
-  getNoteUrl,
-} from '@/entities/note'
+import { fetchUserNotes, formatNoteDate, getNoteExcerpt, getNoteUrl } from '@/entities/note'
 import type { Note } from '@/entities/note'
 import { useLocaleStore } from '@/entities/locale'
 import { useAuthStore } from '@/entities/user'

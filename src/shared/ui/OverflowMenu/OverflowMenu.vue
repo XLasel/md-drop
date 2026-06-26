@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import { CoreButton } from '@/shared/ui/Button'
-import {
-  DropdownMenu,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-} from '@/shared/ui/DropdownMenu'
+import { DropdownMenu, DropdownMenuItem, DropdownMenuSeparator } from '@/shared/ui/DropdownMenu'
 
 export interface OverflowMenuItem {
   key: string

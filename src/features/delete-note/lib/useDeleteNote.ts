@@ -1,11 +1,6 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import {
-  clearEditToken,
-  deleteNote,
-  deleteNoteByToken,
-  getEditToken,
-} from '@/entities/note'
+import { clearEditToken, deleteNote, deleteNoteByToken, getEditToken } from '@/entities/note'
 import type { Note } from '@/entities/note'
 import { useAuthStore } from '@/entities/user'
 import { useToast } from '@/shared/lib/toast'
