@@ -35,6 +35,10 @@ const typeClass: Record<ToastType, string> = {
   flex-direction: column;
   gap: 0.5rem;
   max-width: min(360px, calc(100vw - 2rem));
+
+  @include mobile {
+    bottom: var(--site-nav-offset);
+  }
 }
 
 .toast {

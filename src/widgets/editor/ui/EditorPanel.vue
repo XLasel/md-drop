@@ -67,14 +67,14 @@ const wordCount = computed(() => {
   width: 100%;
   height: 100%;
   min-height: 320px;
-  padding: 14px 22px 24px;
+  padding: var(--field-pad-top) 22px var(--field-pad-bottom);
   border: none;
   resize: none;
   background: transparent;
   color: var(--muted);
   font-family: var(--font-mono);
-  font-size: 0.84375rem;
-  line-height: 1.9;
+  font-size: var(--field-font-size);
+  line-height: var(--field-line-height);
 
   &::placeholder {
     color: var(--faint);

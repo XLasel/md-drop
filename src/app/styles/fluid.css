@@ -44,6 +44,12 @@
   --control-h-sm: clamp(1.875rem, 1.72rem + 0.75vw, 2.125rem);
   --icon-btn: clamp(2.125rem, 1.95rem + 0.85vw, 2.375rem);
 
+  /* Form fields — iOS Safari zooms inputs below 16px; bump size on narrow viewports */
+  --field-font-size: 0.84375rem;
+  --field-line-height: 1.9;
+  --field-pad-top: 14px;
+  --field-pad-bottom: 24px;
+
   /* Radii */
   --radius-sm: clamp(0.4375rem, 0.4rem + 0.18vw, 0.5rem);
   --radius-md: clamp(0.75rem, 0.68rem + 0.33vw, 0.875rem);
@@ -66,4 +72,13 @@
   --transition-duration-theme: 0.2s;
   --transition-ease: ease;
   --transition-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (max-width: 768px) {
+  :root {
+    --field-font-size: 1rem;
+    --field-line-height: 1.6;
+    --field-pad-top: 11px;
+    --field-pad-bottom: 20px;
+  }
 }
