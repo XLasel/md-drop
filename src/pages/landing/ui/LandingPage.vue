@@ -70,8 +70,8 @@ function teardown() {
 function setupTitleSplit() {
   if (!titleLine1Ref.value || !titleLine2Ref.value) return
 
-  titleSplit1 = SplitText.create(titleLine1Ref.value, { type: 'words,chars' })
-  titleSplit2 = SplitText.create(titleLine2Ref.value, { type: 'words,chars' })
+  titleSplit1 = SplitText.create(titleLine1Ref.value, { type: 'words,chars', wordsClass: 'word' })
+  titleSplit2 = SplitText.create(titleLine2Ref.value, { type: 'words,chars', wordsClass: 'word' })
 }
 
 async function playEntrance() {
@@ -224,12 +224,15 @@ onUnmounted(() => {
   overflow: hidden;
   padding-block: 0.14em;
   margin-block: -0.14em;
-  white-space: nowrap;
 }
 
 .titleInner {
-  display: inline-block;
-  white-space: nowrap;
+  display: block;
+
+  :global(.word) {
+    display: inline-block;
+    white-space: nowrap;
+  }
 }
 
 .lead {
