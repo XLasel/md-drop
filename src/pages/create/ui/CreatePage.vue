@@ -23,8 +23,7 @@ onMounted(async () => {
   if (!slug) return
 
   const note = await fetchNoteBySlug(slug)
-  const canEdit =
-    note && (hasEditAccess(slug) || note.author_id === authStore.user?.id)
+  const canEdit = note && (hasEditAccess(slug) || note.author_id === authStore.user?.id)
 
   if (canEdit && note) {
     editorStore.startEditing(note.slug, note.title, note.content, note.indexable)

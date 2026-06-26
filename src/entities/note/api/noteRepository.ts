@@ -1,3 +1,4 @@
+import { NOTES_PAGE_SIZE } from '@/shared/config/notes'
 import { getSupabase } from '@/shared/api/supabase'
 import { stripMarkdown, stripMarkdownLine } from '@/shared/lib/markdown/stripMarkdown'
 import { deriveTitle, validateNoteContent, validateTitle } from '@/shared/lib/validation'
@@ -12,7 +13,20 @@ export class NoteRepositoryError extends Error {
   }
 }
 
-const NOTE_COLUMNS = 'id, slug, title, content, author_id, indexable, created_at, updated_at'
+export class NoteExpiredError extends NoteRepositoryError {
+  constructor() {
+    super('NOTE_EXPIRED')
+    this.name = 'NoteExpiredError'
+  }
+}
+
+const NOTE_COLUMNS =
+  'id, slug, title, content, author_id, indexable, expires_at, created_at, updated_at'
+
+export interface FetchUserNotesResult {
+  notes: Note[]
+  total: number
+}
 
 export function saveEditToken(slug: string, token: string): void {
   localStorage.setItem(`${EDIT_TOKEN_STORAGE_PREFIX}${slug}`, token)
@@ -26,7 +40,19 @@ export function hasEditAccess(slug: string): boolean {
   return Boolean(getEditToken(slug))
 }
 
-export async function createNote(input: CreateNoteInput): Promise<{ note: Note; editToken: string }> {
+async function isNoteExpired(slug: string): Promise<boolean> {
+  const supabase = getSupabase()
+  if (!supabase) return false
+
+  const { data, error } = await supabase.rpc('is_note_expired', { p_slug: slug })
+
+  if (error) return false
+  return Boolean(data)
+}
+
+export async function createNote(
+  input: CreateNoteInput,
+): Promise<{ note: Note; editToken: string }> {
   const supabase = getSupabase()
   if (!supabase) {
     throw new NoteRepositoryError('Supabase is not configured')
@@ -84,7 +110,14 @@ export async function fetchNoteBySlug(slug: string): Promise<Note | null> {
     throw new NoteRepositoryError(error.message)
   }
 
-  return (data as Note | null) ?? null
+  if (!data) {
+    if (await isNoteExpired(slug)) {
+      throw new NoteExpiredError()
+    }
+    return null
+  }
+
+  return data as Note
 }
 
 export async function updateNoteAsAuthor(
@@ -163,23 +196,34 @@ export async function updateNoteByToken(input: UpdateNoteInput): Promise<boolean
   return Boolean(data)
 }
 
-export async function fetchUserNotes(authorId: string): Promise<Note[]> {
+export async function fetchUserNotes(
+  authorId: string,
+  page = 0,
+  pageSize = NOTES_PAGE_SIZE,
+): Promise<FetchUserNotesResult> {
   const supabase = getSupabase()
   if (!supabase) {
     throw new NoteRepositoryError('Supabase is not configured')
   }
 
-  const { data, error } = await supabase
+  const from = page * pageSize
+  const to = from + pageSize - 1
+
+  const { data, error, count } = await supabase
     .from('notes')
-    .select(NOTE_COLUMNS)
+    .select(NOTE_COLUMNS, { count: 'exact' })
     .eq('author_id', authorId)
     .order('created_at', { ascending: false })
+    .range(from, to)
 
   if (error) {
     throw new NoteRepositoryError(error.message)
   }
 
-  return (data as Note[]) ?? []
+  return {
+    notes: (data as Note[]) ?? [],
+    total: count ?? 0,
+  }
 }
 
 export async function deleteNote(noteId: string): Promise<void> {
@@ -208,6 +252,10 @@ export function formatNoteDate(date: string, locale?: string): string {
 
 export function formatNoteDateShort(date: string, locale?: string): string {
   return new Intl.DateTimeFormat(locale, { dateStyle: 'medium' }).format(new Date(date))
+}
+
+export function formatNoteExpiryDate(date: string, locale?: string): string {
+  return new Intl.DateTimeFormat(locale, { dateStyle: 'long' }).format(new Date(date))
 }
 
 export function estimateReadingMinutes(content: string): number {

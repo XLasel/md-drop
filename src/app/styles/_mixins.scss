@@ -19,9 +19,13 @@
 
 /// Generic transition — hover/focus feedback on interactive elements.
 @mixin transition(
-  $properties: (color, background-color, border-color),
+  $properties: (
+    color,
+    background-color,
+    border-color,
+  ),
   $duration: var(--transition-duration),
-  $ease: var(--transition-ease),
+  $ease: var(--transition-ease)
 ) {
   $result: ();
   @each $prop in $properties {

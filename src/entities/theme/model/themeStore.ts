@@ -5,22 +5,20 @@ import { useAuthStore } from '@/entities/user/model/authStore'
 import {
   type AppTheme,
   type ResolvedTheme,
-  isAppTheme,
+  isThemePreference,
+  resolveThemePreference,
+  THEME_CYCLE_ORDER,
   THEME_STORAGE_KEY,
 } from './types'
 
-export type ColorMode = 'light' | 'dark'
-
 const THEME_TRANSITION_LOCK_CLASS = 'theme-changing'
 
-function isColorMode(value: string): value is ColorMode {
-  return value === 'light' || value === 'dark'
-}
+let mediaQuery: MediaQueryList | null = null
+let mediaListener: ((event: MediaQueryListEvent) => void) | null = null
 
-function normalizePreference(value: AppTheme): ColorMode {
-  if (value === 'dark') return 'dark'
-  if (value === 'light') return 'light'
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+function resolveStoredPreference(stored: string | null): AppTheme {
+  if (stored && isThemePreference(stored)) return stored
+  return 'system'
 }
 
 function unlockThemeTransitions() {
@@ -31,7 +29,7 @@ function unlockThemeTransitions() {
   })
 }
 
-function applyDomTheme(next: ColorMode) {
+function applyDomTheme(next: ResolvedTheme) {
   const root = document.documentElement
   root.classList.add(THEME_TRANSITION_LOCK_CLASS)
   root.setAttribute('data-theme', next)
@@ -41,61 +39,68 @@ function applyDomTheme(next: ColorMode) {
 }
 
 export const useThemeStore = defineStore('theme', () => {
-  const mode = ref<ColorMode>('light')
+  const preference = ref<AppTheme>('system')
 
-  const resolved = computed<ResolvedTheme>(() => mode.value)
+  const resolved = computed<ResolvedTheme>(() => resolveThemePreference(preference.value))
 
-  function applyMode(next: ColorMode) {
-    mode.value = next
+  function unbindSystemListener() {
+    if (mediaQuery && mediaListener) {
+      mediaQuery.removeEventListener('change', mediaListener)
+    }
+    mediaQuery = null
+    mediaListener = null
+  }
+
+  function bindSystemListener() {
+    unbindSystemListener()
+    if (preference.value !== 'system') return
+
+    mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+    mediaListener = () => {
+      if (preference.value === 'system') {
+        applyDomTheme(resolveThemePreference('system'))
+      }
+    }
+    mediaQuery.addEventListener('change', mediaListener)
+  }
+
+  function applyPreference(next: AppTheme) {
+    preference.value = next
     localStorage.setItem(THEME_STORAGE_KEY, next)
-    applyDomTheme(next)
+    applyDomTheme(resolveThemePreference(next))
+    bindSystemListener()
   }
 
   function init() {
-    const stored = localStorage.getItem(THEME_STORAGE_KEY)
-
-    if (stored && isColorMode(stored)) {
-      mode.value = stored
-    } else if (stored && isAppTheme(stored)) {
-      mode.value = normalizePreference(stored)
-    }
-
-    applyDomTheme(mode.value)
+    preference.value = resolveStoredPreference(localStorage.getItem(THEME_STORAGE_KEY))
+    applyDomTheme(resolveThemePreference(preference.value))
+    bindSystemListener()
   }
 
-  function toggleMode() {
-    applyMode(mode.value === 'light' ? 'dark' : 'light')
-    void persistToProfile()
-  }
-
-  function setMode(next: ColorMode) {
-    applyMode(next)
+  function cyclePreference() {
+    const index = THEME_CYCLE_ORDER.indexOf(preference.value)
+    const next = THEME_CYCLE_ORDER[(index + 1) % THEME_CYCLE_ORDER.length]
+    applyPreference(next)
     void persistToProfile()
   }
 
   async function persistToProfile() {
     const authStore = useAuthStore()
     if (!authStore.user) return
-    await updateProfileTheme(authStore.user.id, mode.value)
+    await updateProfileTheme(authStore.user.id, preference.value)
   }
 
   function syncFromProfile(themePreference: string) {
-    if (isColorMode(themePreference)) {
-      applyMode(themePreference)
-      return
-    }
-
-    if (isAppTheme(themePreference)) {
-      applyMode(normalizePreference(themePreference))
+    if (isThemePreference(themePreference)) {
+      applyPreference(themePreference)
     }
   }
 
   return {
-    mode,
+    preference,
     resolved,
     init,
-    toggleMode,
-    setMode,
+    cyclePreference,
     syncFromProfile,
   }
 })

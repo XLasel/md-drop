@@ -6,11 +6,7 @@ import { usePageTransition } from '@/app/lib/usePageTransition'
 import { useAuthStore } from '@/entities/user'
 import { NewNoteButton } from '@/features/new-note'
 import ToastContainer from '@/shared/ui/Toast/ToastContainer.vue'
-import {
-  AppHeader,
-  PAGE_HEADER_ACTIONS_ID,
-  PAGE_HEADER_START_ID,
-} from '@/widgets/header'
+import { AppHeader, PAGE_HEADER_ACTIONS_ID, PAGE_HEADER_START_ID } from '@/widgets/header'
 import { AppSiteNav } from '@/widgets/site-nav'
 
 const route = useRoute()

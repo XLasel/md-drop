@@ -30,24 +30,20 @@ export async function updateProfileTheme(userId: string, theme: AppTheme): Promi
   const supabase = getSupabase()
   if (!supabase || !isAppTheme(theme)) return
 
-  await supabase
-    .from('profiles')
-    .upsert({
-      id: userId,
-      theme_preference: theme,
-      updated_at: new Date().toISOString(),
-    })
+  await supabase.from('profiles').upsert({
+    id: userId,
+    theme_preference: theme,
+    updated_at: new Date().toISOString(),
+  })
 }
 
 export async function updateProfileLocale(userId: string, locale: AppLocale): Promise<void> {
   const supabase = getSupabase()
   if (!supabase || !isAppLocale(locale)) return
 
-  await supabase
-    .from('profiles')
-    .upsert({
-      id: userId,
-      locale_preference: locale,
-      updated_at: new Date().toISOString(),
-    })
+  await supabase.from('profiles').upsert({
+    id: userId,
+    locale_preference: locale,
+    updated_at: new Date().toISOString(),
+  })
 }

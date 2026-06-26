@@ -9,6 +9,7 @@ import {
   formatNoteDateShort,
   getNoteExcerpt,
   hasEditAccess,
+  NoteExpiredError,
 } from '@/entities/note'
 import type { Note } from '@/entities/note'
 import { useLocaleStore } from '@/entities/locale'
@@ -41,7 +42,7 @@ const canEdit = computed(
     (hasEditAccess(slug.value) || note.value.author_id === authStore.user?.id),
 )
 const readingMinutes = computed(() =>
-  note.value ? estimateReadingMinutes(note.value.content) : 1,
+  note.value ? estimateReadingMinutes(note.value.content) : null,
 )
 
 async function loadNote() {
@@ -61,6 +62,10 @@ async function loadNote() {
     note.value = result
     html.value = await renderMarkdown(result.content)
   } catch (err) {
+    if (err instanceof NoteExpiredError) {
+      error.value = t('view.noteExpired')
+      return
+    }
     error.value = err instanceof Error ? err.message : t('view.loadFailed')
   } finally {
     loading.value = false
@@ -90,7 +95,7 @@ onUnmounted(resetPageMeta)
 
 <template>
   <div :class="$style.root">
-  <div :class="$style.container">
+    <div :class="$style.container">
       <div v-if="loading" :class="$style.loading">
         <SkeletonLoader :lines="8" />
       </div>
@@ -127,18 +132,18 @@ onUnmounted(resetPageMeta)
         </NoteActionsBar>
 
         <div :class="$style.meta">
-          <time :datetime="note.created_at">{{ formatNoteDateShort(note.created_at, locale) }}</time>
-          <span :class="$style.metaSep" aria-hidden="true">·</span>
-          <span>{{ t('view.readingTime', readingMinutes) }}</span>
+          <time :datetime="note.created_at">{{
+            formatNoteDateShort(note.created_at, locale)
+          }}</time>
+          <template v-if="readingMinutes !== null">
+            <span :class="$style.metaSep" aria-hidden="true">·</span>
+            <span>{{ t('view.readingTime', readingMinutes) }}</span>
+          </template>
         </div>
 
         <h1 :class="$style.title">{{ note.title }}</h1>
 
-        <div
-          class="markdown-body markdown-body--reader"
-          :class="$style.body"
-          v-html="html"
-        />
+        <div class="markdown-body markdown-body--reader" :class="$style.body" v-html="html" />
 
         <footer :class="$style.footer">
           {{ t('view.footerShared') }}
@@ -148,7 +153,7 @@ onUnmounted(resetPageMeta)
           </button>
         </footer>
       </article>
-  </div>
+    </div>
   </div>
 </template>
 

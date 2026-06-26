@@ -16,9 +16,7 @@ const menuRoot = ref<HTMLElement | null>(null)
 
 const displayName = computed(() => authStore.getUserDisplayName())
 const initial = computed(() => displayName.value?.charAt(0).toUpperCase() ?? '?')
-const showEmail = computed(
-  () => user.value?.email && displayName.value !== user.value.email,
-)
+const showEmail = computed(() => user.value?.email && displayName.value !== user.value.email)
 
 function closeMenu() {
   menuOpen.value = false
@@ -71,12 +69,7 @@ onKeyStroke('Escape', () => {
           <span v-if="showEmail" :class="$style.menuEmail">{{ user.email }}</span>
         </div>
         <div :class="$style.menuSeparator" role="separator" />
-        <button
-          type="button"
-          role="menuitem"
-          :class="$style.menuItem"
-          @click="handleSignOut"
-        >
+        <button type="button" role="menuitem" :class="$style.menuItem" @click="handleSignOut">
           {{ t('common.signOut') }}
         </button>
       </div>

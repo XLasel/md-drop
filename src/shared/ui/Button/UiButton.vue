@@ -27,11 +27,7 @@ const props = withDefaults(
 const slots = useSlots()
 
 const isAnimated = computed(
-  () =>
-    props.animated &&
-    Boolean(slots.icon) &&
-    !props.loading &&
-    !props.disabled,
+  () => props.animated && Boolean(slots.icon) && !props.loading && !props.disabled,
 )
 </script>
 
@@ -56,19 +52,13 @@ const isAnimated = computed(
     <span v-if="loading" :class="$style.spinner" aria-hidden="true" />
 
     <template v-if="isAnimated">
-      <span
-        :class="[$style.iconReveal, $style.revealStart]"
-        aria-hidden="true"
-      >
+      <span :class="[$style.iconReveal, $style.revealStart]" aria-hidden="true">
         <slot name="icon" />
       </span>
       <span v-if="$slots.default" :class="[$style.label, $style.inner]">
-          <slot />
+        <slot />
       </span>
-      <span
-        :class="[$style.iconReveal, $style.revealEnd]"
-        aria-hidden="true"
-      >
+      <span :class="[$style.iconReveal, $style.revealEnd]" aria-hidden="true">
         <slot name="icon" />
       </span>
     </template>
@@ -89,7 +79,7 @@ const isAnimated = computed(
   --btn-hover-duration: 0.4s;
   --btn-hover-delay: 75ms;
   --btn-hover-ease: cubic-bezier(0.16, 1, 0.3, 1);
-  --btn-hover-ease: cubic-bezier(.23, 1, .32, 1);
+  --btn-hover-ease: cubic-bezier(0.23, 1, 0.32, 1);
 
   --btn-icon-shift: calc(1em + 0.5rem);
 
@@ -159,7 +149,9 @@ const isAnimated = computed(
   align-items: center;
   justify-content: center;
   line-height: 1;
-  transition: transform var(--btn-hover-duration) var(--btn-hover-ease), opacity 0.3s ease;
+  transition:
+    transform var(--btn-hover-duration) var(--btn-hover-ease),
+    opacity 0.3s ease;
 }
 
 .iconStart {
@@ -204,7 +196,6 @@ const isAnimated = computed(
 }
 
 .iconEnd:hover:not(:disabled):not([aria-disabled='true']) {
-  
   .inner {
     scale: 0.98;
     transform: translateX(calc(var(--btn-shift) * 1.35));
@@ -303,7 +294,7 @@ const isAnimated = computed(
   --btn-shift: 0.9em;
   min-height: var(--control-h-sm);
   padding-block: 0.4em;
-  font-size: var(--step--1); 
+  font-size: var(--step--1);
 
   gap: 0.6rem;
 }

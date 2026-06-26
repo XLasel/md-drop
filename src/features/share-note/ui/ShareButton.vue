@@ -30,6 +30,7 @@ const loading = ref(false)
 const successSlug = ref<string | null>(null)
 const successEditToken = ref<string | null>(null)
 const successAuthorId = ref<string | null>(null)
+const successExpiresAt = ref<string | null>(null)
 
 async function handleShare() {
   const validationError = validateNoteContent(content.value)
@@ -101,6 +102,7 @@ async function handleShare() {
     successSlug.value = note.slug
     successEditToken.value = editToken
     successAuthorId.value = note.author_id
+    successExpiresAt.value = note.expires_at
   } catch (error) {
     const message = error instanceof Error ? error.message : t('share.shareFailed')
     toast.error(message)
@@ -113,6 +115,7 @@ function closeSuccessModal() {
   successSlug.value = null
   successEditToken.value = null
   successAuthorId.value = null
+  successExpiresAt.value = null
 }
 
 function onIndexableChange(value: boolean) {
@@ -140,6 +143,7 @@ function onIndexableChange(value: boolean) {
     :indexable="indexable"
     :edit-token="successEditToken"
     :author-id="successAuthorId"
+    :expires-at="successExpiresAt"
     @close="closeSuccessModal"
     @indexable-change="onIndexableChange"
   />

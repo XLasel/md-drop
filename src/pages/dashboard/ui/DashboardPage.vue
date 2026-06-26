@@ -1,17 +1,13 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
 import { RouterLink } from 'vue-router'
-import {
-  deleteNote,
-  fetchUserNotes,
-  formatNoteDate,
-  getNoteExcerpt,
-} from '@/entities/note'
+import { deleteNote, fetchUserNotes, formatNoteDate, getNoteExcerpt } from '@/entities/note'
 import type { Note } from '@/entities/note'
 import { useLocaleStore } from '@/entities/locale'
 import { useAuthStore } from '@/entities/user'
+import { NOTES_PAGE_SIZE } from '@/shared/config/notes'
 import { useToast } from '@/shared/lib/toast'
 import EmptyState from '@/shared/ui/EmptyState/EmptyState.vue'
 import ErrorState from '@/shared/ui/ErrorState/ErrorState.vue'
@@ -26,9 +22,14 @@ const toast = useToast()
 const { locale } = storeToRefs(localeStore)
 
 const notes = ref<Note[]>([])
+const totalNotes = ref(0)
+const page = ref(0)
 const loading = ref(true)
 const error = ref<string | null>(null)
 const deletingId = ref<string | null>(null)
+
+const totalPages = computed(() => Math.max(1, Math.ceil(totalNotes.value / NOTES_PAGE_SIZE)))
+const showPagination = computed(() => totalNotes.value > NOTES_PAGE_SIZE)
 
 async function loadNotes() {
   if (!authStore.user) {
@@ -40,7 +41,9 @@ async function loadNotes() {
   error.value = null
 
   try {
-    notes.value = await fetchUserNotes(authStore.user.id)
+    const result = await fetchUserNotes(authStore.user.id, page.value)
+    notes.value = result.notes
+    totalNotes.value = result.total
   } catch (err) {
     error.value = err instanceof Error ? err.message : t('dashboard.loadFailed')
   } finally {
@@ -55,13 +58,21 @@ async function handleDelete(note: Note) {
 
   try {
     await deleteNote(note.id)
-    notes.value = notes.value.filter((item) => item.id !== note.id)
+    if (notes.value.length === 1 && page.value > 0) {
+      page.value -= 1
+    }
+    await loadNotes()
     toast.success(t('dashboard.noteDeleted'))
   } catch (err) {
     toast.error(err instanceof Error ? err.message : t('dashboard.deleteFailed'))
   } finally {
     deletingId.value = null
   }
+}
+
+function goToPage(nextPage: number) {
+  page.value = nextPage
+  void loadNotes()
 }
 
 onMounted(async () => {
@@ -72,7 +83,7 @@ onMounted(async () => {
 
 <template>
   <div :class="$style.page">
-  <div :class="$style.container">
+    <div :class="$style.container">
       <div v-if="authStore.loading || loading" :class="$style.loading">
         <SkeletonLoader :lines="5" />
       </div>
@@ -89,14 +100,14 @@ onMounted(async () => {
       <template v-else>
         <div :class="$style.top">
           <h1 :class="$style.heading">{{ t('dashboard.heading') }}</h1>
-          <p v-if="notes.length" :class="$style.subheading">
-            {{ t('dashboard.noteCount', notes.length) }}
+          <p v-if="totalNotes" :class="$style.subheading">
+            {{ t('dashboard.noteCount', totalNotes) }}
           </p>
           <p v-else :class="$style.subheading">{{ t('dashboard.emptySubheading') }}</p>
         </div>
 
         <EmptyState
-          v-if="notes.length === 0"
+          v-if="totalNotes === 0"
           icon="#"
           :title="t('dashboard.emptyTitle')"
           :description="t('dashboard.emptyDescription')"
@@ -107,44 +118,74 @@ onMounted(async () => {
           </UiButton>
         </EmptyState>
 
-        <ul v-else :class="$style.list">
-          <li v-for="note in notes" :key="note.id" :class="$style.item">
-            <div :class="$style.info">
-              <span :class="$style.dot" />
-              <div :class="$style.copy">
-                <div :class="$style.titleRow">
-                  <RouterLink :to="`/v/${note.slug}`" :class="$style.noteTitle">
-                    {{ note.title }}
-                  </RouterLink>
-                  <span :class="$style.slug">/v/{{ note.slug }}</span>
+        <template v-else>
+          <ul :class="$style.list">
+            <li v-for="note in notes" :key="note.id" :class="$style.item">
+              <div :class="$style.info">
+                <span :class="$style.dot" />
+                <div :class="$style.copy">
+                  <div :class="$style.titleRow">
+                    <RouterLink :to="`/v/${note.slug}`" :class="$style.noteTitle">
+                      {{ note.title }}
+                    </RouterLink>
+                    <span :class="$style.slug">/v/{{ note.slug }}</span>
+                  </div>
+                  <p :class="$style.preview">{{ getNoteExcerpt(note.content, 120, note.title) }}</p>
+                  <time :class="$style.date">{{ formatNoteDate(note.created_at, locale) }}</time>
                 </div>
-                <p :class="$style.preview">{{ getNoteExcerpt(note.content, 120, note.title) }}</p>
-                <time :class="$style.date">{{ formatNoteDate(note.created_at, locale) }}</time>
               </div>
-            </div>
 
-            <div :class="$style.actions">
-              <UiButton :to="`/v/${note.slug}`" variant="secondary" size="sm">{{ t('common.view') }}</UiButton>
-              <UiButton
-                :to="{ path: '/write', query: { edit: note.slug } }"
-                variant="secondary"
-                size="sm"
-              >
-                {{ t('common.edit') }}
-              </UiButton>
-              <UiButton
-                variant="danger"
-                size="sm"
-                :loading="deletingId === note.id"
-                @click="handleDelete(note)"
-              >
-                {{ t('common.delete') }}
-              </UiButton>
-            </div>
-          </li>
-        </ul>
+              <div :class="$style.actions">
+                <UiButton :to="`/v/${note.slug}`" variant="secondary" size="sm">{{
+                  t('common.view')
+                }}</UiButton>
+                <UiButton
+                  :to="{ path: '/write', query: { edit: note.slug } }"
+                  variant="secondary"
+                  size="sm"
+                >
+                  {{ t('common.edit') }}
+                </UiButton>
+                <UiButton
+                  variant="danger"
+                  size="sm"
+                  :loading="deletingId === note.id"
+                  @click="handleDelete(note)"
+                >
+                  {{ t('common.delete') }}
+                </UiButton>
+              </div>
+            </li>
+          </ul>
+
+          <nav
+            v-if="showPagination"
+            :class="$style.pagination"
+            :aria-label="t('dashboard.pageOf', { current: page + 1, total: totalPages })"
+          >
+            <UiButton
+              variant="secondary"
+              size="sm"
+              :disabled="page === 0"
+              @click="goToPage(page - 1)"
+            >
+              {{ t('dashboard.prevPage') }}
+            </UiButton>
+            <span :class="$style.pageLabel">
+              {{ t('dashboard.pageOf', { current: page + 1, total: totalPages }) }}
+            </span>
+            <UiButton
+              variant="secondary"
+              size="sm"
+              :disabled="page >= totalPages - 1"
+              @click="goToPage(page + 1)"
+            >
+              {{ t('dashboard.nextPage') }}
+            </UiButton>
+          </nav>
+        </template>
       </template>
-  </div>
+    </div>
   </div>
 </template>
 
@@ -278,5 +319,20 @@ onMounted(async () => {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-s);
+  margin-top: var(--space-m);
+  padding-top: var(--space-s);
+}
+
+.pageLabel {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--muted);
 }
 </style>

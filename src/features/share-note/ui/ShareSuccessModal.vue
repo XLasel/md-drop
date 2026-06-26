@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref, watch } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import {
+  formatNoteExpiryDate,
   getNoteUrl,
   updateNoteAsAuthor,
   updateNoteByToken,
 } from '@/entities/note'
+import { useLocaleStore } from '@/entities/locale'
 import { useAuthStore } from '@/entities/user'
 import { useCopyToClipboard } from '@/shared/lib/useCopyToClipboard'
 import { useToast } from '@/shared/lib/toast'
@@ -20,6 +22,7 @@ const props = defineProps<{
   indexable: boolean
   editToken?: string | null
   authorId?: string | null
+  expiresAt?: string | null
 }>()
 
 const emit = defineEmits<{
@@ -31,8 +34,18 @@ const router = useRouter()
 const { t } = useI18n()
 const toast = useToast()
 const authStore = useAuthStore()
+const localeStore = useLocaleStore()
 const { copyText } = useCopyToClipboard()
 const { startNewNote } = useNewNote()
+
+const isAnonymous = computed(() => !props.authorId)
+const expiryLabel = computed(() =>
+  props.expiresAt
+    ? t('share.anonymousExpiryDate', {
+        date: formatNoteExpiryDate(props.expiresAt, localeStore.locale),
+      })
+    : null,
+)
 
 const localIndexable = ref(props.indexable)
 const savingIndexable = ref(false)
@@ -169,6 +182,11 @@ function writeNew() {
           </div>
           <h2 :class="$style.title">{{ t('share.noteLive') }}</h2>
           <p :class="$style.subtitle">{{ t('share.noteLiveHint') }}</p>
+          <p v-if="isAnonymous" :class="$style.retention">
+            {{ t('share.anonymousExpiryHint') }}
+            <span v-if="expiryLabel">{{ expiryLabel }}</span>
+          </p>
+          <p v-else :class="$style.retention">{{ t('share.signedInRetentionHint') }}</p>
         </div>
 
         <div :class="$style.linkRow">
@@ -182,12 +200,7 @@ function writeNew() {
           {{ copiedMd ? t('share.markdownCopied') : t('share.copyMarkdownSource') }}
         </UiButton>
 
-        <button
-          type="button"
-          :class="$style.seo"
-          :disabled="savingIndexable"
-          @click="toggleSeo"
-        >
+        <button type="button" :class="$style.seo" :disabled="savingIndexable" @click="toggleSeo">
           <span :class="[$style.seoBox, localIndexable && $style.seoBoxOn]">
             <span v-if="localIndexable">✓</span>
           </span>
@@ -422,6 +435,13 @@ function writeNew() {
   margin: 0;
   font-size: var(--step--1);
   color: var(--muted);
+}
+
+.retention {
+  margin: var(--space-2xs) 0 0;
+  font-size: var(--step--2);
+  color: var(--faint);
+  line-height: 1.5;
 }
 
 .linkRow {

@@ -7,11 +7,7 @@ defineProps<{
 </script>
 
 <template>
-  <component
-    :is="to ? RouterLink : 'div'"
-    :to="to"
-    :class="$style.logo"
-  >
+  <component :is="to ? RouterLink : 'div'" :to="to" :class="$style.logo">
     <span :class="$style.mark">#</span>
     <span :class="$style.text">md<span :class="$style.dot">·</span>drop</span>
   </component>

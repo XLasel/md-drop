@@ -7,14 +7,6 @@ export const useEditorStore = defineStore('editor', () => {
   const indexable = ref(false)
   const editingSlug = ref<string | null>(null)
 
-  function setTitle(value: string) {
-    title.value = value
-  }
-
-  function setContent(value: string) {
-    content.value = value
-  }
-
   function setIndexable(value: boolean) {
     indexable.value = value
   }
@@ -43,8 +35,6 @@ export const useEditorStore = defineStore('editor', () => {
     content,
     indexable,
     editingSlug,
-    setTitle,
-    setContent,
     setIndexable,
     startEditing,
     reset,

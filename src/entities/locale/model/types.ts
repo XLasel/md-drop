@@ -18,9 +18,7 @@ export function isLocalePreference(value: string): value is LocalePreference {
 }
 
 export function detectBrowserLocale(): AppLocale {
-  const languages = navigator.languages?.length
-    ? navigator.languages
-    : [navigator.language]
+  const languages = navigator.languages?.length ? navigator.languages : [navigator.language]
 
   for (const lang of languages) {
     const code = lang.toLowerCase()

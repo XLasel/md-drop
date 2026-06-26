@@ -10,6 +10,20 @@
     <meta property="og:description" content="Share Markdown documents instantly via link" />
     <meta property="og:type" content="website" />
     <title>MD-Drop</title>
+    <script>
+      ;(function () {
+        var key = 'md-drop:theme'
+        var stored = localStorage.getItem(key)
+        var resolved = 'light'
+        if (stored === 'dark' || stored === 'light') {
+          resolved = stored
+        } else {
+          resolved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        }
+        document.documentElement.setAttribute('data-theme', resolved)
+        document.documentElement.style.colorScheme = resolved
+      })()
+    </script>
   </head>
   <body>
     <div id="app"></div>

@@ -1,20 +1,29 @@
 <script setup lang="ts">
-import { useThemeStore } from '@/entities/theme'
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useThemeStore } from '@/entities/theme'
 
 const themeStore = useThemeStore()
 const { t } = useI18n()
+
+const modeLabel = computed(() => t(`theme.${themeStore.preference}`))
+
+const icon = computed(() => {
+  if (themeStore.preference === 'system') return '◑'
+  if (themeStore.preference === 'light') return '☀'
+  return '☽'
+})
 </script>
 
 <template>
   <button
     type="button"
     :class="$style.toggle"
-    :title="t('theme.toggleTitle')"
-    :aria-label="t('theme.toggleAria')"
-    @click="themeStore.toggleMode()"
+    :title="t('theme.toggleTitle', { mode: modeLabel })"
+    :aria-label="t('theme.toggleAria', { mode: modeLabel })"
+    @click="themeStore.cyclePreference()"
   >
-    ◑
+    {{ icon }}
   </button>
 </template>
 

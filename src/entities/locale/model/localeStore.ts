@@ -57,11 +57,6 @@ export const useLocaleStore = defineStore('locale', () => {
     void persistToProfile()
   }
 
-  function setLocale(next: AppLocale) {
-    applyLocale(next)
-    void persistToProfile()
-  }
-
   async function persistToProfile() {
     const authStore = useAuthStore()
     if (!authStore.user) return
@@ -78,7 +73,6 @@ export const useLocaleStore = defineStore('locale', () => {
     locale,
     init,
     toggleLocale,
-    setLocale,
     syncFromProfile,
   }
 })

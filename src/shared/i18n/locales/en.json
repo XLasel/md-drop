@@ -36,8 +36,11 @@
     "signedOut": "guest"
   },
   "theme": {
-    "toggleTitle": "Toggle theme",
-    "toggleAria": "Toggle light and dark theme"
+    "system": "System",
+    "light": "Light",
+    "dark": "Dark",
+    "toggleTitle": "Theme: {mode}",
+    "toggleAria": "Theme: {mode}. Click to cycle system, light, and dark."
   },
   "language": {
     "toggleTitle": "Switch language",
@@ -46,7 +49,7 @@
   "landing": {
     "badge": "no signup to read",
     "title": "Write it.<br>Drop a link.",
-    "lead": "Markdown in, a clean public page out.\nShare a note in seconds — no accounts, no noise.\nEdit anytime with a private link.",
+    "lead": "Markdown in, a clean public page out.\nShare a note in seconds — no accounts, no noise.\nEdit anytime with a private link.\nAnonymous notes are kept for 90 days — sign in to keep them indefinitely.",
     "cta": "Start writing",
     "metaPublicLinks": "paste & share",
     "metaEditTokens": "private edit link",
@@ -63,7 +66,7 @@
     "titlePlaceholder": "Note title",
     "titleHint": "title — optional",
     "markdownLabel": "write · markdown",
-    "wordCount": "{count} words",
+    "wordCount": "0 words | {n} word | {n} words",
     "placeholder": "Paste your Markdown here...",
     "preview": "preview",
     "live": "● live",
@@ -72,6 +75,7 @@
   "view": {
     "unableToLoad": "Couldn't load the note",
     "noteNotFound": "Note not found",
+    "noteExpired": "This note has expired and is no longer available.",
     "loadFailed": "Something went wrong loading this note",
     "published": "Published",
     "readingTime": "no minutes | {n} min read | {n} min read",
@@ -82,14 +86,17 @@
     "unableToLoad": "Couldn't load your notes",
     "loadFailed": "Failed to load notes",
     "deleteFailed": "Couldn't delete that note",
-    "deleteConfirm": "Delete \"{title}\"?",
+    "deleteConfirm": "Delete \"{title}\" permanently? The link will stop working and this cannot be undone.",
     "noteDeleted": "Note deleted",
     "heading": "Your notes",
     "noteCount": "no notes | {n} note | {n} notes",
     "emptySubheading": "Nothing here yet.",
     "emptyTitle": "A blank canvas",
     "emptyDescription": "Your first note is one click away. Write some markdown, hit Share, and you've got a link.",
-    "emptyCta": "Write your first note"
+    "emptyCta": "Write your first note",
+    "prevPage": "Previous",
+    "nextPage": "Next",
+    "pageOf": "Page {current} of {total}"
   },
   "auth": {
     "signInTitle": "Sign in to see all your notes",
@@ -101,6 +108,9 @@
   "share": {
     "noteLive": "Your note is live 🎉",
     "noteLiveHint": "Anyone with the link can read it — no account needed.",
+    "anonymousExpiryHint": "Without an account, this note is stored for 90 days.",
+    "anonymousExpiryDate": "Expires on {date}",
+    "signedInRetentionHint": "Signed-in notes are kept until you delete them.",
     "copyLink": "Copy link",
     "copied": "Copied ✓",
     "copyMarkdownSource": "Copy markdown source",

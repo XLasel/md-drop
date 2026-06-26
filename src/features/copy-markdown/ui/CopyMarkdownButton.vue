@@ -16,7 +16,12 @@ function handleCopy() {
 </script>
 
 <template>
-  <UiButton variant="secondary" size="sm" :aria-label="t('common.copyMarkdown')" @click="handleCopy">
+  <UiButton
+    variant="secondary"
+    size="sm"
+    :aria-label="t('common.copyMarkdown')"
+    @click="handleCopy"
+  >
     {{ t('common.copyMarkdown') }}
   </UiButton>
 </template>

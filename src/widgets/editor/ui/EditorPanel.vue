@@ -6,15 +6,13 @@ const model = defineModel<string>({ required: true })
 
 defineProps<{
   placeholder?: string
-  readonly?: boolean
-  improving?: boolean
 }>()
 
 const { t } = useI18n()
 
 const wordCount = computed(() => {
   const words = model.value.trim() ? model.value.trim().split(/\s+/).length : 0
-  return t('editor.wordCount', { count: words })
+  return t('editor.wordCount', words)
 })
 </script>
 
@@ -29,10 +27,8 @@ const wordCount = computed(() => {
         v-model="model"
         :class="$style.textarea"
         :placeholder="placeholder ?? t('editor.placeholder')"
-        :readonly="readonly"
         spellcheck="false"
       />
-      <div v-if="improving" :class="$style.shimmer" aria-hidden="true" />
     </div>
   </div>
 </template>
@@ -88,19 +84,5 @@ const wordCount = computed(() => {
     outline: none;
     color: var(--ink);
   }
-}
-
-.shimmer {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(
-    100deg,
-    transparent 20%,
-    var(--accent-soft) 50%,
-    transparent 80%
-  );
-  background-size: 440px 100%;
-  animation: shimmer 1s linear infinite;
 }
 </style>

@@ -36,12 +36,7 @@ watch(
     </div>
     <div :class="$style.content">
       <SkeletonLoader v-if="loading && content" :lines="6" />
-      <div
-        v-else-if="html"
-        class="markdown-body"
-        :class="$style.markdown"
-        v-html="html"
-      />
+      <div v-else-if="html" class="markdown-body" :class="$style.markdown" v-html="html" />
       <p v-else :class="$style.placeholder">{{ t('editor.previewPlaceholder') }}</p>
     </div>
   </div>
