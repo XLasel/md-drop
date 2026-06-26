@@ -4,7 +4,7 @@
 
 Write Markdown, share a link — no account required. Sign in to keep notes in your dashboard, edit with a token, and polish drafts with AI.
 
-**Live demo:** _add your Vercel URL after the first deploy_
+**Live demo:** [https://md-drop.vercel.app/](https://md-drop.vercel.app/)
 
 ## Features
 
