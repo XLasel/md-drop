@@ -10,11 +10,11 @@
 
 ### Две базы
 
-| | Dev (локальная) | Prod |
-|--|-----------------|------|
-| Подключение фронта | `.env` → `VITE_SUPABASE_*` | Vercel env |
-| Миграции | все файлы из `supabase/migrations/` уже применены | `001` была выполнена вручную в SQL Editor; `002`–`008` — через CLI |
-| CLI `db:link` | может быть привязана dev-база | для prod — отдельная привязка и синхронизация истории (см. ниже) |
+|                    | Dev (локальная)                                   | Prod                                                               |
+| ------------------ | ------------------------------------------------- | ------------------------------------------------------------------ |
+| Подключение фронта | `.env` → `VITE_SUPABASE_*`                        | Vercel env                                                         |
+| Миграции           | все файлы из `supabase/migrations/` уже применены | `001` была выполнена вручную в SQL Editor; `002`–`008` — через CLI |
+| CLI `db:link`      | может быть привязана dev-база                     | для prod — отдельная привязка и синхронизация истории (см. ниже)   |
 
 `.env` не используется в GitHub Actions. Workflow миграций смотрит только на секреты репозитория и всегда работает с проектом, чей ref указан в `SUPABASE_PROJECT_ID`.
 
@@ -24,11 +24,11 @@ Workflow `.github/workflows/supabase-migrations.yml` запускается на
 
 Перед запуском в GitHub → Settings → Secrets and variables → Actions заданы:
 
-| Secret | Откуда |
-| ------ | ------ |
-| `SUPABASE_ACCESS_TOKEN` | [Account Tokens](https://supabase.com/dashboard/account/tokens) |
-| `SUPABASE_PROJECT_ID` | Ref проекта из URL dashboard (`https://supabase.com/dashboard/project/<ref>`) |
-| `SUPABASE_DB_PASSWORD` | Project → Settings → Database → password |
+| Secret                  | Откуда                                                                        |
+| ----------------------- | ----------------------------------------------------------------------------- |
+| `SUPABASE_ACCESS_TOKEN` | [Account Tokens](https://supabase.com/dashboard/account/tokens)               |
+| `SUPABASE_PROJECT_ID`   | Ref проекта из URL dashboard (`https://supabase.com/dashboard/project/<ref>`) |
+| `SUPABASE_DB_PASSWORD`  | Project → Settings → Database → password                                      |
 
 В CI: checkout → `supabase link` по `SUPABASE_PROJECT_ID` → `supabase db push`. Накатываются только pending-миграции.
 
@@ -44,16 +44,16 @@ Workflow `.github/workflows/supabase-migrations.yml` запускается на
 
 ### Порядок миграций
 
-| Файл | Содержание |
-| ---- | ---------- |
-| `001_notes.sql` | Таблица notes, RLS, RPC edit token |
-| `002_notes_title.sql` | `title`, удаление `theme`, обновление RPC |
-| `003_profiles.sql` | Профили, `theme_preference`, trigger на signup |
-| `004_indexable.sql` | `indexable boolean default false`, обновление RPC |
-| `005_remove_b_side_theme.sql` | Удаление `b-side` из `theme_preference` |
-| `006_locale_preference.sql` | `locale_preference` (`system` / `en` / `ru`) в profiles |
-| `007_anonymous_expiry.sql` | `expires_at` для анонимных заметок |
-| `008_delete_note_by_token.sql` | RPC `delete_note_by_token` |
+| Файл                           | Содержание                                              |
+| ------------------------------ | ------------------------------------------------------- |
+| `001_notes.sql`                | Таблица notes, RLS, RPC edit token                      |
+| `002_notes_title.sql`          | `title`, удаление `theme`, обновление RPC               |
+| `003_profiles.sql`             | Профили, `theme_preference`, trigger на signup          |
+| `004_indexable.sql`            | `indexable boolean default false`, обновление RPC       |
+| `005_remove_b_side_theme.sql`  | Удаление `b-side` из `theme_preference`                 |
+| `006_locale_preference.sql`    | `locale_preference` (`system` / `en` / `ru`) в profiles |
+| `007_anonymous_expiry.sql`     | `expires_at` для анонимных заметок                      |
+| `008_delete_note_by_token.sql` | RPC `delete_note_by_token`                              |
 
 ---
 
@@ -61,11 +61,11 @@ Workflow `.github/workflows/supabase-migrations.yml` запускается на
 
 ### LOG — норма
 
-| Сообщение | Значение |
-| --------- | -------- |
-| `connection authorized: user=authenticator ... PostgREST` | API-запросы с фронта |
-| `connection authenticated: identity="postgres"` | Dashboard, SQL Editor, CLI |
-| `connection authenticated: user="pgbouncer"` | Пул соединений |
+| Сообщение                                                 | Значение                   |
+| --------------------------------------------------------- | -------------------------- |
+| `connection authorized: user=authenticator ... PostgREST` | API-запросы с фронта       |
+| `connection authenticated: identity="postgres"`           | Dashboard, SQL Editor, CLI |
+| `connection authenticated: user="pgbouncer"`              | Пул соединений             |
 
 ### ERROR — `supabase_migrations.schema_migrations does not exist`
 
@@ -82,6 +82,7 @@ CLI подсказывает команду `migration repair`. Сверка: `n
 В **Authentication → Providers** включены провайдеры с Client ID/Secret.
 
 **URL Configuration:**
+
 - Site URL: `http://localhost:5173` (dev) и production URL
 - Redirect: `http://localhost:5173/dashboard` и `https://your-domain.vercel.app/dashboard`
 

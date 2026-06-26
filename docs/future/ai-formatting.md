@@ -22,13 +22,13 @@ sequenceDiagram
 
 ## Сравнение провайдеров (pet-проект, малая аудитория)
 
-| Решение | Стоимость | Сложность | Вердикт |
-|---------|-----------|-----------|---------|
-| Vercel Edge + OpenRouter (Gemini Flash / DeepSeek) | ~$0.01–0.05 / 100 запросов | Низкая | **Лучший выбор** |
-| Supabase Edge Function + тот же API | Free tier | Средняя | Если всё в Supabase |
-| Groq (Llama 3) free tier | Бесплатно, лимиты | Низкая | Прототип |
-| OpenAI GPT-4o | Дорого | Низкая | Избыточно |
-| Cloudflare Workers AI | $5/мес credits | Средняя | Если Cloudflare в стеке |
+| Решение                                            | Стоимость                  | Сложность | Вердикт                 |
+| -------------------------------------------------- | -------------------------- | --------- | ----------------------- |
+| Vercel Edge + OpenRouter (Gemini Flash / DeepSeek) | ~$0.01–0.05 / 100 запросов | Низкая    | **Лучший выбор**        |
+| Supabase Edge Function + тот же API                | Free tier                  | Средняя   | Если всё в Supabase     |
+| Groq (Llama 3) free tier                           | Бесплатно, лимиты          | Низкая    | Прототип                |
+| OpenAI GPT-4o                                      | Дорого                     | Низкая    | Избыточно               |
+| Cloudflare Workers AI                              | $5/мес credits             | Средняя   | Если Cloudflare в стеке |
 
 ## Защита от злоупотреблений
 

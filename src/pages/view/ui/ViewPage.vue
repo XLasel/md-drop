@@ -53,9 +53,7 @@ const readingMinutes = computed(() =>
 const overflowItems = computed((): OverflowMenuItem[] => {
   if (!note.value) return []
 
-  const items: OverflowMenuItem[] = [
-    { key: 'copyMarkdown', label: t('common.copyMarkdown') },
-  ]
+  const items: OverflowMenuItem[] = [{ key: 'copyMarkdown', label: t('common.copyMarkdown') }]
 
   if (canDelete(note.value)) {
     items.push({
