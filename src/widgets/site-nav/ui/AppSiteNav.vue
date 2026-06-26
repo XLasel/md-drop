@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { RouterLink } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { UiButton } from '@/shared/ui/Button'
+import { CoreButton, UiButton } from '@/shared/ui/Button'
 import { useNewNote } from '@/features/new-note'
 
 const { t } = useI18n()
@@ -18,7 +17,7 @@ const items = computed(() => [
 <template>
   <nav :class="$style.nav" :aria-label="t('nav.ariaLabel')">
     <div :class="$style.inner">
-      <RouterLink
+      <CoreButton
         v-for="item in items"
         :key="item.name"
         :to="{ name: item.name }"
@@ -26,7 +25,7 @@ const items = computed(() => [
         :active-class="$style.active"
       >
         {{ item.label }}
-      </RouterLink>
+      </CoreButton>
       <span :class="$style.divider" aria-hidden="true" />
       <UiButton size="sm" :aria-label="t('nav.new')" animated @click="startNewNote">
         <template #icon>+</template>

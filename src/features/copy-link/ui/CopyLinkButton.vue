@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { getNoteUrl } from '@/entities/note'
 import { useCopyToClipboard } from '@/shared/lib/useCopyToClipboard'
-import { UiButton } from '@/shared/ui/Button'
+import { CoreButton, UiButton } from '@/shared/ui/Button'
 
 const props = withDefaults(
   defineProps<{
@@ -39,14 +39,14 @@ function handleCopy() {
 
   <span v-else :class="$style.inline">
     <span :class="$style.url">{{ displayUrl }}</span>
-    <button
+    <CoreButton
       type="button"
       :class="$style.copyBtn"
       :aria-label="t('common.copyLink')"
       @click="handleCopy"
     >
       ⧉
-    </button>
+    </CoreButton>
   </span>
 </template>
 

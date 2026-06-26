@@ -22,7 +22,7 @@ import { NoteActionsBar } from '@/widgets/note-actions'
 import { resetPageMeta, setPageMeta } from '@/shared/lib/seo'
 import ErrorState from '@/shared/ui/ErrorState/ErrorState.vue'
 import SkeletonLoader from '@/shared/ui/Skeleton/SkeletonLoader.vue'
-import { UiButton } from '@/shared/ui/Button'
+import { CoreButton, UiButton } from '@/shared/ui/Button'
 import { OverflowMenu } from '@/shared/ui/OverflowMenu'
 import type { OverflowMenuItem } from '@/shared/ui/OverflowMenu'
 
@@ -191,9 +191,9 @@ onUnmounted(resetPageMeta)
         <footer :class="$style.footer">
           {{ t('view.footerShared') }}
           <strong>md·drop</strong> —
-          <button type="button" :class="$style.footerLink" @click="router.push('/write')">
+          <CoreButton type="button" :class="$style.footerLink" @click="router.push('/write')">
             {{ t('view.footerCta') }}
-          </button>
+          </CoreButton>
         </footer>
       </article>
     </div>

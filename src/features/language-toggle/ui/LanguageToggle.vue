@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useLocaleStore } from '@/entities/locale'
+import { CoreButton } from '@/shared/ui/Button'
 
 const localeStore = useLocaleStore()
 const { t } = useI18n()
@@ -10,7 +11,7 @@ const label = computed(() => localeStore.locale.toUpperCase())
 </script>
 
 <template>
-  <button
+  <CoreButton
     type="button"
     :class="$style.toggle"
     :title="t('language.toggleTitle')"
@@ -18,7 +19,7 @@ const label = computed(() => localeStore.locale.toUpperCase())
     @click="localeStore.toggleLocale()"
   >
     {{ label }}
-  </button>
+  </CoreButton>
 </template>
 
 <style module lang="scss">

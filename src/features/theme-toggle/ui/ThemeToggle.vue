@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useThemeStore } from '@/entities/theme'
+import { CoreButton } from '@/shared/ui/Button'
 
 const themeStore = useThemeStore()
 const { t } = useI18n()
@@ -16,7 +17,7 @@ const icon = computed(() => {
 </script>
 
 <template>
-  <button
+  <CoreButton
     type="button"
     :class="$style.toggle"
     :title="t('theme.toggleTitle', { mode: modeLabel })"
@@ -24,7 +25,7 @@ const icon = computed(() => {
     @click="themeStore.cyclePreference()"
   >
     {{ icon }}
-  </button>
+  </CoreButton>
 </template>
 
 <style module lang="scss">

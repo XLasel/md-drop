@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { RouterLink } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useAuthStore } from '@/entities/user'
-import { UiButton } from '@/shared/ui/Button'
+import { CoreButton, UiButton } from '@/shared/ui/Button'
 
 const authStore = useAuthStore()
 const { t } = useI18n()
@@ -21,7 +20,7 @@ const { t } = useI18n()
         {{ t('auth.continueGoogle') }}
       </UiButton>
     </div>
-    <RouterLink to="/write" :class="$style.anonLink">{{ t('auth.writeAnonymously') }}</RouterLink>
+    <CoreButton to="/write" :class="$style.anonLink">{{ t('auth.writeAnonymously') }}</CoreButton>
   </section>
 </template>
 

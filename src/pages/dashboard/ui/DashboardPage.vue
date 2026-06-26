@@ -2,7 +2,6 @@
 import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
-import { RouterLink } from 'vue-router'
 import {
   fetchUserNotes,
   formatNoteDate,
@@ -18,7 +17,7 @@ import { useCopyToClipboard } from '@/shared/lib/useCopyToClipboard'
 import EmptyState from '@/shared/ui/EmptyState/EmptyState.vue'
 import ErrorState from '@/shared/ui/ErrorState/ErrorState.vue'
 import SkeletonLoader from '@/shared/ui/Skeleton/SkeletonLoader.vue'
-import { UiButton } from '@/shared/ui/Button'
+import { CoreButton, UiButton } from '@/shared/ui/Button'
 import { OverflowMenu } from '@/shared/ui/OverflowMenu'
 import type { OverflowMenuItem } from '@/shared/ui/OverflowMenu'
 import { SignInPanel } from '@/widgets/sign-in'
@@ -142,9 +141,9 @@ onMounted(async () => {
                 <span :class="$style.dot" />
                 <div :class="$style.copy">
                   <div :class="$style.titleRow">
-                    <RouterLink :to="`/v/${note.slug}`" :class="$style.noteTitle">
+                    <CoreButton :to="`/v/${note.slug}`" :class="$style.noteTitle">
                       {{ note.title }}
-                    </RouterLink>
+                    </CoreButton>
                     <span :class="$style.slug">/v/{{ note.slug }}</span>
                   </div>
                   <p :class="$style.preview">{{ getNoteExcerpt(note.content, 120, note.title) }}</p>
