@@ -35,15 +35,6 @@ body {
   background: var(--accent-soft);
 }
 
-/* Global motion utilities — Vue/CSS modules can reference these by name */
-.animate-fade-up {
-  animation: fade-up 0.6s ease both;
-}
-
-.animate-fade-up-delayed {
-  animation: fade-up 0.7s 0.1s ease both;
-}
-
 .animate-floaty {
   animation: floaty 7s ease-in-out infinite;
   transform: rotate(-1.6deg);

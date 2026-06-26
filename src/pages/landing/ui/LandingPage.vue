@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import { UiButton } from '@/shared/ui/Button'
-import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue'
+import { storeToRefs } from 'pinia'
 import gsap from 'gsap'
 import { SplitText } from 'gsap/SplitText'
+import { useLocaleStore } from '@/entities/locale'
 
 gsap.registerPlugin(SplitText)
 
 const { t } = useI18n()
+const { locale } = storeToRefs(useLocaleStore())
 
 const badgeRef = ref<HTMLElement | null>(null)
 const titleLine1Ref = ref<HTMLElement | null>(null)
@@ -32,25 +35,51 @@ const titleCharTween = {
   ease: 'power4.out'
 } as const
 
-onMounted(async () => {
-  await nextTick()
+function prefersReducedMotion() {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
+}
 
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+function animatedElements() {
+  return [badgeRef.value, titleLine1Ref.value, titleLine2Ref.value, leadRef.value, ctaRef.value, metaRef.value, cardRef.value]
+    .filter(Boolean)
+}
 
-  timeline = gsap.timeline()
+function teardown() {
+  timeline?.kill()
+  timeline = null
+  titleSplit1?.revert()
+  titleSplit2?.revert()
+  titleSplit1 = null
+  titleSplit2 = null
 
-  if (reducedMotion) {
-    timeline
-      .from(
-        [badgeRef.value, titleLine1Ref.value, titleLine2Ref.value, cardRef.value, leadRef.value, ctaRef.value, metaRef.value],
-        { opacity: 0, duration: 0.15, stagger: 0.05 },
-        0
-      )
-    return
+  const els = animatedElements()
+  if (els.length) {
+    gsap.set(els, { clearProps: 'all' })
   }
+}
+
+function setupTitleSplit() {
+  if (!titleLine1Ref.value || !titleLine2Ref.value) return
 
   titleSplit1 = SplitText.create(titleLine1Ref.value, { type: 'words,chars', mask: 'chars' })
   titleSplit2 = SplitText.create(titleLine2Ref.value, { type: 'words,chars', mask: 'chars' })
+}
+
+async function playEntrance() {
+  teardown()
+  await nextTick()
+
+  const reduced = prefersReducedMotion()
+  timeline = gsap.timeline()
+
+  if (reduced) {
+    timeline.from(animatedElements(), { opacity: 0, duration: 0.15, stagger: 0.04 }, 0)
+    return
+  }
+
+  setupTitleSplit()
+
+  if (!titleSplit1 || !titleSplit2) return
 
   timeline
     .from(badgeRef.value, { opacity: 0, y: 6, duration: 0.8, ease: 'power2.out' }, 0)
@@ -60,12 +89,18 @@ onMounted(async () => {
     .from(leadRef.value, { opacity: 0, y: 6, duration: 0.9, ease: 'power2.out' }, 0.62)
     .from(ctaRef.value, { opacity: 0, y: 6, duration: 0.85, ease: 'power2.out' }, 0.82)
     .from(metaRef.value, { opacity: 0, duration: 0.8, ease: 'power1.out' }, 0.98)
+}
+
+onMounted(() => {
+  void playEntrance()
+})
+
+watch(locale, () => {
+  void playEntrance()
 })
 
 onUnmounted(() => {
-  timeline?.kill()
-  titleSplit1?.revert()
-  titleSplit2?.revert()
+  teardown()
 })
 </script>
 
