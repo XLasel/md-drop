@@ -71,7 +71,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div :class="$style.content">
+  <div :class="$style.page">
+  <div :class="$style.container">
       <div v-if="authStore.loading || loading" :class="$style.loading">
         <SkeletonLoader :lines="5" />
       </div>
@@ -144,10 +145,17 @@ onMounted(async () => {
         </ul>
       </template>
   </div>
+  </div>
 </template>
 
 <style module lang="scss">
-.content {
+.root {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100dvh - var(--header-height) - var(--site-nav-offset));
+}
+
+.container {
   @include layout-shell;
   padding-bottom: var(--page-pad-bottom);
 }

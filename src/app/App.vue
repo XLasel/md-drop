@@ -2,6 +2,7 @@
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import { RouterView, useRoute } from 'vue-router'
+import { usePageTransition } from '@/app/lib/usePageTransition'
 import { useAuthStore } from '@/entities/user'
 import { NewNoteButton } from '@/features/new-note'
 import ToastContainer from '@/shared/ui/Toast/ToastContainer.vue'
@@ -13,6 +14,7 @@ import {
 import { AppSiteNav } from '@/widgets/site-nav'
 
 const route = useRoute()
+const { transitionName } = usePageTransition()
 const authStore = useAuthStore()
 const { user } = storeToRefs(authStore)
 
@@ -34,7 +36,11 @@ const showAuth = computed(() => {
     </AppHeader>
 
     <main :class="$style.main">
-      <RouterView />
+      <RouterView v-slot="{ Component, route: pageRoute }">
+        <Transition :name="transitionName" :appear="false">
+          <component :is="Component" :key="pageRoute.fullPath" />
+        </Transition>
+      </RouterView>
     </main>
 
     <AppSiteNav />
@@ -65,6 +71,8 @@ const showAuth = computed(() => {
 }
 
 .main {
-  min-height: 0;
+  position: relative;
+  overflow: visible;
+  min-height: calc(100dvh - var(--header-height));
 }
 </style>

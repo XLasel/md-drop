@@ -6,6 +6,7 @@ const { t } = useI18n()
 </script>
 
 <template>
+<div :class="$style.root">
   <section :class="$style.hero">
         <div class="animate-fade-up" :class="$style.copy">
           <span :class="$style.badge">{{ t('landing.badge') }}</span>
@@ -48,12 +49,19 @@ const { t } = useI18n()
           <span :class="$style.sticker">{{ t('landing.sticker') }}</span>
         </div>
       </section>
+    </div>
 </template>
 
 <style module lang="scss">
+.root {
+  min-height: calc(100dvh - var(--header-height) - var(--site-nav-offset));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .hero {
   @include layout-shell(var(--landing-max-width));
-  min-height: calc(100dvh - var(--header-height) - var(--site-nav-offset));
   padding-block: var(--space-l);
   display: grid;
   grid-template-columns: 1.05fr 0.95fr;

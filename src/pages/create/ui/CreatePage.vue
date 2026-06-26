@@ -44,7 +44,7 @@ watch(
 </script>
 
 <template>
-  <div :class="$style.page">
+  <div :class="$style.root">
     <div :class="$style.titleBlock">
       <input
         v-model="title"
@@ -77,7 +77,7 @@ watch(
 </template>
 
 <style module lang="scss">
-.page {
+.root {
   display: flex;
   flex-direction: column;
   min-height: calc(100vh - var(--header-height));

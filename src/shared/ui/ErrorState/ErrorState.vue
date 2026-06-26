@@ -25,6 +25,7 @@ const { t } = useI18n()
 
 <style module lang="scss">
 .error {
+  min-height: calc(100dvh - var(--header-height) - var(--site-nav-offset));
   display: flex;
   flex-direction: column;
   align-items: center;

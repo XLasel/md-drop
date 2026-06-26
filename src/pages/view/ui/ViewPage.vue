@@ -89,6 +89,7 @@ onUnmounted(resetPageMeta)
 </script>
 
 <template>
+  <div :class="$style.root">
   <div :class="$style.container">
       <div v-if="loading" :class="$style.loading">
         <SkeletonLoader :lines="8" />
@@ -148,9 +149,16 @@ onUnmounted(resetPageMeta)
         </footer>
       </article>
   </div>
+  </div>
 </template>
 
 <style module lang="scss">
+.root {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100dvh - var(--header-height) - var(--site-nav-offset));
+}
+
 .container {
   @include layout-shell(var(--reader-max-width));
   padding-block: var(--page-pad-top-lg) var(--page-pad-bottom);
