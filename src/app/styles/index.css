@@ -9,6 +9,7 @@
 
 html {
   -webkit-font-smoothing: subpixel-antialiased;
+  scrollbar-gutter: stable both-edges;
 }
 
 /* next-themes-style lock: snap theme swap, keep hover transitions after */

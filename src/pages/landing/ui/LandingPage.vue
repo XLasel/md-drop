@@ -232,6 +232,10 @@ onUnmounted(() => {
   :global(.word) {
     display: inline-block;
     white-space: nowrap;
+    overflow: hidden;
+    padding-bottom: 0.15em;
+    margin-bottom: -0.15em;
+    vertical-align: bottom;
   }
 }
 
