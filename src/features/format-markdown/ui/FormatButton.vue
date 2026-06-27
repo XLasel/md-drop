@@ -89,7 +89,7 @@ function handleUndo() {
 .actions {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-3xs);
   flex: none;
 }
 </style>

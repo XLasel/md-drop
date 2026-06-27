@@ -58,7 +58,7 @@ watch(
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 13px 18px;
+  padding: var(--space-xs) var(--space-s);
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   color: var(--faint);
@@ -74,7 +74,7 @@ watch(
   flex: 1;
   overflow: auto;
   min-height: 320px;
-  padding: 24px 36px 36px;
+  padding: var(--space-m) var(--space-l) var(--space-l);
 }
 
 .markdown {

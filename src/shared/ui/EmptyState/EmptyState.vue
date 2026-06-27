@@ -37,7 +37,7 @@ defineProps<{
   height: 6rem;
   margin-bottom: 0.5rem;
   border: 2px dashed var(--line);
-  border-radius: 26px;
+  border-radius: var(--radius-xl);
   font-family: var(--font-mono);
   font-size: var(--heading-md);
   color: var(--faint);

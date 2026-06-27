@@ -5,7 +5,7 @@
 <style module lang="scss">
 .separator {
   height: 1px;
-  margin: 4px 6px;
+  margin: var(--space-3xs);
   background: var(--line2);
 }
 </style>

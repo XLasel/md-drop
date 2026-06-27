@@ -183,7 +183,8 @@ onUnmounted(() => {
 
 .hero {
   @include layout-shell(var(--landing-max-width));
-  padding-block: var(--space-l);
+  padding-top: var(--space-l);
+  padding-bottom: var(--page-pad-bottom);
   display: grid;
   grid-template-columns: 1.05fr 0.95fr;
   gap: var(--space-xl);
@@ -194,7 +195,8 @@ onUnmounted(() => {
     grid-template-columns: 1fr;
     gap: var(--space-l);
     min-height: calc(100dvh - var(--header-height) - var(--site-nav-offset));
-    padding-block: var(--space-m);
+    padding-top: var(--space-m);
+    padding-bottom: var(--page-pad-bottom);
   }
 }
 

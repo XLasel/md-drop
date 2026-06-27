@@ -227,7 +227,7 @@ onUnmounted(resetPageMeta)
 .status {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-3xs);
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   color: var(--faint);
