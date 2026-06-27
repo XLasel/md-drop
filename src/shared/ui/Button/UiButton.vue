@@ -294,7 +294,7 @@ const isAnimated = computed(
   --btn-shift: 0.9em;
   min-height: var(--control-h-sm);
   padding-block: 0.4em;
-  font-size: var(--step--1);
+  font-size: var(--text-sm);
 
   gap: 0.6rem;
 }
@@ -303,7 +303,7 @@ const isAnimated = computed(
   --btn-shift: 1.1em;
   min-height: var(--control-h);
   padding-block: 0.45em;
-  font-size: var(--step-0);
+  font-size: var(--text-base);
 
   gap: 0.9rem;
 }
@@ -312,7 +312,7 @@ const isAnimated = computed(
   --btn-shift: 1.35em;
   min-height: var(--control-h);
   padding-block: 0.65em;
-  font-size: var(--step-0);
+  font-size: var(--text-base);
 
   gap: 1rem;
 }

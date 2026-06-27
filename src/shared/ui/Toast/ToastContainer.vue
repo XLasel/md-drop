@@ -52,7 +52,7 @@ const typeClass: Record<ToastType, string> = {
   background: var(--panel);
   box-shadow: var(--shadow);
   color: var(--ink);
-  font-size: 0.875rem;
+  font-size: var(--text-sm);
 }
 
 .success {
@@ -74,7 +74,7 @@ const typeClass: Record<ToastType, string> = {
   border: none;
   background: transparent;
   color: inherit;
-  font-size: 1.25rem;
+  font-size: var(--text-lg);
   line-height: 1;
   padding: 0;
 }

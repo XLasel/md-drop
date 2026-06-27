@@ -64,7 +64,7 @@ function handleSelect(key: string, disabled?: boolean) {
   border-radius: 50%;
   background: transparent;
   color: var(--muted);
-  font-size: var(--step-0);
+  font-size: var(--text-base);
   line-height: 1;
   letter-spacing: 0.08em;
   cursor: pointer;

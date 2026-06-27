@@ -219,14 +219,14 @@ onMounted(async () => {
 
 .heading {
   margin: 0 0 8px;
-  font-size: 2.5rem;
+  font-size: var(--heading-md);
   font-weight: 600;
   letter-spacing: -0.04em;
 }
 
 .subheading {
   margin: 0;
-  font-size: var(--step-0);
+  font-size: var(--text-base);
   color: var(--muted);
 }
 
@@ -289,7 +289,7 @@ onMounted(async () => {
 }
 
 .noteTitle {
-  font-size: 1.0625rem;
+  font-size: var(--text-base);
   font-weight: 600;
   letter-spacing: -0.02em;
   color: var(--ink);
@@ -304,7 +304,7 @@ onMounted(async () => {
 
 .slug {
   font-family: var(--font-mono);
-  font-size: 0.6875rem;
+  font-size: var(--text-xs);
   color: var(--accent);
   background: var(--accent-soft);
   padding: 3px 9px;
@@ -313,13 +313,13 @@ onMounted(async () => {
 
 .preview {
   margin: 0 0 6px;
-  font-size: 0.8125rem;
+  font-size: var(--text-sm);
   color: var(--faint);
 }
 
 .date {
   font-family: var(--font-mono);
-  font-size: 0.8125rem;
+  font-size: var(--text-sm);
   color: var(--faint);
 }
 
@@ -341,7 +341,7 @@ onMounted(async () => {
 
 .pageLabel {
   font-family: var(--font-mono);
-  font-size: var(--step--1);
+  font-size: var(--text-sm);
   color: var(--muted);
 }
 </style>

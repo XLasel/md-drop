@@ -87,7 +87,7 @@ watch(
   align-items: center;
   gap: 6px;
   font-family: var(--font-mono);
-  font-size: var(--step--2);
+  font-size: var(--text-xs);
   color: var(--faint);
   white-space: nowrap;
 }
@@ -110,7 +110,7 @@ watch(
   border: none;
   background: transparent;
   color: var(--ink);
-  font-size: 2.25rem;
+  font-size: var(--heading-md);
   font-weight: 600;
   letter-spacing: -0.035em;
   line-height: 1.1;
@@ -128,7 +128,7 @@ watch(
   display: block;
   margin-top: 6px;
   font-family: var(--font-mono);
-  font-size: 0.8125rem;
+  font-size: var(--text-sm);
   color: var(--faint);
 }
 

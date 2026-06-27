@@ -60,7 +60,7 @@ watch(
   justify-content: space-between;
   padding: 13px 18px;
   font-family: var(--font-mono);
-  font-size: 0.6875rem;
+  font-size: var(--text-xs);
   color: var(--faint);
   letter-spacing: 0.05em;
   text-transform: uppercase;

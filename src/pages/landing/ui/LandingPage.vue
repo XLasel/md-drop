@@ -203,7 +203,7 @@ onUnmounted(() => {
   align-items: center;
   gap: var(--space-2xs);
   font-family: var(--font-mono);
-  font-size: var(--step--1);
+  font-size: var(--text-sm);
   color: var(--accent);
   background: var(--accent-soft);
   padding: var(--space-2xs) var(--space-s);
@@ -213,7 +213,7 @@ onUnmounted(() => {
 
 .title {
   margin: 0 0 var(--space-m);
-  font-size: var(--step-8);
+  font-size: var(--heading-3xl);
   line-height: 0.92;
   letter-spacing: -0.05em;
   font-weight: 600;
@@ -242,7 +242,7 @@ onUnmounted(() => {
 .lead {
   margin: 0 0 var(--space-l);
   max-width: 40ch;
-  font-size: var(--step-1);
+  font-size: var(--text-lg);
   line-height: 1.5;
   color: var(--muted);
   letter-spacing: -0.01em;
@@ -262,7 +262,7 @@ onUnmounted(() => {
   gap: var(--space-2xs);
   margin-top: var(--space-l);
   font-family: var(--font-mono);
-  font-size: var(--step--1);
+  font-size: var(--text-sm);
   color: var(--faint);
 
   span:nth-child(even) {
@@ -305,7 +305,7 @@ onUnmounted(() => {
 .url {
   margin-left: var(--space-2xs);
   font-family: var(--font-mono);
-  font-size: var(--step--1);
+  font-size: var(--text-sm);
   color: var(--faint);
 }
 
@@ -315,13 +315,13 @@ onUnmounted(() => {
 
 .cardKicker {
   font-family: var(--font-mono);
-  font-size: var(--step--1);
+  font-size: var(--text-sm);
   color: var(--accent2);
   margin-bottom: var(--space-2xs);
 }
 
 .cardTitle {
-  font-size: var(--step-2);
+  font-size: var(--text-xl);
   font-weight: 600;
   letter-spacing: -0.03em;
   line-height: 1.3;
@@ -330,14 +330,14 @@ onUnmounted(() => {
 
 .cardText {
   margin: 0 0 var(--space-s);
-  font-size: var(--step-0);
+  font-size: var(--text-base);
   line-height: 1.75;
   color: var(--muted);
 }
 
 .cardTag {
   font-family: var(--font-mono);
-  font-size: var(--step--1);
+  font-size: var(--text-sm);
   background: var(--accent-soft);
   color: var(--accent);
   padding: var(--space-3xs) var(--space-xs);
@@ -351,7 +351,7 @@ onUnmounted(() => {
   background: var(--ink);
   color: var(--bg);
   font-family: var(--font-mono);
-  font-size: var(--step--1);
+  font-size: var(--text-sm);
   padding: var(--space-2xs) var(--space-s);
   border-radius: var(--radius-pill);
   transform: rotate(4deg);

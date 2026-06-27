@@ -54,7 +54,7 @@ const items = computed(() => [
   border-radius: var(--radius-pill);
   background: var(--panel);
   box-shadow: var(--shadow);
-  font-size: var(--step--1);
+  font-size: var(--text-sm);
   white-space: nowrap;
   overflow-x: auto;
 }

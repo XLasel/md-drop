@@ -425,7 +425,7 @@ function writeNew() {
 
 .title {
   margin: 0 0 var(--space-3xs);
-  font-size: var(--step-3);
+  font-size: var(--heading-sm);
   font-weight: 600;
   letter-spacing: -0.03em;
   color: var(--ink);
@@ -433,13 +433,13 @@ function writeNew() {
 
 .subtitle {
   margin: 0;
-  font-size: var(--step--1);
+  font-size: var(--text-sm);
   color: var(--muted);
 }
 
 .retention {
   margin: var(--space-2xs) 0 0;
-  font-size: var(--step--2);
+  font-size: var(--text-xs);
   color: var(--faint);
   line-height: 1.5;
 }
@@ -462,7 +462,7 @@ function writeNew() {
   text-overflow: ellipsis;
   white-space: nowrap;
   font-family: var(--font-mono);
-  font-size: var(--step--1);
+  font-size: var(--text-sm);
   color: var(--ink);
 }
 
@@ -502,7 +502,7 @@ function writeNew() {
   border-radius: var(--radius-sm);
   background: transparent;
   color: var(--on-accent);
-  font-size: var(--step--2);
+  font-size: var(--text-xs);
   flex: none;
 }
 
@@ -518,13 +518,13 @@ function writeNew() {
 }
 
 .seoTitle {
-  font-size: var(--step--1);
+  font-size: var(--text-sm);
   font-weight: 500;
   color: var(--ink);
 }
 
 .seoHint {
-  font-size: var(--step--2);
+  font-size: var(--text-xs);
   color: var(--faint);
 }
 

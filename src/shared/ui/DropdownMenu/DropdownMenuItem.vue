@@ -49,7 +49,7 @@ function handleClick(event: MouseEvent) {
   background: transparent;
   color: var(--ink);
   font: inherit;
-  font-size: var(--step--1);
+  font-size: var(--text-sm);
   text-align: left;
   cursor: pointer;
   @include transition;

@@ -45,13 +45,13 @@ const { t } = useI18n()
   margin-bottom: 28px;
   border-radius: 24px;
   background: var(--accent-soft);
-  font-size: 32px;
+  font-size: var(--heading-sm);
   color: var(--accent);
 }
 
 .title {
   margin: 0 0 13px;
-  font-size: var(--step-3);
+  font-size: var(--heading-sm);
   font-weight: 600;
   letter-spacing: -0.035em;
   color: var(--ink);
@@ -60,7 +60,7 @@ const { t } = useI18n()
 .description {
   margin: 0 0 32px;
   max-width: 25rem;
-  font-size: var(--step-0);
+  font-size: var(--text-base);
   line-height: 1.6;
   color: var(--muted);
 }
@@ -74,7 +74,7 @@ const { t } = useI18n()
 
 .anonLink {
   margin-top: 26px;
-  font-size: var(--step--1);
+  font-size: var(--text-sm);
   color: var(--faint);
   text-decoration: none;
   border-bottom: 1px solid var(--line);
