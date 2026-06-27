@@ -50,16 +50,16 @@
   --font-mono: 'Geist Mono', ui-monospace, 'SF Mono', Consolas, monospace;
 
   /* Typography — semantic aliases over the fluid scale */
-  --text-xs:     var(--step--2);   /* ~11–12px  — badges, footnotes */
-  --text-sm:     var(--step--1);   /* ~13–14px  — labels, metadata, helper text */
-  --text-base:   var(--step-0);    /* ~16–18px  — body */
-  --text-lg:     var(--step-1);    /* ~19–22px  — lead, emphasis */
-  --text-xl:     var(--step-2);    /* ~23–28px  — subheadings */
+  --text-xs: var(--step--2); /* ~11–12px  — badges, footnotes */
+  --text-sm: var(--step--1); /* ~13–14px  — labels, metadata, helper text */
+  --text-base: var(--step-0); /* ~16–18px  — body */
+  --text-lg: var(--step-1); /* ~19–22px  — lead, emphasis */
+  --text-xl: var(--step-2); /* ~23–28px  — subheadings */
 
-  --heading-sm:  var(--step-3);    /* ~27–35px  — h3, small headings */
-  --heading-md:  var(--step-4);    /* ~33–44px  — h2, page titles */
-  --heading-lg:  var(--step-5);    /* ~40–55px  — h1 */
-  --heading-xl:  var(--step-6);    /* ~48–69px  — display */
-  --heading-2xl: var(--step-7);    /* ~57–86px  — hero */
-  --heading-3xl: var(--step-8);    /* ~69–107px — extreme display */
+  --heading-sm: var(--step-3); /* ~27–35px  — h3, small headings */
+  --heading-md: var(--step-4); /* ~33–44px  — h2, page titles */
+  --heading-lg: var(--step-5); /* ~40–55px  — h1 */
+  --heading-xl: var(--step-6); /* ~48–69px  — display */
+  --heading-2xl: var(--step-7); /* ~57–86px  — hero */
+  --heading-3xl: var(--step-8); /* ~69–107px — extreme display */
 }

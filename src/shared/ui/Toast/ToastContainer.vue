@@ -13,7 +13,12 @@ const typeClass: Record<ToastType, string> = {
 
 <template>
   <TransitionGroup name="toast" tag="div" aria-live="polite" :class="$style.container">
-    <div v-for="toast in toasts" :key="toast.id" :class="[$style.toast, $style[typeClass[toast.type]]]" role="status">
+    <div
+      v-for="toast in toasts"
+      :key="toast.id"
+      :class="[$style.toast, $style[typeClass[toast.type]]]"
+      role="status"
+    >
       <span>{{ toast.message }}</span>
       <button type="button" :class="$style.close" @click="remove(toast.id)">×</button>
     </div>
