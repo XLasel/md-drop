@@ -57,7 +57,7 @@ function handleCopy() {
   gap: 0.35rem;
   min-width: 0;
   font-family: var(--font-mono);
-  font-size: var(--step--2);
+  font-size: var(--text-xs);
   color: var(--muted);
 }
 

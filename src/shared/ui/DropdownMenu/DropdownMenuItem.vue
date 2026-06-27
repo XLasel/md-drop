@@ -43,13 +43,13 @@ function handleClick(event: MouseEvent) {
 .item {
   display: block;
   width: 100%;
-  padding: 8px 10px;
+  padding: var(--space-2xs);
   border: none;
   border-radius: var(--radius-sm);
   background: transparent;
   color: var(--ink);
   font: inherit;
-  font-size: var(--step--1);
+  font-size: var(--text-sm);
   text-align: left;
   cursor: pointer;
   @include transition;

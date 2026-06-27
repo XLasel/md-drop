@@ -30,7 +30,7 @@ const { t } = useI18n()
 }
 
 .code {
-  font-size: 4rem;
+  font-size: var(--heading-xl);
   font-weight: 700;
   color: var(--accent);
   line-height: 1;
@@ -39,7 +39,7 @@ const { t } = useI18n()
 
 .title {
   margin: 0 0 0.5rem;
-  font-size: 1.5rem;
+  font-size: var(--text-xl);
   color: var(--ink);
 }
 

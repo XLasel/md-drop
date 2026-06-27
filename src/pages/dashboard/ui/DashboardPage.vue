@@ -218,15 +218,15 @@ onMounted(async () => {
 }
 
 .heading {
-  margin: 0 0 8px;
-  font-size: 2.5rem;
+  margin: 0 0 var(--space-2xs);
+  font-size: var(--heading-md);
   font-weight: 600;
   letter-spacing: -0.04em;
 }
 
 .subheading {
   margin: 0;
-  font-size: var(--step-0);
+  font-size: var(--text-base);
   color: var(--muted);
 }
 
@@ -236,15 +236,15 @@ onMounted(async () => {
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--space-3xs);
 }
 
 .item {
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: 18px;
+  gap: var(--space-s);
   align-items: center;
-  padding: 20px 22px;
+  padding: var(--space-s);
   border-radius: var(--radius-md);
 
   @include transition(background-color);
@@ -261,7 +261,7 @@ onMounted(async () => {
 .info {
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 15px;
+  gap: var(--space-xs);
   align-items: start;
   min-width: 0;
 }
@@ -284,12 +284,12 @@ onMounted(async () => {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 11px;
-  margin-bottom: 6px;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-3xs);
 }
 
 .noteTitle {
-  font-size: 1.0625rem;
+  font-size: var(--text-base);
   font-weight: 600;
   letter-spacing: -0.02em;
   color: var(--ink);
@@ -304,22 +304,22 @@ onMounted(async () => {
 
 .slug {
   font-family: var(--font-mono);
-  font-size: 0.6875rem;
+  font-size: var(--text-xs);
   color: var(--accent);
   background: var(--accent-soft);
-  padding: 3px 9px;
-  border-radius: 7px;
+  padding: var(--space-3xs) var(--space-2xs);
+  border-radius: var(--radius-sm);
 }
 
 .preview {
-  margin: 0 0 6px;
-  font-size: 0.8125rem;
+  margin: 0 0 var(--space-3xs);
+  font-size: var(--text-sm);
   color: var(--faint);
 }
 
 .date {
   font-family: var(--font-mono);
-  font-size: 0.8125rem;
+  font-size: var(--text-sm);
   color: var(--faint);
 }
 
@@ -327,7 +327,7 @@ onMounted(async () => {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-3xs);
 }
 
 .pagination {
@@ -341,7 +341,7 @@ onMounted(async () => {
 
 .pageLabel {
   font-family: var(--font-mono);
-  font-size: var(--step--1);
+  font-size: var(--text-sm);
   color: var(--muted);
 }
 </style>

@@ -82,7 +82,7 @@ async function handleSignOut() {
 .auth {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-3xs);
   flex: none;
 }
 
@@ -106,7 +106,7 @@ async function handleSignOut() {
   border-radius: 50%;
   background: var(--accent-soft);
   color: var(--accent);
-  font-size: 0.8125rem;
+  font-size: var(--text-sm);
   font-weight: 600;
   cursor: pointer;
   flex: none;
@@ -123,14 +123,14 @@ async function handleSignOut() {
 }
 
 .menuName {
-  font-size: var(--step--1);
+  font-size: var(--text-sm);
   font-weight: 500;
   color: var(--ink);
   line-height: 1.3;
 }
 
 .menuEmail {
-  font-size: var(--step--2);
+  font-size: var(--text-xs);
   color: var(--muted);
   line-height: 1.3;
   overflow: hidden;

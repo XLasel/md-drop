@@ -49,9 +49,9 @@ const wordCount = computed(() => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 13px 18px;
+  padding: var(--space-xs) var(--space-s);
   font-family: var(--font-mono);
-  font-size: 0.6875rem;
+  font-size: var(--text-xs);
   color: var(--faint);
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -67,7 +67,7 @@ const wordCount = computed(() => {
   width: 100%;
   height: 100%;
   min-height: 320px;
-  padding: var(--field-pad-top) 22px var(--field-pad-bottom);
+  padding: var(--field-pad-top) var(--space-s) var(--field-pad-bottom);
   border: none;
   resize: none;
   background: transparent;

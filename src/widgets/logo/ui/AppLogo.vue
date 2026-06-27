@@ -19,7 +19,7 @@ defineProps<{
   align-items: center;
   gap: var(--space-2xs);
   font-weight: 600;
-  font-size: var(--step-0);
+  font-size: var(--text-base);
   letter-spacing: -0.03em;
   color: var(--ink);
   text-decoration: none;
@@ -35,7 +35,7 @@ defineProps<{
   background: var(--accent);
   color: var(--on-accent);
   font-family: var(--font-mono);
-  font-size: var(--step--1);
+  font-size: var(--text-sm);
   flex: none;
 }
 

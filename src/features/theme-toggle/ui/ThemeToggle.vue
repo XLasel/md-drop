@@ -40,7 +40,7 @@ const icon = computed(() => {
   border-radius: 50%;
   background: transparent;
   color: var(--muted);
-  font-size: var(--step-0);
+  font-size: var(--text-base);
   line-height: 1;
   cursor: pointer;
   flex: none;

@@ -37,15 +37,15 @@ defineProps<{
   height: 6rem;
   margin-bottom: 0.5rem;
   border: 2px dashed var(--line);
-  border-radius: 26px;
+  border-radius: var(--radius-xl);
   font-family: var(--font-mono);
-  font-size: 2.25rem;
+  font-size: var(--heading-md);
   color: var(--faint);
 }
 
 .title {
   margin: 0;
-  font-size: 1.6875rem;
+  font-size: var(--heading-sm);
   font-weight: 600;
   letter-spacing: -0.03em;
   color: var(--ink);
@@ -54,7 +54,7 @@ defineProps<{
 .description {
   margin: 0;
   max-width: 22.5rem;
-  font-size: 1rem;
+  font-size: var(--text-base);
   line-height: 1.6;
   color: var(--muted);
 }

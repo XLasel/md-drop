@@ -36,12 +36,12 @@ const { t } = useI18n()
 }
 
 .icon {
-  font-size: 2rem;
+  font-size: var(--heading-sm);
 }
 
 .title {
   margin: 0;
-  font-size: 1.25rem;
+  font-size: var(--text-lg);
   color: var(--ink);
 }
 

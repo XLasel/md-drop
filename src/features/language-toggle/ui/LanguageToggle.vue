@@ -35,7 +35,7 @@ const label = computed(() => localeStore.locale.toUpperCase())
   background: transparent;
   color: var(--muted);
   font-family: var(--font-mono);
-  font-size: var(--step--2);
+  font-size: var(--text-xs);
   font-weight: 500;
   letter-spacing: 0.02em;
   line-height: 1;

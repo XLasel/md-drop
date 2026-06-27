@@ -42,25 +42,25 @@ const { t } = useI18n()
   justify-content: center;
   width: 78px;
   height: 78px;
-  margin-bottom: 28px;
-  border-radius: 24px;
+  margin-bottom: var(--space-m);
+  border-radius: var(--radius-xl);
   background: var(--accent-soft);
-  font-size: 32px;
+  font-size: var(--heading-sm);
   color: var(--accent);
 }
 
 .title {
-  margin: 0 0 13px;
-  font-size: var(--step-3);
+  margin: 0 0 var(--space-xs);
+  font-size: var(--heading-sm);
   font-weight: 600;
   letter-spacing: -0.035em;
   color: var(--ink);
 }
 
 .description {
-  margin: 0 0 32px;
+  margin: 0 0 var(--space-m);
   max-width: 25rem;
-  font-size: var(--step-0);
+  font-size: var(--text-base);
   line-height: 1.6;
   color: var(--muted);
 }
@@ -68,13 +68,13 @@ const { t } = useI18n()
 .actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: var(--space-2xs);
   justify-content: center;
 }
 
 .anonLink {
-  margin-top: 26px;
-  font-size: var(--step--1);
+  margin-top: var(--space-m);
+  font-size: var(--text-sm);
   color: var(--faint);
   text-decoration: none;
   border-bottom: 1px solid var(--line);

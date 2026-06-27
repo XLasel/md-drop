@@ -85,9 +85,9 @@ watch(
 .status {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-3xs);
   font-family: var(--font-mono);
-  font-size: var(--step--2);
+  font-size: var(--text-xs);
   color: var(--faint);
   white-space: nowrap;
 }
@@ -102,7 +102,7 @@ watch(
 
 .titleBlock {
   @include layout-shell;
-  padding: var(--page-pad-top-lg) 0 6px;
+  padding: var(--page-pad-top-lg) 0 var(--space-3xs);
 }
 
 .titleInput {
@@ -110,7 +110,7 @@ watch(
   border: none;
   background: transparent;
   color: var(--ink);
-  font-size: 2.25rem;
+  font-size: var(--heading-md);
   font-weight: 600;
   letter-spacing: -0.035em;
   line-height: 1.1;
@@ -126,9 +126,9 @@ watch(
 
 .titleHint {
   display: block;
-  margin-top: 6px;
+  margin-top: var(--space-3xs);
   font-family: var(--font-mono);
-  font-size: 0.8125rem;
+  font-size: var(--text-sm);
   color: var(--faint);
 }
 
@@ -136,7 +136,7 @@ watch(
   flex: 1;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 18px;
+  gap: var(--space-s);
   min-height: 0;
   @include layout-shell;
   padding: var(--space-s) 0 var(--page-pad-bottom);

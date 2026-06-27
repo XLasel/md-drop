@@ -227,9 +227,9 @@ onUnmounted(resetPageMeta)
 .status {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-3xs);
   font-family: var(--font-mono);
-  font-size: var(--step--2);
+  font-size: var(--text-xs);
   color: var(--faint);
   white-space: nowrap;
   flex: none;
@@ -253,7 +253,7 @@ onUnmounted(resetPageMeta)
   gap: 0.5rem;
   margin-bottom: 1.75rem;
   margin-top: 0.25rem;
-  font-size: var(--step--1);
+  font-size: var(--text-sm);
   color: var(--faint);
 }
 
@@ -263,7 +263,7 @@ onUnmounted(resetPageMeta)
 
 .title {
   margin: 0 0 1.75rem;
-  font-size: clamp(2.5rem, 6vw, 3.5rem);
+  font-size: var(--heading-lg);
   line-height: 1.02;
   font-weight: 600;
   letter-spacing: -0.045em;
@@ -280,7 +280,7 @@ onUnmounted(resetPageMeta)
   gap: 0.35rem;
   padding-top: 1.75rem;
   border-top: 1px solid var(--line2);
-  font-size: 0.8125rem;
+  font-size: var(--text-sm);
   color: var(--faint);
 
   strong {

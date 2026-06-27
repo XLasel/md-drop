@@ -27,7 +27,7 @@ const items = computed(() => [
         {{ item.label }}
       </CoreButton>
       <span :class="$style.divider" aria-hidden="true" />
-      <UiButton size="sm" :aria-label="t('nav.new')" animated @click="startNewNote">
+      <UiButton size="sm" :aria-label="t('nav.new')" compact animated @click="startNewNote">
         <template #icon>+</template>
         {{ t('nav.new') }}
       </UiButton>
@@ -54,7 +54,7 @@ const items = computed(() => [
   border-radius: var(--radius-pill);
   background: var(--panel);
   box-shadow: var(--shadow);
-  font-size: var(--step--1);
+  font-size: var(--text-sm);
   white-space: nowrap;
   overflow-x: auto;
 }
