@@ -137,12 +137,7 @@ onUnmounted(resetPageMeta)
         <SkeletonLoader :lines="8" />
       </div>
 
-      <ErrorState
-        v-else-if="error"
-        :title="t('view.unableToLoad')"
-        :message="error"
-        @retry="loadNote"
-      />
+      <ErrorState v-else-if="error" :title="t('view.unableToLoad')" :message="error" @retry="loadNote" />
 
       <article v-else-if="note">
         <NoteActionsBar max-width="reader">
@@ -155,21 +150,11 @@ onUnmounted(resetPageMeta)
               <CopyLinkButton :slug="slug" variant="inline" />
             </div>
           </template>
-          <UiButton
-            v-if="canEdit"
-            variant="primary"
-            size="sm"
-            :aria-label="t('common.edit')"
-            @click="goToEdit"
-          >
+          <UiButton v-if="canEdit" variant="primary" size="sm" :aria-label="t('common.edit')" @click="goToEdit">
             <template #icon>✎</template>
             {{ t('common.edit') }}
           </UiButton>
-          <OverflowMenu
-            :items="overflowItems"
-            :ariaLabel="t('common.moreActions')"
-            @select="handleOverflowSelect"
-          />
+          <OverflowMenu :items="overflowItems" :ariaLabel="t('common.moreActions')" @select="handleOverflowSelect" />
         </NoteActionsBar>
 
         <div :class="$style.meta">

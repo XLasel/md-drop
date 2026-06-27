@@ -27,9 +27,11 @@ defineExpose({ open, toggle, close })
 <template>
   <div ref="root" :class="$style.root">
     <slot name="trigger" :open="open" :toggle="toggle" :close="close" />
-    <div v-if="open" :class="$style.panel" role="menu">
-      <slot :close="close" />
-    </div>
+    <Transition name="menu" appear>
+      <div v-if="open" :class="$style.panel" role="menu">
+        <slot :close="close" />
+      </div>
+    </Transition>
   </div>
 </template>
 

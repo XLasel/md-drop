@@ -12,17 +12,12 @@ const typeClass: Record<ToastType, string> = {
 </script>
 
 <template>
-  <div :class="$style.container" aria-live="polite">
-    <div
-      v-for="toast in toasts"
-      :key="toast.id"
-      :class="[$style.toast, $style[typeClass[toast.type]]]"
-      role="status"
-    >
+  <TransitionGroup name="toast" tag="div" aria-live="polite" :class="$style.container">
+    <div v-for="toast in toasts" :key="toast.id" :class="[$style.toast, $style[typeClass[toast.type]]]" role="status">
       <span>{{ toast.message }}</span>
       <button type="button" :class="$style.close" @click="remove(toast.id)">×</button>
     </div>
-  </div>
+  </TransitionGroup>
 </template>
 
 <style module lang="scss">
