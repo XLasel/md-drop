@@ -111,7 +111,7 @@
     "noteLiveHint": "Anyone with the link can read it — no account needed.",
     "anonymousExpiryHint": "Without an account, this note is stored for 90 days.",
     "anonymousExpiryDate": "Expires on {date}",
-    "signedInRetentionHint": "Signed-in notes are kept until you delete them.",
+    "signedInRetentionHint": "This note is kept until you delete it.",
     "copyLink": "Copy link",
     "copied": "Copied ✓",
     "copyMarkdownSource": "Copy markdown source",

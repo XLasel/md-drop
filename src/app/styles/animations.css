@@ -10,17 +10,16 @@
   }
 }
 
-@keyframes pop-in {
-  0% {
+@keyframes fade-in {
+  from {
     opacity: 0;
-    transform: scale(0.95) translateY(8px);
   }
 
-  100% {
+  to {
     opacity: 1;
-    transform: scale(1) translateY(0);
   }
 }
+
 
 @keyframes draw-check {
   from {
@@ -119,26 +118,6 @@
   transform: translateX(100%);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .slide-forward-enter-active,
-  .slide-forward-leave-active,
-  .slide-back-enter-active,
-  .slide-back-leave-active {
-    transition: opacity 0.15s ease !important;
-  }
-
-  .slide-forward-enter-from,
-  .slide-forward-enter-to,
-  .slide-forward-leave-from,
-  .slide-forward-leave-to,
-  .slide-back-enter-from,
-  .slide-back-enter-to,
-  .slide-back-leave-from,
-  .slide-back-leave-to {
-    transform: none !important;
-  }
-}
-
 .toast-enter-active {
   transition: all 0.3s ease;
 }
@@ -180,4 +159,108 @@
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+.modal-overlay-enter-active .share-success-scrim {
+  transition: opacity 0.22s ease;
+}
+
+.modal-overlay-enter-from .share-success-scrim {
+  opacity: 0;
+}
+
+.modal-overlay-enter-active .share-success-panel {
+  animation: fade-in 0.42s 0.22s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+}
+
+.modal-overlay-leave-active .share-success-panel {
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease;
+}
+
+.modal-overlay-leave-to .share-success-panel {
+  opacity: 0;
+  transform: scale(0.96) translateY(4px);
+}
+
+.modal-overlay-leave-active .share-success-scrim {
+  transition: opacity 0.22s ease 0.22s;
+}
+
+.modal-overlay-leave-to .share-success-scrim {
+  opacity: 0;
+}
+
+/* inner reveal — global classes (CSS modules не резолвит чужие @keyframes) */
+.share-success-check-ring {
+  animation: ring-pulse 1.2s 0.22s 1 ease-out;
+}
+
+.share-success-check-path {
+  stroke-dasharray: 30;
+  stroke-dashoffset: 30;
+  animation: draw-check 0.5s 0.5s ease forwards;
+}
+
+.share-success-fade-up {
+  animation: fade-up 0.45s ease forwards;
+  animation-fill-mode: backwards;
+}
+
+.share-success-title {
+  animation-delay: 0.4s;
+}
+
+.share-success-subtitle {
+  animation-delay: 0.48s;
+}
+
+.share-success-retention {
+  animation-delay: 0.54s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slide-forward-enter-active,
+  .slide-forward-leave-active,
+  .slide-back-enter-active,
+  .slide-back-leave-active {
+    transition: opacity 0.15s ease;
+  }
+
+  .slide-forward-enter-from,
+  .slide-forward-leave-to,
+  .slide-back-enter-from,
+  .slide-back-leave-to {
+    transform: none;
+  }
+
+  .modal-overlay-enter-active .share-success-scrim,
+  .modal-overlay-leave-active .share-success-scrim {
+    transition: opacity 0.15s ease;
+    transition-delay: 0;
+  }
+
+  .modal-overlay-enter-active .share-success-panel {
+    animation: none;
+    transition: opacity 0.15s ease;
+  }
+
+  .modal-overlay-leave-active .share-success-panel {
+    transition: opacity 0.15s ease;
+  }
+
+  .modal-overlay-leave-to .share-success-panel {
+    transform: none;
+  }
+
+  .share-success-check-ring,
+  .share-success-check-path,
+  .share-success-fade-up {
+    animation: none;
+  }
+
+  .share-success-check-path {
+    stroke-dashoffset: 0;
+  }
 }
