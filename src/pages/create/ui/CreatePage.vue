@@ -114,6 +114,7 @@ watch(
   font-weight: 600;
   letter-spacing: -0.035em;
   line-height: 1.1;
+  padding-inline: 0;
 
   &::placeholder {
     color: var(--faint);
