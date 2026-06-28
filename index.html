@@ -5,6 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
     <link rel="manifest" href="/favicon/site.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f7fbfd" />
     <meta name="description" content="Share Markdown documents instantly via link" />
     <meta property="og:title" content="MD-Drop" />
     <meta property="og:description" content="Share Markdown documents instantly via link" />
@@ -22,6 +23,11 @@
         }
         document.documentElement.setAttribute('data-theme', resolved)
         document.documentElement.style.colorScheme = resolved
+        var themeColor = resolved === 'dark' ? '#0d121a' : '#f7fbfd'
+        var themeMeta = document.querySelector('meta[name="theme-color"]')
+        if (themeMeta) {
+          themeMeta.setAttribute('content', themeColor)
+        }
       })()
     </script>
   </head>

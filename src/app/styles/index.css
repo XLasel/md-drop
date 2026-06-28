@@ -10,6 +10,12 @@
 html {
   -webkit-font-smoothing: subpixel-antialiased;
   scrollbar-gutter: stable;
+  background-color: var(--bg);
+  transition: background-color var(--transition-duration-theme) var(--transition-ease);
+}
+
+html.scroll-locked {
+  overflow: hidden;
 }
 
 /* next-themes-style lock: snap theme swap, keep hover transitions after */
