@@ -4,6 +4,7 @@ import { updateProfileTheme } from '@/entities/user/api/profileRepository'
 import { useAuthStore } from '@/entities/user/model/authStore'
 import {
   type AppTheme,
+  applyThemeColorMeta,
   type ResolvedTheme,
   isThemePreference,
   resolveThemePreference,
@@ -34,6 +35,7 @@ function applyDomTheme(next: ResolvedTheme) {
   root.classList.add(THEME_TRANSITION_LOCK_CLASS)
   root.setAttribute('data-theme', next)
   root.style.colorScheme = next
+  applyThemeColorMeta(next)
   void root.offsetHeight
   unlockThemeTransitions()
 }

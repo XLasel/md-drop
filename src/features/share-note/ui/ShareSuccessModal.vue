@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import {
@@ -64,22 +64,8 @@ watch(
   },
 )
 
-onMounted(() => {
-  document.body.style.overflow = 'hidden'
-})
-
-onUnmounted(() => {
-  document.body.style.overflow = ''
-  clearTimeout(copiedLinkTimer)
-  clearTimeout(copiedMdTimer)
-})
-
 function handleBackdropClick() {
   emit('close')
-}
-
-function handlePanelClick(event: MouseEvent) {
-  event.stopPropagation()
 }
 
 function flashCopied(target: 'link' | 'md') {
@@ -153,87 +139,110 @@ function writeNew() {
 </script>
 
 <template>
-  <Teleport to="body">
-    <div :class="$style.backdrop" @click="handleBackdropClick">
-      <div :class="$style.panel" role="dialog" aria-modal="true" @click="handlePanelClick">
-        <div :class="$style.confetti" aria-hidden="true">
-          <span />
-          <span />
-          <span />
-          <span />
-          <span />
-        </div>
+  <div :class="$style.root" @click.self="handleBackdropClick">
+    <div :class="[$style.scrim, 'share-success-scrim']" aria-hidden="true" />
+    <div :class="[$style.panel, 'share-success-panel']" role="dialog" aria-modal="true" @click.stop>
+      <div :class="$style.confetti" aria-hidden="true">
+        <span />
+        <span />
+        <span />
+        <span />
+        <span />
+      </div>
 
-        <div :class="$style.hero">
-          <div :class="$style.checkWrap">
-            <span :class="$style.checkRing" />
-            <span :class="$style.checkIcon">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path
-                  d="M5 12.5l4.2 4.2L19 7"
-                  stroke="var(--on-accent)"
-                  stroke-width="2.4"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  :class="$style.checkPath"
-                />
-              </svg>
-            </span>
-          </div>
-          <h2 :class="$style.title">{{ t('share.noteLive') }}</h2>
-          <p :class="$style.subtitle">{{ t('share.noteLiveHint') }}</p>
-          <p v-if="isAnonymous" :class="$style.retention">
-            {{ t('share.anonymousExpiryHint') }}
-            <span v-if="expiryLabel">{{ expiryLabel }}</span>
-          </p>
-          <p v-else :class="$style.retention">{{ t('share.signedInRetentionHint') }}</p>
+      <div :class="$style.hero">
+        <div :class="$style.checkWrap">
+          <span :class="[$style.checkRing, 'share-success-check-ring']" />
+          <span :class="$style.checkIcon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path
+                d="M5 12.5l4.2 4.2L19 7"
+                stroke="var(--on-accent)"
+                stroke-width="2.4"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="share-success-check-path"
+              />
+            </svg>
+          </span>
         </div>
+        <h2 :class="[$style.title, 'share-success-fade-up', 'share-success-title']">
+          {{ t('share.noteLive') }}
+        </h2>
+        <p :class="[$style.subtitle, 'share-success-fade-up', 'share-success-subtitle']">
+          {{ t('share.noteLiveHint') }}
+        </p>
+        <p
+          v-if="isAnonymous"
+          :class="[$style.retention, 'share-success-fade-up', 'share-success-retention']"
+        >
+          {{ t('share.anonymousExpiryHint') }}
+          <span v-if="expiryLabel">{{ expiryLabel }}</span>
+        </p>
+        <p v-else :class="[$style.retention, 'share-success-fade-up', 'share-success-retention']">
+          {{ t('share.signedInRetentionHint') }}
+        </p>
+      </div>
 
-        <div :class="$style.linkRow">
-          <span :class="$style.linkText">{{ displayUrl() }}</span>
-          <UiButton variant="primary" size="sm" @click="copyLink">
-            {{ copiedLink ? t('share.copied') : t('share.copyLink') }}
-          </UiButton>
-        </div>
-
-        <UiButton variant="secondary" size="sm" :class="$style.copyMd" @click="copyMarkdown">
-          {{ copiedMd ? t('share.markdownCopied') : t('share.copyMarkdownSource') }}
+      <div :class="$style.linkRow">
+        <span :class="$style.linkText">{{ displayUrl() }}</span>
+        <UiButton
+          variant="primary"
+          size="sm"
+          compact
+          :class="$style.copyLinkBtn"
+          :aria-label="copiedLink ? t('share.copied') : t('share.copyLink')"
+          @click="copyLink"
+        >
+          <template #icon>{{ copiedLink ? '✓' : '⧉' }}</template>
+          {{ copiedLink ? t('share.copied') : t('share.copyLink') }}
         </UiButton>
+      </div>
 
-        <button type="button" :class="$style.seo" :disabled="savingIndexable" @click="toggleSeo">
-          <span :class="[$style.seoBox, localIndexable && $style.seoBoxOn]">
-            <span v-if="localIndexable">✓</span>
-          </span>
-          <span :class="$style.seoCopy">
-            <span :class="$style.seoTitle">{{ t('share.seoTitle') }}</span>
-            <span :class="$style.seoHint">
-              {{
-                t('share.seoHint', {
-                  state: localIndexable ? t('share.seoOn') : t('share.seoOff'),
-                })
-              }}
-            </span>
-          </span>
-        </button>
+      <UiButton variant="secondary" size="sm" :class="$style.copyMd" @click="copyMarkdown">
+        {{ copiedMd ? t('share.markdownCopied') : t('share.copyMarkdownSource') }}
+      </UiButton>
 
-        <div :class="$style.actions">
-          <UiButton variant="secondary" size="sm" :class="$style.actionBtn" @click="emit('close')">
-            {{ t('common.done') }}
-          </UiButton>
-          <UiButton variant="accent-outline" size="sm" :class="$style.actionBtn" @click="writeNew">
-            {{ t('share.writeNew') }}
-          </UiButton>
-          <UiButton variant="primary" size="sm" :class="$style.actionBtn" @click="viewPage">
-            {{ t('share.viewPage') }}
-          </UiButton>
-        </div>
+      <button type="button" :class="$style.seo" :disabled="savingIndexable" @click="toggleSeo">
+        <span :class="[$style.seoBox, localIndexable && $style.seoBoxOn]">
+          <span v-if="localIndexable">✓</span>
+        </span>
+        <span :class="$style.seoCopy">
+          <span :class="$style.seoTitle">{{ t('share.seoTitle') }}</span>
+          <span :class="$style.seoHint">
+            {{
+              t('share.seoHint', {
+                state: localIndexable ? t('share.seoOn') : t('share.seoOff'),
+              })
+            }}
+          </span>
+        </span>
+      </button>
+
+      <div :class="$style.actions">
+        <UiButton
+          variant="secondary"
+          size="sm"
+          :class="[$style.actionBtn, $style.doneBtn]"
+          @click="emit('close')"
+        >
+          {{ t('common.done') }}
+        </UiButton>
+        <UiButton variant="accent-outline" size="sm" :class="$style.actionBtn" @click="writeNew">
+          {{ t('share.writeNew') }}
+        </UiButton>
+        <UiButton variant="primary" size="sm" :class="$style.actionBtn" @click="viewPage">
+          {{ t('share.viewPage') }}
+        </UiButton>
       </div>
     </div>
-  </Teleport>
+  </div>
 </template>
 
 <style module lang="scss">
-.backdrop {
+$panel-reveal-delay: 0.22s;
+
+.root {
   position: fixed;
   inset: 0;
   z-index: 200;
@@ -242,12 +251,19 @@ function writeNew() {
   justify-content: center;
   padding: var(--space-m);
   overflow-y: auto;
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
   background: color-mix(in srgb, var(--ink) 32%, transparent);
   backdrop-filter: blur(6px);
+  pointer-events: none;
 }
 
 .panel {
   position: relative;
+  z-index: 1;
   width: 100%;
   max-width: var(--modal-width);
   margin: auto;
@@ -257,7 +273,6 @@ function writeNew() {
   background: var(--panel);
   box-shadow: var(--shadow);
   overflow: hidden;
-  animation: pop-in 0.42s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
 }
 
 .confetti {
@@ -282,7 +297,7 @@ function writeNew() {
       top: 30px;
       width: 8px;
       height: 8px;
-      animation: confetti-fall-a 1.1s 0.15s ease-out forwards;
+      animation: confetti-fall-a 1.1s calc($panel-reveal-delay + 0.15s) ease-out forwards;
     }
 
     &:nth-child(2) {
@@ -292,7 +307,7 @@ function writeNew() {
       height: 7px;
       border-radius: 50%;
       background: var(--accent2);
-      animation: confetti-fall-b 1.3s 0.05s ease-out forwards;
+      animation: confetti-fall-b 1.3s calc($panel-reveal-delay + 0.05s) ease-out forwards;
     }
 
     &:nth-child(3) {
@@ -301,7 +316,7 @@ function writeNew() {
       width: 9px;
       height: 9px;
       background: var(--accent2);
-      animation: confetti-fall-c 1s 0.2s ease-out forwards;
+      animation: confetti-fall-c 1s calc($panel-reveal-delay + 0.2s) ease-out forwards;
     }
 
     &:nth-child(4) {
@@ -310,7 +325,7 @@ function writeNew() {
       width: 7px;
       height: 7px;
       border-radius: 50%;
-      animation: confetti-fall-d 1.25s 0.1s ease-out forwards;
+      animation: confetti-fall-d 1.25s calc($panel-reveal-delay + 0.1s) ease-out forwards;
     }
 
     &:nth-child(5) {
@@ -319,7 +334,7 @@ function writeNew() {
       width: 8px;
       height: 8px;
       background: var(--accent2);
-      animation: confetti-fall-e 1.15s 0.25s ease-out forwards;
+      animation: confetti-fall-e 1.15s calc($panel-reveal-delay + 0.25s) ease-out forwards;
     }
   }
 }
@@ -397,6 +412,7 @@ function writeNew() {
   width: 3.875rem;
   height: 3.875rem;
   margin-bottom: var(--space-s);
+  overflow: visible;
 }
 
 .checkRing {
@@ -404,7 +420,6 @@ function writeNew() {
   inset: 0;
   border-radius: 50%;
   background: var(--accent);
-  animation: ring-pulse 1.2s 1 ease-out;
 }
 
 .checkIcon {
@@ -416,11 +431,6 @@ function writeNew() {
   height: 3.875rem;
   border-radius: 50%;
   background: var(--accent);
-}
-
-.checkPath {
-  stroke-dasharray: 30;
-  animation: draw-check 0.5s 0.15s ease both;
 }
 
 .title {
@@ -464,6 +474,20 @@ function writeNew() {
   font-family: var(--font-mono);
   font-size: var(--text-sm);
   color: var(--ink);
+}
+
+.copyLinkBtn {
+  flex: none;
+
+  span[aria-hidden='true'] {
+    display: none;
+  }
+
+  @include mobile {
+    span[aria-hidden='true'] {
+      display: inline-flex;
+    }
+  }
 }
 
 .copyMd {
@@ -536,5 +560,11 @@ function writeNew() {
 .actionBtn {
   flex: 1;
   justify-content: center;
+}
+
+.doneBtn {
+  @include mobile {
+    display: none;
+  }
 }
 </style>

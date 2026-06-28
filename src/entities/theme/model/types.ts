@@ -2,6 +2,21 @@ export type AppTheme = 'system' | 'light' | 'dark'
 
 export type ResolvedTheme = 'light' | 'dark'
 
+export const THEME_BG_COLOR: Record<ResolvedTheme, string> = {
+  light: '#f7fbfd',
+  dark: '#0d121a',
+}
+
+export function applyThemeColorMeta(resolved: ResolvedTheme) {
+  let meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')
+  if (!meta) {
+    meta = document.createElement('meta')
+    meta.name = 'theme-color'
+    document.head.appendChild(meta)
+  }
+  meta.content = THEME_BG_COLOR[resolved]
+}
+
 export const APP_THEMES: { value: AppTheme; label: string }[] = [
   { value: 'system', label: 'System' },
   { value: 'light', label: 'Light' },

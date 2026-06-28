@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { ref } from 'vue'
+import { nextTick, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import ShareSuccessModal from './ShareSuccessModal.vue'
@@ -27,10 +27,29 @@ const authStore = useAuthStore()
 const { title, content, indexable, editingSlug } = storeToRefs(editorStore)
 
 const loading = ref(false)
+const modalOpen = ref(false)
 const successSlug = ref<string | null>(null)
 const successEditToken = ref<string | null>(null)
 const successAuthorId = ref<string | null>(null)
 const successExpiresAt = ref<string | null>(null)
+
+async function showSuccessModal() {
+  await nextTick()
+  modalOpen.value = true
+  document.documentElement.classList.add('scroll-locked')
+}
+
+function closeSuccessModal() {
+  modalOpen.value = false
+}
+
+function onModalAfterLeave() {
+  successSlug.value = null
+  successEditToken.value = null
+  successAuthorId.value = null
+  successExpiresAt.value = null
+  document.documentElement.classList.remove('scroll-locked')
+}
 
 async function handleShare() {
   const validationError = validateNoteContent(content.value)
@@ -103,19 +122,13 @@ async function handleShare() {
     successEditToken.value = editToken
     successAuthorId.value = note.author_id
     successExpiresAt.value = note.expires_at
+    await showSuccessModal()
   } catch (error) {
     const message = error instanceof Error ? error.message : t('share.shareFailed')
     toast.error(message)
   } finally {
     loading.value = false
   }
-}
-
-function closeSuccessModal() {
-  successSlug.value = null
-  successEditToken.value = null
-  successAuthorId.value = null
-  successExpiresAt.value = null
 }
 
 function onIndexableChange(value: boolean) {
@@ -135,16 +148,26 @@ function onIndexableChange(value: boolean) {
     {{ editingSlug ? t('common.update') : t('common.share') }}
   </UiButton>
 
-  <ShareSuccessModal
-    v-if="successSlug"
-    :slug="successSlug"
-    :title="title"
-    :content="content"
-    :indexable="indexable"
-    :edit-token="successEditToken"
-    :author-id="successAuthorId"
-    :expires-at="successExpiresAt"
-    @close="closeSuccessModal"
-    @indexable-change="onIndexableChange"
-  />
+  <Teleport to="body">
+    <Transition
+      name="modal-overlay"
+      appear
+      :duration="{ enter: 650, leave: 440 }"
+      @after-leave="onModalAfterLeave"
+    >
+      <ShareSuccessModal
+        v-if="modalOpen"
+        :key="successSlug ?? 'success-modal'"
+        :slug="successSlug!"
+        :title="title"
+        :content="content"
+        :indexable="indexable"
+        :edit-token="successEditToken"
+        :author-id="successAuthorId"
+        :expires-at="successExpiresAt"
+        @close="closeSuccessModal"
+        @indexable-change="onIndexableChange"
+      />
+    </Transition>
+  </Teleport>
 </template>
