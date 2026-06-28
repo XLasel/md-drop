@@ -141,12 +141,7 @@ function writeNew() {
 <template>
   <div :class="$style.root" @click.self="handleBackdropClick">
     <div :class="[$style.scrim, 'share-success-scrim']" aria-hidden="true" />
-    <div
-      :class="[$style.panel, 'share-success-panel']"
-      role="dialog"
-      aria-modal="true"
-      @click.stop
-    >
+    <div :class="[$style.panel, 'share-success-panel']" role="dialog" aria-modal="true" @click.stop>
       <div :class="$style.confetti" aria-hidden="true">
         <span />
         <span />

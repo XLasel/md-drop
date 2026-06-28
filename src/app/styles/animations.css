@@ -20,7 +20,6 @@
   }
 }
 
-
 @keyframes draw-check {
   from {
     stroke-dashoffset: 30;

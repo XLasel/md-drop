@@ -6,6 +6,10 @@ Write Markdown, share a link — no account required. Sign in to keep notes in y
 
 **Live demo:** [https://md-drop.vercel.app/](https://md-drop.vercel.app/)
 
+> **Пользователям из России:** сайт на Vercel, база — Supabase (серверы за рубежом). Из некоторых сетей сайт может тормозить или не подключаться к БД — **может понадобиться VPN** для входа, сохранения заметок и dashboard. Статические страницы иногда открываются и без него.
+>
+> **Users in Russia:** hosted on Vercel with Supabase abroad — **VPN may be required** for auth, saving notes, and the dashboard.
+
 ## Features
 
 - Markdown editor with live preview (Shiki syntax highlighting)
